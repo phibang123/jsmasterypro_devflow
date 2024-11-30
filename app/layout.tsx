@@ -4,6 +4,9 @@ import { Inter, Space_Grotesk as SpaceGrotesk } from "next/font/google";
 import "./globals.css";
 import React from "react";
 
+import Navbar from "@/components/navigation/navbar";
+import ThemeProvider from "@/context/Theme";
+
 // Tải về
 // const inter = localFont({
 //   src: "./fonts/InterVF.ttf",
@@ -45,12 +48,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressContentEditableWarning>
       <body
         // Đặt method là class name thì font chữ đó sẽ là font chữ mặc định
         className={`${inter.className} ${spaceGrotesk.variable} antialiased`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
