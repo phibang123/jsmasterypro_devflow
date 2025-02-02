@@ -48,7 +48,7 @@ const AuthForm = <T extends FieldValues>({
     return name === "password" ? "password" : "text";
   };
 
-  const directoryUpAndInHtml = () => {
+  const renderingDirectory = () => {
     return formType === FormType.SIGN_IN ? (
       <p>
         Don&apos;t have an account?{" "}
@@ -107,7 +107,7 @@ const AuthForm = <T extends FieldValues>({
         >
           {buttonText()}
         </Button>
-        {directoryUpAndInHtml()}
+        {renderingDirectory()}
       </form>
     </Form>
   );

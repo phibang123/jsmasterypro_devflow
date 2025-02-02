@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk as SpaceGrotesk } from "next/font/google";
-// import localFont from "next/font/local";
+// import { Inter, Space_Grotesk as SpaceGrotesk } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import React from "react";
@@ -10,30 +10,30 @@ import { Toaster } from "@/components/ui/toaster";
 import ThemeProvider from "@/context/Theme";
 
 // Tải về
-// const inter = localFont({
-//   src: "./fonts/InterVF.ttf",
-//   variable: "--font-inter",
-//   weight: "100 200 300 400 500 600 700 800 900",
-// });
+const inter = localFont({
+  src: "./fonts/InterVF.ttf",
+  variable: "--font-inter",
+  weight: "100 200 300 400 500 600 700 800 900",
+});
 
-// const spaceGrotesk = localFont({
-//   src: "./fonts/SpaceGroteskVF.ttf",
-//   variable: "--font-space-grotesk",
-//   weight: "300 400 500 600 700",
-// });
+const spaceGrotesk = localFont({
+  src: "./fonts/SpaceGroteskVF.ttf",
+  variable: "--font-space-grotesk",
+  weight: "300 400 500 600 700",
+});
 
 // Vì chúng tao có nextjs/font/google nên chúng ta có thể sữ dụng font của google thay vì tải về
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
+// const inter = Inter({
+//   subsets: ["latin"],
+//   variable: "--font-inter",
+//   display: "swap",
+// });
 
-const spaceGrotesk = SpaceGrotesk({
-  subsets: ["latin"],
-  variable: "--font-space-grotesk",
-  display: "swap",
-});
+// const spaceGrotesk = SpaceGrotesk({
+//   subsets: ["latin"],
+//   variable: "--font-space-grotesk",
+//   display: "swap",
+// });
 
 export const metadata: Metadata = {
   title: "Dev Overflow",
