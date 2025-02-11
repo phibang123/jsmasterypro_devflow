@@ -53,6 +53,13 @@ const RootLayout = async ({
 
   return (
     <html lang="en" suppressContentEditableWarning>
+      <head>
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+        />
+      </head>
       <SessionProvider session={session}>
         <body
           // Đặt method là class name thì font chữ đó sẽ là font chữ mặc định
