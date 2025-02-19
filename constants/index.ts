@@ -1,3 +1,5 @@
+import ROUTES from "./routes";
+
 export const sidebarLinks = [
   {
     imgURL: "/icons/home.svg",
@@ -32,6 +34,6 @@ export const sidebarLinks = [
   {
     imgURL: "/icons/question.svg",
     label: "Ask a question",
-    route: "/ask-question",
+    route: ROUTES.ASK_QUESTION,
   },
 ];

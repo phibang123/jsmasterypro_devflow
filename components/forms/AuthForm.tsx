@@ -40,7 +40,6 @@ const AuthForm = <T extends FieldValues>({
   };
 
   const handleNameLabel = (name: string) => {
-    console.log(toUpperCaseTitle(name));
     return name === "email" ? "Email Address" : toUpperCaseTitle(name);
   };
 

@@ -19,7 +19,7 @@ const TagCard = ({
   name,
   questions,
   showCount = false,
-  compact = false,
+  // compact = false,
 }: Props) => {
   const renderingQuestions = () => {
     if (!showCount) return "";
