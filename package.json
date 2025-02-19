@@ -48,9 +48,9 @@
     "prettier-airbnb-config": "^1.0.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
-    "typescript-eslint": "^8.13.0"
-    "@typescript-eslint/parser": "^6.0.0",  
-    "@typescript-eslint/eslint-plugin": "^6.0.0" 
+    "typescript-eslint": "^8.13.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0"
   },
   "packageManager": "npm@10.7.2",
   "overrides": {
