@@ -54,8 +54,5 @@
   "overrides": {
     "react": "$react",
     "react-dom": "$react-dom"
-  },
-  "engines": {
-    "node": "18.x"
   }
 }
