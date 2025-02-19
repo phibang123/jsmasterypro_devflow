@@ -6,7 +6,7 @@
     "plugin:tailwindcss/recommended",
     "prettier"
   ],
-  "plugins": ["import"],
+  "plugins": ["import", "@typescript-eslint"],
   "rules": {
     "import/order": [
       "error",
@@ -44,5 +44,10 @@
         "no-undef": "off"
       }
     }
-  ]
+  ],
+  "parser": "@typescript-eslint/parser",
+  "root": true,
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  }
 }
