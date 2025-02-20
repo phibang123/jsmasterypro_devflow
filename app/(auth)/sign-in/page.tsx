@@ -3,7 +3,7 @@ import React from "react";
 
 import AuthForm from "@/components/forms/AuthForm";
 import { FormType } from "@/configs/hardcode/auth.hardcode";
-import { SignInSchema, SignUpSchema } from "@/lib/validations";
+import { SignInSchema } from "@/lib/validations";
 
 const SignIn = () => {
   return (
