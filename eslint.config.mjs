@@ -1,6 +1,5 @@
 import _import from "eslint-plugin-import";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
-import { fixupPluginRules } from "@eslint/compat";
 import tsParser from "@typescript-eslint/parser";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -10,68 +9,78 @@ import { FlatCompat } from "@eslint/eslintrc";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
+  baseDirectory: __dirname,
+  recommendedConfig: js.configs.recommended,
+  allConfig: js.configs.all,
 });
 
-export default [{
+export default [
+  {
     ignores: ["components/ui/**/*"],
-}, ...compat.extends(
+  },
+  ...compat.extends(
     "next/core-web-vitals",
     "next/typescript",
     "standard",
     "plugin:tailwindcss/recommended",
     "prettier",
-), {
+  ),
+  {
     plugins: {
-        import: fixupPluginRules(_import),
-        "@typescript-eslint": typescriptEslint,
+      import: _import, // Directly use the import plugin
+      "@typescript-eslint": typescriptEslint,
     },
 
     languageOptions: {
-        parser: tsParser,
-        ecmaVersion: 5,
-        sourceType: "script",
+      parser: tsParser,
+      ecmaVersion: 5,
+      sourceType: "script",
 
-        parserOptions: {
-            project: "./tsconfig.json",
-        },
+      parserOptions: {
+        project: "./tsconfig.json",
+      },
     },
 
     rules: {
-        "import/order": ["error", {
-            groups: [
-                "builtin",
-                "external",
-                "internal",
-                ["parent", "sibling"],
-                "index",
-                "object",
-            ],
+      "import/order": [
+        "error",
+        {
+          groups: [
+            "builtin",
+            "external",
+            "internal",
+            ["parent", "sibling"],
+            "index",
+            "object",
+          ],
 
-            "newlines-between": "always",
+          "newlines-between": "always",
 
-            pathGroups: [{
-                pattern: "@app/**",
-                group: "external",
-                position: "after",
-            }],
-
-            pathGroupsExcludedImportTypes: ["builtin"],
-
-            alphabetize: {
-                order: "asc",
-                caseInsensitive: true,
+          pathGroups: [
+            {
+              pattern: "@app/**",
+              group: "external",
+              position: "after",
             },
-        }],
+          ],
 
-        semi: ["error", "always"],
+          pathGroupsExcludedImportTypes: ["builtin"],
+
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true,
+          },
+        },
+      ],
+
+      semi: ["error", "always"],
     },
-}, {
+  },
+  {
     files: ["**/*.ts", "**/*.tsx"],
 
     rules: {
-        "no-undef": "off",
+      "no-undef": "off",
     },
-}];
+  },
+];
