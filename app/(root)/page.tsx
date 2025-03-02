@@ -2,14 +2,70 @@
 
 import Link from "next/link";
 
+import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 
 // import { auth } from "@/auth";
+const questions = [
+  {
+    _id: 1,
+    title: "How to learn React",
+    description: "I want to learn react!",
+    tags: [
+      { _id: "1", name: "React" },
+      { _id: "2", name: "Javascript" },
+    ],
+    author: { _id: "1", name: "Bang Tran" },
+    upVotes: 10,
+    answer: 5,
+    views: 100,
+    createdAt: new Date(),
+  },
+  {
+    _id: 2,
+    title: "How to learn Next",
+    description: "I want to learn react!",
+    tags: [
+      { _id: "1", name: "React" },
+      { _id: "2", name: "Javascript" },
+    ],
+    author: { _id: "1", name: "Bang Tran" },
+    upVotes: 10,
+    answer: 5,
+    views: 100,
+    createdAt: new Date(),
+  },
+  {
+    _id: 3,
+    title: "How to learn Nest",
+    description: "I want to learn react!",
+    tags: [
+      { _id: "1", name: "React" },
+      { _id: "2", name: "Javascript" },
+    ],
+    author: { _id: "1", name: "Bang Tran" },
+    upVotes: 10,
+    answer: 5,
+    views: 100,
+    createdAt: new Date(),
+  },
+];
 
-const Home = async () => {
+interface SearchParams {
+  searchParams: Promise<{ [key: string]: string }>;
+}
+
+const Home = async ({ searchParams }: SearchParams) => {
+  const { query = "" } = await searchParams;
+  console.log(query, "aqueyyyy");
+
+  const filteredQuestions = questions.filter((question) =>
+    question.title.toLowerCase().includes(query?.toLowerCase()),
+  );
   // const session = await auth();
   // console.log(session);
+
   return (
     <>
       <section className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -21,15 +77,19 @@ const Home = async () => {
           <Link href={ROUTES.ASK_QUESTION}>Ask a Questions</Link>
         </Button>
       </section>
-      <section className="mt-11">LocalSearch</section>
-      HomeFilter
+      <section className="mt-11">
+        <LocalSearch
+          route="/"
+          imgSrc="/icons/search.svg"
+          placeholder="Search question..."
+          otherClasses="flex-1"
+        />
+      </section>
+      {/* HomeFilter */}
       <div className="mt-10 flex w-full flex-col gap-6">
-        <p>Question</p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
+        {filteredQuestions.map((item, index) => {
+          return <h1 key={`metmoi-${index}`}>{item.title}</h1>;
+        })}
       </div>
     </>
   );
