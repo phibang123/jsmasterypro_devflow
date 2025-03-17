@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 
+import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
@@ -42,7 +43,7 @@ const questions = [
     description: "I want to learn react!",
     tags: [
       { _id: "1", name: "React" },
-      { _id: "2", name: "Javascript" },
+      // { _id: "2", name: "Javascript" },
     ],
     author: { _id: "1", name: "Bang Tran" },
     upVotes: 10,
@@ -57,12 +58,23 @@ interface SearchParams {
 }
 
 const Home = async ({ searchParams }: SearchParams) => {
-  const { query = "" } = await searchParams;
-  console.log(query, "aqueyyyy");
+  const { query = "", filter = "" } = await searchParams;
 
-  const filteredQuestions = questions.filter((question) =>
-    question.title.toLowerCase().includes(query?.toLowerCase()),
-  );
+  const filteredQuestions = questions.filter((question) => {
+    // Match query against the title
+    const matchesQuery = question.title
+      .toLowerCase()
+      .includes(query.toLowerCase());
+
+    // Match filter against tags or author name, adjust logic as needed
+    const matchesFilter = filter
+      ? question.tags.some(
+          (tag) => tag.name.toLowerCase() === filter.toLowerCase(),
+        ) || question.author.name.toLowerCase() === filter.toLowerCase()
+      : true; // If no filter is provided, include all questions
+
+    return matchesQuery && matchesFilter;
+  });
   // const session = await auth();
   // console.log(session);
 
@@ -85,7 +97,7 @@ const Home = async ({ searchParams }: SearchParams) => {
           otherClasses="flex-1"
         />
       </section>
-      {/* HomeFilter */}
+      <HomeFilter />
       <div className="mt-10 flex w-full flex-col gap-6">
         {filteredQuestions.map((item, index) => {
           return <h1 key={`metmoi-${index}`}>{item.title}</h1>;

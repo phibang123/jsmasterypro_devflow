@@ -23,7 +23,7 @@ body {
     @apply bg-light-900 dark:bg-dark-300;
   }
 
-  .background-light800_darkgradient {
+  .background-light800_dark_gradient {
     @apply bg-light-800 dark:dark-gradient;
   }
 

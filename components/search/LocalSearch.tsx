@@ -20,7 +20,6 @@ function LocalSearch({ route, imgSrc, placeholder, otherClasses }: Props) {
   const searchParam = useSearchParams();
   const query = searchParam.get("query") || "";
   const router = useRouter();
-  console.log(query, "query");
 
   const [searchQuery, setSearchQuery] = useState(query);
 
@@ -54,7 +53,7 @@ function LocalSearch({ route, imgSrc, placeholder, otherClasses }: Props) {
 
   return (
     <div
-      className={`background-light800_darkgradient flex min-h-[56px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
+      className={`background-light800_dark_gradient flex min-h-[56px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
     >
       <Image
         src={imgSrc}
@@ -65,7 +64,7 @@ function LocalSearch({ route, imgSrc, placeholder, otherClasses }: Props) {
       />
       <Input
         type="text"
-        placeholder="Search..."
+        placeholder="Search questions..."
         value={searchQuery}
         onChange={(event) => setSearchQuery(event.target.value)}
         className="paragraph-regular no-focus placeholder text-dark400_light700 border-none shadow-none outline-none"
