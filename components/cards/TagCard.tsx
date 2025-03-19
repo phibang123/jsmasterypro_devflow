@@ -3,16 +3,9 @@ import React from "react";
 
 import ROUTES from "@/constants/routes";
 import { getDeviconClassName } from "@/lib/utils";
+import { TagIF } from "@/types/global";
 
 import { Badge } from "../ui/badge";
-
-interface Props {
-  _id: string;
-  name: string;
-  questions: number;
-  showCount?: boolean;
-  compact?: boolean;
-}
 
 const TagCard = ({
   _id,
@@ -20,7 +13,7 @@ const TagCard = ({
   questions,
   showCount = false,
   // compact = false,
-}: Props) => {
+}: TagIF) => {
   const renderingQuestions = () => {
     if (!showCount) return "";
     return <p className="small-medium text-dark500_light700">{questions}</p>;
