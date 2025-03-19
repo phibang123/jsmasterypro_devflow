@@ -17,7 +17,7 @@ import NavLinks from "./NavLinks";
 const MobileNavigation = () => {
   return (
     <Sheet>
-      <SheetTrigger asChild>
+      <SheetTrigger className="cursor-pointer" asChild>
         <Image
           src="/icons/hamburger.svg"
           width={36}
