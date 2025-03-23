@@ -11,7 +11,7 @@ import ROUTES from "@/constants/routes";
 // import { auth } from "@/auth";
 const questions = [
   {
-    _id: 1,
+    _id: "1",
     title: "How to learn React",
     description: "I want to learn react!",
     tags: [
@@ -21,7 +21,7 @@ const questions = [
     author: {
       _id: "1",
       name: "Bang Tran",
-      image: "https://avatar.iran.liara.run/public/boy",
+      image: "https://api.dicebear.com/9.x/adventurer/svg?seed=Sophia",
     },
     upVotes: 10,
     answers: 5,
@@ -29,7 +29,7 @@ const questions = [
     createdAt: new Date("2021-09-11"),
   },
   {
-    _id: 2,
+    _id: "2",
     title: "How to learn Next",
     description: "I want to learn react!",
     tags: [
@@ -39,7 +39,7 @@ const questions = [
     author: {
       _id: "1",
       name: "Linh Tran",
-      image: "https://avatar.iran.liara.run/public/girl",
+      image: "https://api.dicebear.com/9.x/adventurer/svg?seed=Oliver",
     },
     upVotes: 10,
     answers: 5,
@@ -47,7 +47,7 @@ const questions = [
     createdAt: new Date("2000-03-11"),
   },
   {
-    _id: 3,
+    _id: "3",
     title: "How to learn Nest",
     description: "I want to learn react!",
     tags: [
@@ -57,7 +57,7 @@ const questions = [
     author: {
       _id: "1",
       name: "Gia Duc",
-      image: "https://avatar.iran.liara.run/public/boy",
+      image: "https://api.dicebear.com/9.x/adventurer/svg?seed=Kimberly",
     },
     upVotes: 10,
     answers: 5,

@@ -29,6 +29,9 @@ const config: Config = {
           "850": "#FDFDFD",
           "900": "#FFFFFF",
         },
+        link: {
+          "100": "#1DA1F2",
+        },
       },
       boxShadow: {
         "light-100":
@@ -53,12 +56,12 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       backgroundImage: {
-        "auth-dark": "url('/images/auth-dark.png')",
-        "auth-light": "url('/images/auth-light.png')",
+        "auth-dark": 'url("/images/auth-dark.png")',
+        "auth-light": 'url("/images/auth-light.png")',
       },
     },
   },
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 };
 export default config;

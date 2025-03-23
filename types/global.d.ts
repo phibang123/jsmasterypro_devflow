@@ -1,3 +1,5 @@
+import { MDXEditorMethods, MDXEditorProps } from "@mdxeditor/editor";
+
 interface Tags {
   _id: string;
   name: string;
@@ -27,6 +29,9 @@ interface TagIF {
   questions?: number;
   showCount?: boolean;
   compact?: boolean;
+  remove?: boolean;
+  isButton?: boolean;
+  handleRemove?: () => void;
 }
 
 interface AuthFormProps<T extends FieldValues> {
@@ -47,4 +52,10 @@ interface MetricIF {
   isAuthor?: boolean;
 }
 
-export type { AuthFormProps, QuestionIF, TagIF, MetricIF };
+interface EditorIF extends MDXEditorProps {
+  editorRef: ForwardedRef<MDXEditorMethods> | null;
+  value: string;
+  fieldChange: (value: string) => void;
+}
+
+export type { AuthFormProps, QuestionIF, TagIF, MetricIF, EditorIF };
