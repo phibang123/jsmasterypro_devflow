@@ -2,7 +2,7 @@ import { model, models, Schema } from "mongoose";
 
 interface ITag {
   name: string;
-  questions: number;
+  questions?: number;
 }
 
 const TagSchema = new Schema<ITag>(
