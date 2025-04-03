@@ -26,6 +26,7 @@ const formatResponse = (
 };
 
 const handleError = (error: unknown, responseType: ResponseType = "server") => {
+  // Error from request
   if (error instanceof RequestError) {
     logger.error(
       { err: error },
@@ -40,6 +41,7 @@ const handleError = (error: unknown, responseType: ResponseType = "server") => {
     );
   }
 
+  // Error from validate
   if (error instanceof ZodError) {
     const validationError = new ValidationError(
       error.flatten().fieldErrors as Record<string, string[]>,
@@ -58,11 +60,13 @@ const handleError = (error: unknown, responseType: ResponseType = "server") => {
     );
   }
 
+  // Error normal
   if (error instanceof Error) {
     logger.error(error.message);
     return formatResponse(responseType, 500, error.message);
   }
 
+  // Error Unexpected
   const errDefaultMessage = "An unexpected error occurred";
   logger.error({ err: error }, errDefaultMessage);
   return formatResponse(responseType, 500, errDefaultMessage);

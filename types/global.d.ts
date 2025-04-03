@@ -57,5 +57,3 @@ interface EditorIF extends MDXEditorProps {
   value: string;
   fieldChange: (value: string) => void;
 }
-
-export type { AuthFormProps, QuestionIF, TagIF, MetricIF, EditorIF };
