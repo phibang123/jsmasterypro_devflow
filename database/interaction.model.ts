@@ -1,13 +1,12 @@
-import { Document, model, models, Schema, Types } from "mongoose";
+import { model, models, Schema, Types } from "mongoose";
 
-interface IInteraction {
+export interface IInteraction {
   user: Types.ObjectId;
   action: string;
   actionId: Types.ObjectId;
   actionType: "Question" | "Answer" | "User";
 }
 
-export interface IInteractionModel extends IInteraction, Document {}
 const InteractionSchema = new Schema<IInteraction>(
   {
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
