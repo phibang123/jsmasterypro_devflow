@@ -41,8 +41,8 @@ export class NotFoundError extends RequestError {
 }
 
 export class ForbiddenError extends RequestError {
-  constructor() {
-    super(403, "Forbidden");
+  constructor(message: string = "Forbidden") {
+    super(403, message);
     this.name = "ForbiddenError";
   }
 }
