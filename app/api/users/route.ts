@@ -7,6 +7,7 @@ import dbConnect from "@/lib/mongoose";
 import { UserSchema } from "@/lib/validations";
 import { APIErrorResponse } from "@/types/response";
 
+// GET /api/users
 export async function GET() {
   try {
     await dbConnect();
@@ -19,6 +20,7 @@ export async function GET() {
   }
 }
 
+// POST /api/users
 export async function POST(request: Request) {
   try {
     await dbConnect();
@@ -27,7 +29,6 @@ export async function POST(request: Request) {
     const validatedData = UserSchema.safeParse(body);
 
     if (!validatedData.success) {
-      console.log(validatedData.error.flatten(), "validatedData");
       throw new ValidationError(validatedData.error.flatten().fieldErrors);
     }
 
