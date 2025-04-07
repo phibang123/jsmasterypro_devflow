@@ -65,10 +65,8 @@ export async function PUT(
     if (!updatedUser) throw new NotFoundError("User");
     return NextResponse.json(
       { success: true, data: updatedUser },
-      { status: 201 },
+      { status: 200 },
     );
-
-    // const user = await User.findByIdAndDelete(id);
   } catch (error) {
     return handleError(error, "api") as APIErrorResponse;
   }
