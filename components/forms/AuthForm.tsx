@@ -15,9 +15,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toUpperCaseTitle } from "@/configs/function";
 import { FormType } from "@/configs/hardcode/auth.hardcode";
 import ROUTES from "@/constants/routes";
+import { toUpperCaseTitle } from "@/lib/utils";
 import { AuthFormProps } from "@/types/global";
 
 const AuthForm = <T extends FieldValues>({

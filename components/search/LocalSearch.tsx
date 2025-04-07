@@ -4,7 +4,7 @@ import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import { fromUrlQuery, removeKeysFromUrlQuery } from "@/lib/url";
+import { fromUrlQuery, removeKeysFromUrlQuery } from "@/lib/handlers/url";
 
 import { Input } from "../ui/input";
 
