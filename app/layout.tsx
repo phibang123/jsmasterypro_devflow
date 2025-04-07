@@ -52,7 +52,7 @@ const RootLayout = async ({
   const session = await auth();
 
   return (
-    <html lang="en" suppressContentEditableWarning>
+    <html lang="en" suppressContentEditableWarning suppressHydrationWarning>
       <head>
         <link
           rel="stylesheet"
