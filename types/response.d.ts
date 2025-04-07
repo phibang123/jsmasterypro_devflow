@@ -14,4 +14,4 @@ type ErrorResponse = ActionResponse & { success: false };
 type APIErrorResponse = NextResponse<ErrorResponse>;
 type APIResponse<T = null> = NextResponse<SuccessResponse<T> | ErrorResponse>;
 
-export type { APIErrorResponse, APIResponse };
+export type { APIErrorResponse, APIResponse, ActionResponse };
