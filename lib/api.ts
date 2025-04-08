@@ -2,7 +2,7 @@ import { IAccount } from "@/database/account.model";
 import { IUser } from "@/database/user.model";
 import { UserModelIF } from "@/types/model";
 
-import { axiosInstance } from "./handlers/axiosInstance";
+import { axiosInstance } from "./handlers/axios";
 
 export const constructorApi = {
   users: {
