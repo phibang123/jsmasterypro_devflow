@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FormType } from "@/configs/hardcode/auth.hardcode";
+import { SIGN_IN } from "@/configs/constance";
 import ROUTES from "@/constants/routes";
 import { toUpperCaseTitle } from "@/lib/utils";
 import { AuthFormProps } from "@/types/global";
@@ -35,8 +35,8 @@ const AuthForm = <T extends FieldValues>({
 
   const buttonText = () => {
     if (form.formState.isSubmitting)
-      return formType === FormType.SIGN_IN ? "Signing In..." : "Signing Up...";
-    return formType === FormType.SIGN_IN ? "Sign In" : "Sign Up";
+      return formType === SIGN_IN ? "Signing In..." : "Signing Up...";
+    return formType === SIGN_IN ? "Sign In" : "Sign Up";
   };
 
   const handleNameLabel = (name: string) => {
@@ -48,7 +48,7 @@ const AuthForm = <T extends FieldValues>({
   };
 
   const renderingDirectory = () => {
-    return formType === FormType.SIGN_IN ? (
+    return formType === SIGN_IN ? (
       <p>
         Don&apos;t have an account?{" "}
         <Link
