@@ -25,14 +25,3 @@ interface TagModelIF extends ITag, Document {}
 interface UserModelIF extends IUser, Document {}
 
 interface VoteModelIF extends IVote, Document {}
-
-export type {
-  AnswerModelIF,
-  AccountModelIF,
-  CollectionModelIF,
-  InteractionIF,
-  TagQuestionModelIF,
-  TagModelIF,
-  UserModelIF,
-  VoteModelIF,
-};

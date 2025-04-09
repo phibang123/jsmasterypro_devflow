@@ -5,6 +5,21 @@ import { UserModelIF } from "@/types/model";
 import { axiosInstance } from "./handlers/axios";
 
 export const constructorApi = {
+  auth: {
+    oAuthSignIn: ({
+      user,
+      provider,
+      providerAccountId,
+    }: SignInWithOAuthParams) =>
+      axiosInstance<unknown>("/signin-with-oauth", {
+        method: "POST",
+        data: {
+          user,
+          provider,
+          providerAccountId,
+        },
+      }),
+  },
   users: {
     getAll: () => axiosInstance<IUser[]>("/users"),
     getById: (id: string) => axiosInstance<IUser>(`/users/${id}`),
@@ -31,8 +46,8 @@ export const constructorApi = {
   accounts: {
     getAll: () => axiosInstance<IAccount[]>("/accounts"),
     getById: (id: string) => axiosInstance<IAccount>(`/accounts/${id}`),
-    getProvider: (providerAccountId: string) =>
-      axiosInstance<UserModelIF>(`/accounts/provider`, {
+    getByProvider: (providerAccountId: string) =>
+      axiosInstance<IAccount>(`/accounts/provider`, {
         method: "POST",
         data: { providerAccountId },
       }),

@@ -1,7 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
 
-import { ActionResponse } from "@/types/response";
-
 import logger from "../logger";
 import handleError from "./error";
 
