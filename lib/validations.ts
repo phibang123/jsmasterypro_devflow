@@ -1,5 +1,13 @@
 import { z } from "zod";
 
+// VALIDATION
+// partial()
+// Chuyển schema tất cả thuộc tính thành optional
+// safeParse()
+// Không ném ra lỗi, return có dạng { success, error }
+// parse()
+// Ném ra lỗi,
+
 export const SignUpSchema = z.object({
   username: z
     .string()
@@ -118,4 +126,24 @@ export const AccountSchema = z.object({
   providerAccountId: z
     .string()
     .min(1, { message: "Provider Account ID is required" }),
+});
+
+export const SignInWithOAuthSchema = z.object({
+  provider: z.enum(["google", "github"]),
+  providerAccountId: z
+    .string()
+    .min(1, { message: "Provider Account ID is required" }),
+  user: z.object({
+    name: z.string().min(1, { message: "Name is required." }),
+    username: z
+      .string()
+      .min(3, { message: "Username must be at lease 3 characters long." }),
+    email: z
+      .string()
+      .email({ message: "Please provide a valid email address." }),
+    image: z
+      .string()
+      .url({ message: "Please provide a valid URL." })
+      .optional(),
+  }),
 });
