@@ -1,5 +1,3 @@
-import { ActionResponse } from "@/types/response";
-
 import logger from "../logger";
 import handleError from "./error";
 import { RequestError } from "../http.errors";
