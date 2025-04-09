@@ -88,7 +88,7 @@ const AuthForm = <T extends FieldValues>({
                   <FormControl>
                     <Input
                       type={handleInputType(field.name)}
-                      placeholder="shadcn"
+                      placeholder=""
                       {...field}
                       className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-12 rounded-1.5 border"
                     />

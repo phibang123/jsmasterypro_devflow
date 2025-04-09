@@ -107,10 +107,9 @@ const createUserOrUpdateIfUserExist = async (
   let existingUser = await User.findOne({ email }).session(session);
 
   if (!existingUser) {
-    existingUser = await User.create(
-      { name, username, email, image },
-      { session },
-    );
+    [existingUser] = await User.create([{ name, username, email, image }], {
+      session,
+    });
   } else {
     const updateData: Partial<IUserFromLogin> = {};
 
@@ -146,7 +145,7 @@ const createAccountIfAccountDoesNotExist = async (
 
   if (!existingAccount) {
     await Account.create(
-      { name, userId: existingUser._id, image, provider, providerAccountId },
+      [{ name, userId: existingUser._id, image, provider, providerAccountId }], // if you use session transition/ must insert by arr
       { session },
     );
   }

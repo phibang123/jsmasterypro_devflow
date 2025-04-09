@@ -1,3 +1,4 @@
+import ROUTES from "@/constants/routes";
 import { IAccount } from "@/database/account.model";
 import { IUser } from "@/database/user.model";
 import { UserModelIF } from "@/types/model";
@@ -11,7 +12,7 @@ export const constructorApi = {
       provider,
       providerAccountId,
     }: SignInWithOAuthParams) =>
-      axiosInstance<unknown>("/signin-with-oauth", {
+      axiosInstance<unknown>(`/auth/${ROUTES.SIGNIN_WITH_OATH}`, {
         method: "POST",
         data: {
           user,
@@ -29,22 +30,22 @@ export const constructorApi = {
         data: { email },
       }),
     create: (userData: Partial<IUser>) =>
-      axiosInstance<IUser>("users", {
+      axiosInstance<IUser>("/users", {
         method: "POST",
         data: userData,
       }),
     update: (id: string, userData: Partial<IUser>) =>
-      axiosInstance<IUser>(`users/${id}`, {
+      axiosInstance<IUser>(`/users/${id}`, {
         method: "PUT",
         data: userData,
       }),
     delete: (id: string) =>
-      axiosInstance<IUser>(`users/${id}`, {
+      axiosInstance<IUser>(`/users/${id}`, {
         method: "DELETE",
       }),
   },
   accounts: {
-    getAll: () => axiosInstance<IAccount[]>("/accounts"),
+    getAll: () => axiosInstance<IAccount[]>("/auth/accounts"),
     getById: (id: string) => axiosInstance<IAccount>(`/accounts/${id}`),
     getByProvider: (providerAccountId: string) =>
       axiosInstance<IAccount>(`/accounts/provider`, {
@@ -52,17 +53,17 @@ export const constructorApi = {
         data: { providerAccountId },
       }),
     create: (accountData: Partial<IAccount>) =>
-      axiosInstance<IAccount>("accounts", {
+      axiosInstance<IAccount>("/accounts", {
         method: "POST",
         data: accountData,
       }),
     update: (id: string, accountData: Partial<IAccount>) =>
-      axiosInstance<IAccount>(`accounts/${id}`, {
+      axiosInstance<IAccount>(`/accounts/${id}`, {
         method: "PUT",
         data: accountData,
       }),
     delete: (id: string) =>
-      axiosInstance<IAccount>(`accounts/${id}`, {
+      axiosInstance<IAccount>(`/accounts/${id}`, {
         method: "DELETE",
       }),
   },
