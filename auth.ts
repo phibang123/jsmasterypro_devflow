@@ -7,10 +7,12 @@ import { constructorApi } from "./lib/api";
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [GitHub, Google],
   callbacks: {
+    // When nextjs trigger call method session
     async session({ session, token }) {
       session.user.id = token.sub!;
       return session;
     },
+    // When user login
     async jwt({ token, account }) {
       if (account) {
         const convertProviderId =

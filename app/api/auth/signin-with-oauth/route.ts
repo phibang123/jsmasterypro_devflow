@@ -11,9 +11,9 @@ import { SignInWithOAuthSchema } from "@/lib/validations";
 import { UserModelIF } from "@/types/model";
 
 interface IValidateDataParam {
-  provider: unknown;
-  providerAccountId: unknown;
-  user: unknown;
+  provider?: unknown;
+  providerAccountId?: unknown;
+  user?: unknown;
 }
 
 interface IValidatedDataParam {
