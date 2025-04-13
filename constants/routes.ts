@@ -7,6 +7,7 @@ const ROUTES = {
   PROFILE: (id: string) => `/profile/${id}`,
   TAGS: (id: string) => `/tags/${id}`,
   SIGNIN_WITH_OATH: "signin-with-oauth",
+  SIGNUP_WITH_CREDENTIALS: "signup-with-credentials",
 };
 
 export default ROUTES;

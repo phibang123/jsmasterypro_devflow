@@ -3,7 +3,7 @@ import { IAccount } from "@/database/account.model";
 import { IUser } from "@/database/user.model";
 import { UserModelIF } from "@/types/model";
 
-import { axiosInstance } from "./handlers/axios";
+import { axiosInstance } from "./handlers/axios.handler";
 
 export const constructorApi = {
   auth: {
@@ -12,7 +12,7 @@ export const constructorApi = {
       provider,
       providerAccountId,
     }: SignInWithOAuthParams) =>
-      axiosInstance<unknown>(`/auth/${ROUTES.SIGNIN_WITH_OATH}`, {
+      axiosInstance(`/auth/${ROUTES.SIGNIN_WITH_OATH}`, {
         method: "POST",
         data: {
           user,
@@ -20,10 +20,15 @@ export const constructorApi = {
           providerAccountId,
         },
       }),
+    credentialSignUp: (dataSignUp: IAuthCredentials) =>
+      axiosInstance(`/auth/${ROUTES.SIGNUP_WITH_CREDENTIALS}`, {
+        method: "POST",
+        data: dataSignUp,
+      }),
   },
   users: {
     getAll: () => axiosInstance<IUser[]>("/users"),
-    getById: (id: string) => axiosInstance<IUser>(`/users/${id}`),
+    getById: (id: string) => axiosInstance<UserModelIF>(`/users/${id}`),
     getEmail: (email: string) =>
       axiosInstance<UserModelIF>(`/users/email`, {
         method: "POST",

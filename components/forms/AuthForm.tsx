@@ -2,7 +2,14 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { DefaultValues, FieldValues, Path, useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import {
+  DefaultValues,
+  FieldValues,
+  Path,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -17,6 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { SIGN_IN } from "@/configs/constance";
 import ROUTES from "@/constants/routes";
+import { toast } from "@/hooks/use-toast";
 import { toUpperCaseTitle } from "@/lib/utils";
 import { AuthFormProps } from "@/types/global";
 
@@ -26,12 +34,31 @@ const AuthForm = <T extends FieldValues>({
   formType,
   onSubmit,
 }: AuthFormProps<T>) => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: defaultValue as DefaultValues<T>,
   });
 
-  // const handleSubmit: SubmitHandle<T> = async () => {};
+  const handleSubmit: SubmitHandler<T> = async (data) => {
+    const result = await onSubmit(data);
+
+    if (result?.success) {
+      const description = `Signed ${formType === SIGN_IN ? "in" : "up"} successfully`;
+      toast({
+        title: "Success",
+        description,
+      });
+      router.push(ROUTES.HOME);
+    } else {
+      toast({
+        title: `Error ${result.status}`,
+        description: result.error?.message,
+        variant: "destructive",
+      });
+    }
+  };
 
   const buttonText = () => {
     if (form.formState.isSubmitting)
@@ -73,7 +100,10 @@ const AuthForm = <T extends FieldValues>({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 space-y-8">
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="mt-10 space-y-8"
+      >
         {Object.keys(defaultValue).map((field, index) => {
           return (
             <FormField
