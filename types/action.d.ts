@@ -4,7 +4,14 @@ interface SignInWithOAuthParams {
   user: {
     username: string;
     name: string;
-    image?: string;
+    image: string;
     email: string;
   };
+}
+
+interface IAuthCredentials {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
 }

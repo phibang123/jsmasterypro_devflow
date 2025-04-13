@@ -1,5 +1,5 @@
 import logger from "../logger";
-import handleError from "./error";
+import handleError from "./error.handler";
 import { RequestError } from "../http.errors";
 
 interface FetchOptions extends RequestInit {

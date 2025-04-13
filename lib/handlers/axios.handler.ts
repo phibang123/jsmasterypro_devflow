@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 
 import logger from "../logger";
-import handleError from "./error";
+import handleError from "./error.handler";
 
 interface FetchOptions extends AxiosRequestConfig {
   timeOut?: number;
@@ -20,7 +20,7 @@ export async function axiosInstance<T>(
   options: FetchOptions = {},
 ): Promise<ActionResponse<T>> {
   const {
-    timeOut = 5000,
+    timeOut = 50000,
     headers: customerHeaders = {},
     ...restOptions
   } = options;
