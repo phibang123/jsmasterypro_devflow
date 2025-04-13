@@ -4,7 +4,7 @@ import slugify from "slugify";
 
 import Account from "@/database/account.model";
 import User from "@/database/user.model";
-import handleError from "@/lib/handlers/error";
+import handleError from "@/lib/handlers/error.handler";
 import { ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
 import { SignInWithOAuthSchema } from "@/lib/validations";
@@ -15,23 +15,16 @@ interface IValidateDataParam {
   providerAccountId?: unknown;
   user?: unknown;
 }
-
-interface IValidatedDataParam {
-  provider: "google" | "github";
-  providerAccountId: string;
-  user: {
-    name: string;
-    username: string;
-    email: string;
-    image?: string | undefined;
-  };
-}
-
 interface IUserFromLogin {
   name: string;
   username: string;
   email: string;
   image?: string | undefined;
+}
+interface IValidatedDataParam {
+  provider: "google" | "github";
+  providerAccountId: string;
+  user: IUserFromLogin;
 }
 
 export async function POST(request: Request) {
@@ -40,7 +33,6 @@ export async function POST(request: Request) {
 
   try {
     await dbConnect();
-    session.startTransaction();
 
     // Validate data
     const validatedData = validateDataFromSignIn({
@@ -49,6 +41,7 @@ export async function POST(request: Request) {
       user,
     });
 
+    session.startTransaction();
     // Sanitize username and prepare user info
     const validatedUser = prepareUserInfo(validatedData.user);
 
