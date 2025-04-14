@@ -47,6 +47,6 @@ export async function axiosInstance<T>(
       logger.warn(`Error fetching ${url}: ${error}`);
     }
 
-    return handleError(error) as ActionResponse<T>;
+    return handleError(error, "server") as ActionResponse<T>;
   }
 }

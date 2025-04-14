@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
-import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import Account from "@/database/account.model";
 import User from "@/database/user.model";
 import handleError from "@/lib/handlers/error.handler";
+import handleSuccess from "@/lib/handlers/success.handler";
 import { ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
 import { SignUpSchema } from "@/lib/validations";
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     // Commit
     await session.commitTransaction();
 
-    return NextResponse.json({ success: true });
+    return handleSuccess(null);
   } catch (error) {
     session.abortTransaction();
     return handleError(error) as APIErrorResponse;

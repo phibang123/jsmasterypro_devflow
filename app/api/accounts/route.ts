@@ -1,7 +1,6 @@
-import { NextResponse } from "next/server";
-
 import Account from "@/database/account.model";
 import handleError from "@/lib/handlers/error.handler";
+import handleSuccess from "@/lib/handlers/success.handler";
 import { ForbiddenError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
 import { AccountSchema } from "@/lib/validations";
@@ -13,12 +12,9 @@ export async function GET() {
 
     const accounts = await Account.find();
 
-    return NextResponse.json(
-      { success: true, data: accounts },
-      { status: 200 },
-    );
+    return handleSuccess(accounts, 200);
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return handleError(error);
   }
 }
 
@@ -43,11 +39,8 @@ export async function POST(request: Request) {
     }
 
     const newAccount = await Account.create(validatedData);
-    return NextResponse.json(
-      { success: true, data: newAccount },
-      { status: 201 },
-    );
+    return handleSuccess(newAccount, 201);
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return handleError(error);
   }
 }

@@ -1,7 +1,6 @@
-import { NextResponse } from "next/server";
-
 import User from "@/database/user.model";
 import handleError from "@/lib/handlers/error.handler";
+import handleSuccess from "@/lib/handlers/success.handler";
 import { NotFoundError, ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
 import { UserSchema } from "@/lib/validations";
@@ -18,8 +17,8 @@ export async function POST(request: Request) {
     const user = await User.findOne({ email });
     if (!user) throw new NotFoundError("User");
 
-    return NextResponse.json({ data: user, success: true }, { status: 200 });
+    return handleSuccess(user);
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return handleError(error);
   }
 }

@@ -1,7 +1,6 @@
-import { NextResponse } from "next/server";
-
 import Account from "@/database/account.model";
 import handleError from "@/lib/handlers/error.handler";
+import handleSuccess from "@/lib/handlers/success.handler";
 import { NotFoundError, ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
 import { AccountSchema } from "@/lib/validations";
@@ -20,8 +19,8 @@ export async function POST(request: Request) {
     const account = await Account.findOne({ providerAccountId });
     if (!account) throw new NotFoundError("Account");
 
-    return NextResponse.json({ data: account, success: true }, { status: 200 });
+    return handleSuccess(account);
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return handleError(error);
   }
 }

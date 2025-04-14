@@ -1,7 +1,6 @@
-import { NextResponse } from "next/server";
-
 import User from "@/database/user.model";
 import handleError from "@/lib/handlers/error.handler";
+import handleSuccess from "@/lib/handlers/success.handler";
 import { NotFoundError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
 import { UserSchema } from "@/lib/validations";
@@ -19,9 +18,9 @@ export async function GET(
     const user = await User.findById(id);
     if (!user) throw new NotFoundError("User");
 
-    return NextResponse.json({ success: true, data: user }, { status: 200 });
+    return handleSuccess(user);
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return handleError(error);
   }
 }
 
@@ -38,9 +37,9 @@ export async function DELETE(
     const user = await User.findByIdAndDelete(id);
     if (!user) throw new NotFoundError("User");
 
-    return NextResponse.json({ success: true, data: user }, { status: 204 });
+    return handleSuccess(user, 204);
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return handleError(error);
   }
 }
 
@@ -62,11 +61,8 @@ export async function PUT(
     });
 
     if (!updatedUser) throw new NotFoundError("User");
-    return NextResponse.json(
-      { success: true, data: updatedUser },
-      { status: 200 },
-    );
+    return handleSuccess(updatedUser);
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return handleError(error);
   }
 }

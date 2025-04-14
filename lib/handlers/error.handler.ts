@@ -4,7 +4,7 @@ import { ZodError } from "zod";
 import { ValidationError, RequestError } from "../http.errors";
 import logger from "../logger";
 
-export type ResponseType = "api" | "server";
+type ResponseType = "api" | "server";
 
 const formatResponse = (
   responseType: ResponseType,
@@ -25,7 +25,7 @@ const formatResponse = (
     : { status, ...responseContent };
 };
 
-const handleError = (error: unknown, responseType: ResponseType = "server") => {
+const handleError = (error: unknown, responseType: ResponseType = "api") => {
   // Error from request
   if (error instanceof RequestError) {
     logger.error(

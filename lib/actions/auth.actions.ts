@@ -14,7 +14,7 @@ export async function signUpWithCredentials(params: IAuthCredentials) {
   });
 
   if (validationResult instanceof Error || !validationResult.params) {
-    return handleError(validationResult) as ErrorResponse;
+    return handleError(validationResult, "server");
   }
   try {
     const response = await constructorApi.auth.credentialSignUp(
@@ -26,6 +26,6 @@ export async function signUpWithCredentials(params: IAuthCredentials) {
     }
     return response;
   } catch (error) {
-    return handleError(error) as ErrorResponse;
+    return handleError(error, "server");
   }
 }

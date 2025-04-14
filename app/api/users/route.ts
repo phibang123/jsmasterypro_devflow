@@ -1,7 +1,6 @@
-import { NextResponse } from "next/server";
-
 import User from "@/database/user.model";
 import handleError from "@/lib/handlers/error.handler";
+import handleSuccess from "@/lib/handlers/success.handler";
 import { ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
 import { UserSchema } from "@/lib/validations";
@@ -13,9 +12,9 @@ export async function GET() {
 
     const users = await User.find();
 
-    return NextResponse.json({ success: true, data: users }, { status: 200 });
+    return handleSuccess(users);
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return handleError(error);
   }
 }
 
@@ -41,8 +40,8 @@ export async function POST(request: Request) {
     }
 
     const newUser = await User.create(validatedData.data);
-    return NextResponse.json({ success: true, data: newUser }, { status: 201 });
+    return handleSuccess(newUser, 201);
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return handleError(error);
   }
 }

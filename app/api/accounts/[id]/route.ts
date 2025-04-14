@@ -1,7 +1,6 @@
-import { NextResponse } from "next/server";
-
 import Account from "@/database/account.model";
 import handleError from "@/lib/handlers/error.handler";
+import handleSuccess from "@/lib/handlers/success.handler";
 import { NotFoundError, ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
 import { AccountSchema } from "@/lib/validations";
@@ -19,9 +18,9 @@ export async function GET(
     const account = await Account.findById(id);
     if (!account) throw new NotFoundError("Account");
 
-    return NextResponse.json({ success: true, data: account }, { status: 200 });
+    return handleSuccess(account);
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return handleError(error);
   }
 }
 
@@ -38,9 +37,9 @@ export async function DELETE(
     const account = await Account.findByIdAndDelete(id);
     if (!account) throw new NotFoundError("Account");
 
-    return NextResponse.json({ success: true, data: account }, { status: 204 });
+    return handleSuccess(account, 204);
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return handleError(error);
   }
 }
 
@@ -66,11 +65,8 @@ export async function PUT(
     });
 
     if (!updatedAccount) throw new NotFoundError("Account");
-    return NextResponse.json(
-      { success: true, data: updatedAccount },
-      { status: 200 },
-    );
+    return handleSuccess(updatedAccount);
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return handleError(error);
   }
 }
