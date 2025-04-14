@@ -8,7 +8,7 @@ const handleSuccess = <T = unknown>(
   data: T,
   status: number = 200,
   responseType: ResponseType = "api",
-): NextResponse | SuccessResponse<T> => {
+): APIResponse | SuccessResponse<T> => {
   logger.info(`Data Success: ${data}, Status: ${status}`);
   const response: SuccessResponse<T> = {
     success: true,
