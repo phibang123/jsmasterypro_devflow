@@ -19,6 +19,6 @@ export async function POST(request: Request) {
 
     return handleSuccess(user);
   } catch (error) {
-    return handleError(error);
+    return handleError({ error });
   }
 }

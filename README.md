@@ -14,6 +14,18 @@ pnpm dev
 bun dev
 ```
 
+## <a name="tech-stack">⚙️ Tech Stack</a>
+
+- Zod
+- Next.js
+- NextAuth
+- Open AI
+- MongoDB
+- ShadCN UI
+- TypeScript
+- TailwindCSS
+- React Hook Form
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.

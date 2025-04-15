@@ -20,7 +20,7 @@ export async function GET(
 
     return handleSuccess(user);
   } catch (error) {
-    return handleError(error);
+    return handleError({ error });
   }
 }
 
@@ -39,7 +39,7 @@ export async function DELETE(
 
     return handleSuccess(user, 204);
   } catch (error) {
-    return handleError(error);
+    return handleError({ error });
   }
 }
 
@@ -63,6 +63,6 @@ export async function PUT(
     if (!updatedUser) throw new NotFoundError("User");
     return handleSuccess(updatedUser);
   } catch (error) {
-    return handleError(error);
+    return handleError({ error });
   }
 }

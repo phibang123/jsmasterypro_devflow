@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     return handleSuccess(null);
   } catch (error) {
     session.abortTransaction();
-    return handleError(error) as APIErrorResponse;
+    return handleError({ error }) as APIErrorResponse;
   } finally {
     session.endSession();
   }

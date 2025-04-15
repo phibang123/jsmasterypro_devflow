@@ -14,7 +14,7 @@ export async function GET() {
 
     return handleSuccess(users);
   } catch (error) {
-    return handleError(error);
+    return handleError({ error });
   }
 }
 
@@ -42,6 +42,6 @@ export async function POST(request: Request) {
     const newUser = await User.create(validatedData.data);
     return handleSuccess(newUser, 201);
   } catch (error) {
-    return handleError(error);
+    return handleError({ error });
   }
 }

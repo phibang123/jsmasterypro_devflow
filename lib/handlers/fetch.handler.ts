@@ -58,6 +58,6 @@ export async function fetchHandler<T>(
       logger.warn(`Error fetching ${url}: ${error}`);
     }
 
-    return handleError(error) as ActionResponse<T>;
+    return handleError({ error, responseType: "server" }) as ActionResponse<T>;
   }
 }

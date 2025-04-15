@@ -14,7 +14,7 @@ export async function GET() {
 
     return handleSuccess(accounts, 200);
   } catch (error) {
-    return handleError(error);
+    return handleError({ error });
   }
 }
 
@@ -41,6 +41,6 @@ export async function POST(request: Request) {
     const newAccount = await Account.create(validatedData);
     return handleSuccess(newAccount, 201);
   } catch (error) {
-    return handleError(error);
+    return handleError({ error });
   }
 }

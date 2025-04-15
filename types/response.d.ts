@@ -2,9 +2,9 @@ type ActionResponse<T = null> = {
   success: boolean;
   data?: T;
   error?: {
-    message: string;
     details: Record<string, string[]>;
   };
+  message: string;
   status?: number;
 };
 

@@ -21,6 +21,6 @@ export async function POST(request: Request) {
 
     return handleSuccess(account);
   } catch (error) {
-    return handleError(error);
+    return handleError({ error });
   }
 }

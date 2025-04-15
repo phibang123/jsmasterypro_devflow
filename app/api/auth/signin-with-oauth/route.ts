@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
+import { z } from "zod";
 
 import Account from "@/database/account.model";
 import User from "@/database/user.model";
@@ -10,40 +11,28 @@ import dbConnect from "@/lib/mongoose";
 import { SignInWithOAuthSchema } from "@/lib/validations";
 import { UserModelIF } from "@/types/model";
 
-interface IValidateDataParam {
-  provider?: unknown;
-  providerAccountId?: unknown;
-  user?: unknown;
-}
 interface IUserFromLogin {
   name: string;
   username: string;
   email: string;
   image?: string | undefined;
 }
-interface IValidatedDataParam {
-  provider: "google" | "github";
-  providerAccountId: string;
-  user: IUserFromLogin;
-}
 
 export async function POST(request: Request) {
-  const { provider, providerAccountId, user } = await request.json();
   const session = await mongoose.startSession();
 
   try {
     await dbConnect();
 
     // Validate data
-    const validatedData = validateDataFromSignIn({
-      provider,
-      providerAccountId,
-      user,
-    });
+    const validatedData = await validateDataFromSignIn(request);
 
     session.startTransaction();
     // Sanitize username and prepare user info
-    const validatedUser = prepareUserInfo(validatedData.user);
+    const validatedUser = {
+      ...validatedData.user,
+      username: slugifyData(validatedData.user.username),
+    };
 
     // Create or update user
     const existingUser = await createUserOrUpdateIfUserExist(
@@ -62,25 +51,20 @@ export async function POST(request: Request) {
     return handleSuccess(existingUser);
   } catch (error: unknown) {
     await session.abortTransaction();
-    return handleError(error) as APIErrorResponse;
+    return handleError({ error }) as APIErrorResponse;
   } finally {
     session.endSession();
   }
 }
 
-const validateDataFromSignIn = (data: IValidateDataParam) => {
-  const validatedData = SignInWithOAuthSchema.safeParse(data);
+const validateDataFromSignIn = async (request: Request) => {
+  const dataRequest = await request.json();
+
+  const validatedData = SignInWithOAuthSchema.safeParse(dataRequest);
   if (!validatedData.success) {
     throw new ValidationError(validatedData.error.flatten().fieldErrors);
   }
   return validatedData.data;
-};
-
-const prepareUserInfo = (user: IUserFromLogin): IUserFromLogin => {
-  return {
-    ...user,
-    username: slugifyData(user.username), // slugify username when processing
-  };
 };
 
 const slugifyData = (data: string) => {
@@ -122,7 +106,7 @@ const createUserOrUpdateIfUserExist = async (
 const createAccountIfAccountDoesNotExist = async (
   existingUser: UserModelIF,
   session: mongoose.ClientSession,
-  validatedData: IValidatedDataParam,
+  validatedData: z.infer<typeof SignInWithOAuthSchema>,
 ) => {
   const {
     provider,
