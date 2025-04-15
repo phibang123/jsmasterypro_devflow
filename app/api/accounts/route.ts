@@ -12,7 +12,7 @@ export async function GET() {
 
     const accounts = await Account.find();
 
-    return handleSuccess(accounts, 200);
+    return handleSuccess({ data: accounts });
   } catch (error) {
     return handleError({ error });
   }
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
     }
 
     const newAccount = await Account.create(validatedData);
-    return handleSuccess(newAccount, 201);
+    return handleSuccess({ data: newAccount, status: 201 });
   } catch (error) {
     return handleError({ error });
   }

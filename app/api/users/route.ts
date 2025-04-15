@@ -12,7 +12,7 @@ export async function GET() {
 
     const users = await User.find();
 
-    return handleSuccess(users);
+    return handleSuccess({ data: users });
   } catch (error) {
     return handleError({ error });
   }
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     }
 
     const newUser = await User.create(validatedData.data);
-    return handleSuccess(newUser, 201);
+    return handleSuccess({ data: newUser, status: 201 });
   } catch (error) {
     return handleError({ error });
   }

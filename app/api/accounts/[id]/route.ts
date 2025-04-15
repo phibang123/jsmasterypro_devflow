@@ -18,7 +18,7 @@ export async function GET(
     const account = await Account.findById(id);
     if (!account) throw new NotFoundError("Account");
 
-    return handleSuccess(account);
+    return handleSuccess({ data: account });
   } catch (error) {
     return handleError({ error });
   }
@@ -37,7 +37,7 @@ export async function DELETE(
     const account = await Account.findByIdAndDelete(id);
     if (!account) throw new NotFoundError("Account");
 
-    return handleSuccess(account, 204);
+    return handleSuccess({ data: account, status: 204 });
   } catch (error) {
     return handleError({ error });
   }
@@ -65,7 +65,7 @@ export async function PUT(
     });
 
     if (!updatedAccount) throw new NotFoundError("Account");
-    return handleSuccess(updatedAccount);
+    return handleSuccess({ data: updatedAccount });
   } catch (error) {
     return handleError({ error });
   }

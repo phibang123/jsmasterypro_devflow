@@ -18,7 +18,7 @@ export async function GET(
     const user = await User.findById(id);
     if (!user) throw new NotFoundError("User");
 
-    return handleSuccess(user);
+    return handleSuccess({ data: user });
   } catch (error) {
     return handleError({ error });
   }
@@ -37,7 +37,7 @@ export async function DELETE(
     const user = await User.findByIdAndDelete(id);
     if (!user) throw new NotFoundError("User");
 
-    return handleSuccess(user, 204);
+    return handleSuccess({ data: user, status: 204 });
   } catch (error) {
     return handleError({ error });
   }
@@ -61,7 +61,7 @@ export async function PUT(
     });
 
     if (!updatedUser) throw new NotFoundError("User");
-    return handleSuccess(updatedUser);
+    return handleSuccess({ data: updatedUser });
   } catch (error) {
     return handleError({ error });
   }

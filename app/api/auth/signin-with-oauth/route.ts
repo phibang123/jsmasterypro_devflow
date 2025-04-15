@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     );
 
     await session.commitTransaction();
-    return handleSuccess(existingUser);
+    return handleSuccess({ data: existingUser });
   } catch (error: unknown) {
     await session.abortTransaction();
     return handleError({ error }) as APIErrorResponse;

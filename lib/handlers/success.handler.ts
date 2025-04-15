@@ -4,16 +4,26 @@ import logger from "../logger";
 
 type ResponseType = "api" | "server";
 
-const handleSuccess = <T = unknown>(
-  data: T,
-  status: number = 200,
-  responseType: ResponseType = "api",
-): APIResponse | SuccessResponse<T> => {
+interface IHandleSuccessParams<T = unknown> {
+  data?: T;
+  status?: number;
+  message?: string;
+  responseType?: ResponseType;
+}
+
+const handleSuccess = <T = unknown>({
+  data,
+  status = 200,
+  responseType = "api",
+  message = "Success",
+}: IHandleSuccessParams<T>): APISuccessResponse<T> | SuccessResponse<T> => {
   logger.info(`Data Success: ${data}, Status: ${status}`);
   const response: SuccessResponse<T> = {
+    data,
     success: true,
+    status,
+    message,
   };
-  if (data) response.data = data;
 
   return responseType === "api"
     ? NextResponse.json(response, { status })

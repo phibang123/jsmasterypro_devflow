@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     // Commit
     await session.commitTransaction();
 
-    return handleSuccess(null);
+    return handleSuccess({});
   } catch (error) {
     session.abortTransaction();
     return handleError({ error }) as APIErrorResponse;

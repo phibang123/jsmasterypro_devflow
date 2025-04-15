@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     const account = await Account.findOne({ providerAccountId });
     if (!account) throw new NotFoundError("Account");
 
-    return handleSuccess(account);
+    return handleSuccess({ data: account });
   } catch (error) {
     return handleError({ error });
   }

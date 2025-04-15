@@ -6,7 +6,7 @@ import logger from "../logger";
 
 type ResponseType = "api" | "server";
 
-interface IHandleErrorParam {
+interface IHandleErrorParams {
   error: unknown;
   responseType?: ResponseType;
 }
@@ -30,7 +30,10 @@ const formatResponse = (
     : { status, ...responseContent };
 };
 
-const handleError = ({ error, responseType = "api" }: IHandleErrorParam) => {
+const handleError = ({
+  error,
+  responseType = "api",
+}: IHandleErrorParams): APIErrorResponse | ErrorResponse => {
   // Error from request
   if (error instanceof RequestError) {
     logger.error(
