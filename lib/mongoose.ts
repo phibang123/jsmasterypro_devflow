@@ -40,7 +40,7 @@ const dbConnect = async (): Promise<Mongoose> => {
       })
       .catch((error) => {
         logger.error("Error connecting to MongoBD", error);
-        throw error;
+        throw new Error("Error connecting to MongoBD", error);
       });
   }
 
