@@ -8,6 +8,21 @@ import { toast } from "@/hooks/use-toast";
 
 import { Button } from "../ui/button";
 
+const storeSocialAuth = [
+  {
+    image: "/icons/github.svg",
+    title: "Login with Github",
+    classEx: "invert-colors",
+    provider: "github",
+  },
+  {
+    image: "/icons/google.svg",
+    title: "Login with Google",
+    classEx: "",
+    provider: "google",
+  },
+];
+
 const SocialAuthForm = () => {
   const handleSignInGithub = async (provider: "github" | "google") => {
     try {
@@ -26,21 +41,6 @@ const SocialAuthForm = () => {
       });
     }
   };
-
-  const storeSocialAuth = [
-    {
-      image: "/icons/github.svg",
-      title: "Login with Github",
-      classEx: "invert-colors",
-      provider: "github",
-    },
-    {
-      image: "/icons/google.svg",
-      title: "Login with Google",
-      classEx: "",
-      provider: "google",
-    },
-  ];
 
   const buttonClass =
     "background-dark400_light900 body-medium text-dark200_light800 min-h-12 flex-1 rounded-2 px-4 py-3.5";
