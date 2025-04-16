@@ -5,7 +5,8 @@ import { signIn } from "@/auth";
 import { constructorApi } from "../api";
 import handleError from "../handlers/error.handler";
 import GuardGateway from "../handlers/guard.handler";
-import { SignUpSchema } from "../validations";
+import handleSuccess from "../handlers/success.handler";
+import { SignInSchema, SignUpSchema } from "../validations";
 
 export async function signUpWithCredentials(params: IAuthCredentials) {
   const validationResult = await GuardGateway({
@@ -14,18 +15,48 @@ export async function signUpWithCredentials(params: IAuthCredentials) {
   });
 
   if (validationResult instanceof Error || !validationResult.params) {
-    return handleError(validationResult, "server");
+    return handleError({ error: validationResult, responseType: "server" });
   }
   try {
-    const response = await constructorApi.auth.credentialSignUp(
+    const response = await constructorApi.auth.credentialsSignUp(
       validationResult.params,
     );
-    if (response.success) {
-      const { email, password } = validationResult.params;
-      await signIn("credentials", { email, password, redirect: false });
-    }
-    return response;
+    if (!response.success || !response.data) return response;
+    const { id, image, name, email } = response.data;
+    await signIn("credentials", {
+      userDefined: JSON.stringify({ id, image, name, email }),
+      redirect: false,
+    });
+    return handleSuccess({ message: response.message, responseType: "server" });
   } catch (error) {
-    return handleError(error, "server");
+    return handleError({ error, responseType: "server" });
+  }
+}
+
+export async function signInWithCredentials(
+  params: Pick<IAuthCredentials, "email" | "password">,
+) {
+  const validationResult = await GuardGateway({
+    params,
+    schema: SignInSchema,
+  });
+
+  if (validationResult instanceof Error || !validationResult.params) {
+    return handleError({ error: validationResult, responseType: "server" });
+  }
+
+  try {
+    const response = await constructorApi.auth.credentialsSignIn(params);
+    if (!response.success || !response.data) return response;
+    const { id, email, image, name } = response.data;
+
+    const resultLoginAuth = await signIn("credentials", {
+      userDefined: JSON.stringify({ id, image, name, email }),
+      redirect: false,
+    });
+    console.log(resultLoginAuth, "dataDas");
+    return handleSuccess({ message: response.message, responseType: "server" });
+  } catch (error) {
+    return handleError({ error, responseType: "server" });
   }
 }

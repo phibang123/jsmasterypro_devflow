@@ -1,4 +1,6 @@
+import { isAxiosError } from "axios";
 import { NextResponse } from "next/server";
+import { AuthError } from "next-auth";
 import { ZodError } from "zod";
 
 import { ValidationError, RequestError } from "../http.errors";
@@ -65,6 +67,29 @@ const handleError = ({
       validationError.statusCode,
       validationError.message,
       validationError.errors,
+    );
+  }
+
+  // Axios error
+  if (isAxiosError(error)) {
+    // logger.error(error.response.message as string);
+    console.log(error.response?.data, "hello");
+    const statusCodeAxios = error.response?.status || 500;
+    return formatResponse(
+      responseType,
+      statusCodeAxios,
+      error.response?.data?.message ||
+        `Request failed with status code ${statusCodeAxios}`,
+    );
+  }
+
+  // Sign in Auth error
+  if (error instanceof AuthError) {
+    logger.error(`Something wrong with AuthJS: ${error.message}`);
+    return formatResponse(
+      responseType,
+      500,
+      "Server is down, please try it later",
     );
   }
 

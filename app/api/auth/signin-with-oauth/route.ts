@@ -48,7 +48,10 @@ export async function POST(request: Request) {
     );
 
     await session.commitTransaction();
-    return handleSuccess({ data: existingUser });
+    return handleSuccess({
+      data: existingUser,
+      message: `login in by ${validatedData.provider} is successful`,
+    });
   } catch (error: unknown) {
     await session.abortTransaction();
     return handleError({ error }) as APIErrorResponse;

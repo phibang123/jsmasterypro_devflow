@@ -11,7 +11,7 @@ export const constructorApi = {
       user,
       provider,
       providerAccountId,
-    }: SignInWithOAuthParams) =>
+    }: ISignInWithOAuthParams) =>
       axiosInstance(`/auth/${ROUTES.SIGNIN_WITH_OATH}`, {
         method: "POST",
         data: {
@@ -20,11 +20,24 @@ export const constructorApi = {
           providerAccountId,
         },
       }),
-    credentialSignUp: (dataSignUp: IAuthCredentials) =>
-      axiosInstance(`/auth/${ROUTES.SIGNUP_WITH_CREDENTIALS}`, {
-        method: "POST",
-        data: dataSignUp,
-      }),
+    credentialsSignUp: (dataSignUp: IAuthCredentials) =>
+      axiosInstance<IUserSignUpAndSignInResponse>(
+        `/auth/${ROUTES.SIGNUP_WITH_CREDENTIALS}`,
+        {
+          method: "POST",
+          data: dataSignUp,
+        },
+      ),
+    credentialsSignIn: (
+      dataSignIp: Pick<IAuthCredentials, "email" | "password">,
+    ) =>
+      axiosInstance<IUserSignUpAndSignInResponse>(
+        `/auth/${ROUTES.SIGNIN_WITH_CREDENTIALS}`,
+        {
+          method: "POST",
+          data: dataSignIp,
+        },
+      ),
   },
   users: {
     getAll: () => axiosInstance<IUser[]>("/users"),

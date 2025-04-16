@@ -15,10 +15,3 @@ interface IAuthCredentials {
   email: string;
   password: string;
 }
-
-interface IUserSession {
-  id: string;
-  name: string;
-  email: string;
-  image: string;
-}

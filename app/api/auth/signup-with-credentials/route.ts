@@ -9,6 +9,7 @@ import handleSuccess from "@/lib/handlers/success.handler";
 import { ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
 import { SignUpSchema } from "@/lib/validations";
+import { UserModelIF } from "@/types/model";
 
 const bcryptHashNumber = 10;
 
@@ -25,12 +26,20 @@ export async function POST(request: Request) {
     // Check user exist
     await throwErrorIfUserExist(email, username, session);
     // Create user and account
-    await handleUserCredential(validatedData, session);
+    const newUser = await handleUserCredentialsAndReturn(
+      validatedData,
+      session,
+    );
 
     // Commit
     await session.commitTransaction();
 
-    return handleSuccess({});
+    const { id, image, name } = newUser;
+    return handleSuccess({
+      data: { id, email, image, name },
+      message: "Sign up by credentials successful",
+      status: 201,
+    });
   } catch (error) {
     session.abortTransaction();
     return handleError({ error }) as APIErrorResponse;
@@ -68,16 +77,16 @@ const throwErrorIfUserExist = async (
   }
 };
 
-const handleUserCredential = async (
+const handleUserCredentialsAndReturn = async (
   user: z.infer<typeof SignUpSchema>,
   session: mongoose.ClientSession,
 ) => {
   const { password, username, email, name } = user;
   const hashedPassword = await bcrypt.hash(password, bcryptHashNumber);
   user.password = hashedPassword;
-  const [newUser] = await User.create([{ username, email, name }], {
+  const [newUser] = (await User.create([{ username, email, name }], {
     session,
-  });
+  })) as UserModelIF[];
   await Account.create(
     [
       {
@@ -90,4 +99,5 @@ const handleUserCredential = async (
     ],
     { session },
   );
+  return newUser;
 };
