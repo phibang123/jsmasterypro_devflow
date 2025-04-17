@@ -73,7 +73,6 @@ const handleError = ({
   // Axios error
   if (isAxiosError(error)) {
     // logger.error(error.response.message as string);
-    console.log(error.response?.data, "hello");
     const statusCodeAxios = error.response?.status || 500;
     return formatResponse(
       responseType,

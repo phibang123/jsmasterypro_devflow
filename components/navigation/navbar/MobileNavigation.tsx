@@ -1,7 +1,9 @@
+import { LogOut } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -11,10 +13,52 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import ROUTES from "@/constants/routes";
+import { logoutWithCredentials } from "@/lib/actions/auth.actions";
 
 import NavLinks from "./NavLinks";
 
-const MobileNavigation = () => {
+const MobileNavigation = async () => {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  const renderLoginLogout = () => {
+    if (userId) {
+      return (
+        <div className="flex flex-col gap-3">
+          <SheetClose asChild>
+            <form action={logoutWithCredentials}>
+              <Button
+                type="submit"
+                className="base-medium w-fit !bg-transparent px-4 py-3"
+              >
+                <LogOut className="size-5 text-black dark:text-white" />
+                <span className="text-dark300_light900">Log out</span>
+              </Button>
+            </form>
+          </SheetClose>
+        </div>
+      );
+    }
+    return (
+      <div className="flex flex-col gap-3">
+        <SheetClose asChild>
+          <Link href={ROUTES.SIGN_IN}>
+            <Button className="small-medium btn-secondary min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none">
+              <span className="primary-text-gradient">Log In</span>
+            </Button>
+          </Link>
+        </SheetClose>
+        <SheetClose asChild>
+          <Link href={ROUTES.SIGN_UP}>
+            <Button className="small-medium light-border-2 btn-tertiary text-dark400_light900 min-h-[41px] w-full rounded-lg border px-4 py-3 shadow-none">
+              <span className="primary-text-gradient">Sign Up</span>
+            </Button>
+          </Link>
+        </SheetClose>
+      </div>
+    );
+  };
+
   return (
     <Sheet>
       <SheetTrigger className="cursor-pointer" asChild>
@@ -48,22 +92,7 @@ const MobileNavigation = () => {
               <NavLinks isMobileNav={true} />
             </section>
           </SheetClose>
-          <div className="flex flex-col gap-3">
-            <SheetClose asChild>
-              <Link href={ROUTES.SIGN_IN}>
-                <Button className="small-medium btn-secondary min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none">
-                  <span className="primary-text-gradient">Log In</span>
-                </Button>
-              </Link>
-            </SheetClose>
-            <SheetClose asChild>
-              <Link href={ROUTES.SIGN_UP}>
-                <Button className="small-medium light-border-2 btn-tertiary text-dark400_light900 min-h-[41px] w-full rounded-lg border px-4 py-3 shadow-none">
-                  <span className="primary-text-gradient">Sign Up</span>
-                </Button>
-              </Link>
-            </SheetClose>
-          </div>
+          {renderLoginLogout()}
         </div>
       </SheetContent>
     </Sheet>

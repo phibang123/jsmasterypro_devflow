@@ -11,11 +11,11 @@ import { cn } from "@/lib/utils";
 
 interface NavLinksProp {
   isMobileNav?: boolean;
+  userId?: string;
 }
 
-const NavLinks: React.FC<NavLinksProp> = ({ isMobileNav = false }) => {
+const NavLinks: React.FC<NavLinksProp> = ({ isMobileNav = false, userId }) => {
   const pathName = usePathname();
-  const userId = 1;
 
   const renderingNavLink = () => {
     return sidebarLinks.map((item) => {

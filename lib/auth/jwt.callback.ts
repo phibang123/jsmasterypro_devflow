@@ -14,6 +14,7 @@ const jwtCallback = async ({ token, account }: IJwtParams) => {
       account.type === "credentials" ? token.email! : account.providerAccountId;
     const { data: existingAccount, success } =
       await constructorApi.accounts.getByProvider(convertProviderId);
+
     if (!success || !existingAccount) return token;
 
     const userId = existingAccount.userId;

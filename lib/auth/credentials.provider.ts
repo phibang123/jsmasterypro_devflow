@@ -7,7 +7,6 @@ export const credentialHandler = Credentials({
     if (!credentials.userDefined) return null;
     const accountData = JSON.parse(credentials.userDefined as string);
     const validatedFields = AuthorizeCredentialsSchema.safeParse(accountData);
-
     return validatedFields.success ? validatedFields.data : null;
   },
 });

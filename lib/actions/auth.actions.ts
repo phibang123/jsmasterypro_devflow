@@ -1,6 +1,6 @@
 "use server";
 
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 
 import { constructorApi } from "../api";
 import handleError from "../handlers/error.handler";
@@ -50,13 +50,17 @@ export async function signInWithCredentials(
     if (!response.success || !response.data) return response;
     const { id, email, image, name } = response.data;
 
-    const resultLoginAuth = await signIn("credentials", {
+    await signIn("credentials", {
       userDefined: JSON.stringify({ id, image, name, email }),
       redirect: false,
     });
-    console.log(resultLoginAuth, "dataDas");
     return handleSuccess({ message: response.message, responseType: "server" });
   } catch (error) {
     return handleError({ error, responseType: "server" });
   }
+}
+
+export async function logoutWithCredentials() {
+  // Doesn't use trycatch
+  await signOut();
 }
