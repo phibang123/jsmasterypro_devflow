@@ -2,7 +2,7 @@
 
 import handleError from "../handlers/error.handler";
 import GuardGateway from "../handlers/guard.handler";
-import { CreateQuestionSchemaSERVER } from "../validations/server-action.validate";
+import { CreateQuestionSchemaSERVER } from "../validations";
 
 export async function createQuestion(params: ICreateQuestionParam) {
   const validationResult = await GuardGateway({

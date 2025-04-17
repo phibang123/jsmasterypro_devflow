@@ -3,7 +3,7 @@ import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import { ForbiddenError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
-import { AccountSchemaAPI } from "@/lib/validations/api-route.validation";
+import { AccountSchemaAPI } from "@/lib/validations";
 
 // GET /api/accounts
 export async function GET() {

@@ -6,7 +6,7 @@ import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { AskQuestionSchemaUI } from "@/lib/validations/ui.validation";
+import { AskQuestionSchemaUI } from "@/lib/validations";
 
 import TagCard from "../cards/TagCard";
 import { Button } from "../ui/button";

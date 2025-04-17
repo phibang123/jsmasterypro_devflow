@@ -1,6 +1,6 @@
 import Credentials from "next-auth/providers/credentials";
 
-import { AuthorizeCredentialsSchemaAUTH } from "../validations/auth-credentials.validaiton";
+import { AuthorizeCredentialsSchemaAUTH } from "../validations";
 
 export const credentialHandler = Credentials({
   async authorize(credentials) {
