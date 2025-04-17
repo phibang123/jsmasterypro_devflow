@@ -8,7 +8,7 @@ import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import { ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
-import { SignInWithOAuthSchema } from "@/lib/validations";
+import { SignInWithOAuthSchemaAPI } from "@/lib/validations/api-route.validation";
 import { UserModelIF } from "@/types/model";
 
 interface IUserFromLogin {
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
 const validateDataFromSignIn = async (request: Request) => {
   const dataRequest = await request.json();
 
-  const validatedData = SignInWithOAuthSchema.safeParse(dataRequest);
+  const validatedData = SignInWithOAuthSchemaAPI.safeParse(dataRequest);
   if (!validatedData.success) {
     throw new ValidationError(validatedData.error.flatten().fieldErrors);
   }
@@ -109,7 +109,7 @@ const createUserOrUpdateIfUserExist = async (
 const createAccountIfAccountDoesNotExist = async (
   existingUser: UserModelIF,
   session: mongoose.ClientSession,
-  validatedData: z.infer<typeof SignInWithOAuthSchema>,
+  validatedData: z.infer<typeof SignInWithOAuthSchemaAPI>,
 ) => {
   const {
     provider,

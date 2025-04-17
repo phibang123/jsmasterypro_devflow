@@ -3,7 +3,7 @@ import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import { NotFoundError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
-import { UserSchema } from "@/lib/validations";
+import { UserSchemaAPI } from "@/lib/validations/api-route.validation";
 
 // GET /api/users/id
 export async function GET(
@@ -54,7 +54,7 @@ export async function PUT(
     await dbConnect();
 
     const body = await request.json();
-    const validatedData = UserSchema.partial().parse(body); // User partial for all key is optional, if it err, throw Error
+    const validatedData = UserSchemaAPI.partial().parse(body); // User partial for all key is optional, if it err, throw Error
 
     const updatedUser = await User.findByIdAndUpdate(id, validatedData, {
       new: true,

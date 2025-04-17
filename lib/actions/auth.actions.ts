@@ -6,7 +6,7 @@ import { constructorApi } from "../api";
 import handleError from "../handlers/error.handler";
 import GuardGateway from "../handlers/guard.handler";
 import handleSuccess from "../handlers/success.handler";
-import { SignInSchema, SignUpSchema } from "../validations";
+import { SignUpSchema, SignInSchema } from "../validations/index";
 
 export async function signUpWithCredentials(params: IAuthCredentials) {
   const validationResult = await GuardGateway({

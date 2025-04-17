@@ -10,7 +10,7 @@ import {
   UnauthorizedError,
   ValidationError,
 } from "@/lib/http.errors";
-import { SignInSchema } from "@/lib/validations";
+import { SignInSchema } from "@/lib/validations/index";
 import { UserModelIF } from "@/types/model";
 
 export async function POST(request: Request) {

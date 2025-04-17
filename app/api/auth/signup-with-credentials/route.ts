@@ -8,7 +8,7 @@ import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import { ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
-import { SignUpSchema } from "@/lib/validations";
+import { SignUpSchema } from "@/lib/validations/index";
 import { UserModelIF } from "@/types/model";
 
 const bcryptHashNumber = 10;

@@ -3,7 +3,7 @@ import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import { NotFoundError, ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
-import { AccountSchema } from "@/lib/validations";
+import { AccountSchemaAPI } from "@/lib/validations/api-route.validation";
 
 // GET /api/accounts/id
 export async function GET(
@@ -54,7 +54,7 @@ export async function PUT(
     await dbConnect();
 
     const body = await request.json();
-    const validatedData = AccountSchema.partial().safeParse(body);
+    const validatedData = AccountSchemaAPI.partial().safeParse(body);
 
     if (!validatedData.success) {
       throw new ValidationError(validatedData.error.flatten().fieldErrors);

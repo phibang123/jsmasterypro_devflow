@@ -3,14 +3,14 @@ import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import { NotFoundError, ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
-import { UserSchema } from "@/lib/validations";
+import { UserSchemaAPI } from "@/lib/validations/api-route.validation";
 
 // POST /api/users/email
 export async function POST(request: Request) {
   const { email } = await request.json();
   try {
     await dbConnect();
-    const validatedData = UserSchema.partial().safeParse({ email });
+    const validatedData = UserSchemaAPI.partial().safeParse({ email });
     if (!validatedData.success) {
       throw new ValidationError(validatedData.error.flatten().fieldErrors);
     }

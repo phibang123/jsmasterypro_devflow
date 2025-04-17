@@ -3,7 +3,7 @@ import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import { ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
-import { UserSchema } from "@/lib/validations";
+import { UserSchemaAPI } from "@/lib/validations/api-route.validation";
 
 // GET /api/users
 export async function GET() {
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     await dbConnect();
     const body = await request.json();
 
-    const validatedData = UserSchema.safeParse(body);
+    const validatedData = UserSchemaAPI.safeParse(body);
 
     if (!validatedData.success) {
       throw new ValidationError(validatedData.error.flatten().fieldErrors);

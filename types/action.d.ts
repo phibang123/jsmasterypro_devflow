@@ -15,3 +15,9 @@ interface IAuthCredentials {
   email: string;
   password: string;
 }
+
+interface ICreateQuestionParam {
+  title: string;
+  content: string;
+  tags: string[];
+}

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { auth, signOut } from "@/auth";
+import { auth } from "@/auth";
 import ROUTES from "@/constants/routes";
 import { logoutWithCredentials } from "@/lib/actions/auth.actions";
 

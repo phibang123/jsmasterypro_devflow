@@ -6,7 +6,7 @@ import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { AskQuestionSchema } from "@/lib/validations";
+import { AskQuestionSchemaUI } from "@/lib/validations/ui.validation";
 
 import TagCard from "../cards/TagCard";
 import { Button } from "../ui/button";
@@ -28,8 +28,8 @@ const Editor = dynamic(() => import("@/components/editor"), {
 const QuestionForm = () => {
   const editorRef = useRef<MDXEditorMethods>(null);
 
-  const form = useForm<z.infer<typeof AskQuestionSchema>>({
-    resolver: zodResolver(AskQuestionSchema),
+  const form = useForm<z.infer<typeof AskQuestionSchemaUI>>({
+    resolver: zodResolver(AskQuestionSchemaUI),
     defaultValues: {
       title: "",
       content: "",
