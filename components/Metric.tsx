@@ -14,33 +14,32 @@ const Metric = ({
   value,
   imgStyles,
 }: MetricIF) => {
+  const sizeWidthAndHeight = isAuthor ? 32 : 20;
   const metricContent = (
-    <>
+    <div className="flex items-center gap-1.5">
       <Image
         src={imgUrl}
         alt={alt}
-        width={16}
-        height={16}
-        className={`rounded-full object-contain ${imgStyles}`}
+        width={sizeWidthAndHeight}
+        height={sizeWidthAndHeight}
+        className={`object-contain rounded-md ${imgStyles}`}
       />
-      <p className={`${textStyles} flex items-center gap-1`}>
-        {value}
-        <span
-          className={`small-regular line-clamp-1 ${isAuthor ? "max-sm:hidden" : ""}`}
-        >
-          {title}
-        </span>
-      </p>
-    </>
+      <div className={`flex items-center gap-1 ${textStyles}`}>
+        <span className="font-semibold">{value}</span>
+        {title && <span className="text-gray-500">{title}</span>}
+      </div>
+    </div>
   );
 
-  return href ? (
-    <Link className="flex-center gap-1" href={href}>
-      {metricContent}
-    </Link>
-  ) : (
-    <div className="flex-center gap-1">{metricContent}</div>
-  );
+  if (href) {
+    return (
+      <Link href={href} className="hover:text-blue-600">
+        {metricContent}
+      </Link>
+    );
+  }
+
+  return metricContent;
 };
 
 export default Metric;
