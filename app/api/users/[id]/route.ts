@@ -57,7 +57,7 @@ export async function PUT(
     const validatedData = UserSchemaAPI.partial().parse(body); // User partial for all key is optional, if it err, throw Error
 
     const updatedUser = await User.findByIdAndUpdate(id, validatedData, {
-      new: true,
+      new: true, // new flag for return new user after update instead of user after find
     });
 
     if (!updatedUser) throw new NotFoundError("User");
