@@ -1,12 +1,12 @@
 "use server";
 
+import { QuestionModelIF } from "@/types/model";
+
 import { constructorApi } from "../api";
 import handleError from "../handlers/error.handler";
 import GuardGateway from "../handlers/guard.handler";
 import handleSuccess from "../handlers/success.handler";
 import { AskQuestionSchema } from "../validations";
-
-import { QuestionModelIF } from "@/types/model";
 
 export async function createQuestion(params: ICreateQuestionParam) {
   const validationResult = await GuardGateway({
@@ -19,6 +19,12 @@ export async function createQuestion(params: ICreateQuestionParam) {
     return handleError({ error: validationResult, responseType: "server" });
   }
   const userId = validationResult.session?.user?.id!;
+  if (!userId) {
+    return handleError({
+      error: new Error("User session not found"),
+      responseType: "server",
+    });
+  }
   const validatedData = validationResult.params;
 
   const question = await constructorApi.questions.create({

@@ -38,7 +38,7 @@ async function GuardGateway<T>({
   if (authorize) {
     session = await auth();
 
-    if (!session) {
+    if (!session || !session.user || !session.user.id) {
       return new UnauthorizedError();
     }
   }
