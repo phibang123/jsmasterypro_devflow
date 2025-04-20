@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/mongoose";
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import { z } from "zod";
@@ -7,7 +8,6 @@ import User from "@/database/user.model";
 import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import { ValidationError } from "@/lib/http.errors";
-import dbConnect from "@/lib/mongoose";
 import logger from "@/lib/logger";
 import { SignUpSchema } from "@/lib/validations/index";
 import { UserModelIF } from "@/types/model";

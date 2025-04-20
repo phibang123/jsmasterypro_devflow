@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 import { z } from "zod";
 
 import Question from "@/database/question.model";
-import Tag from "@/database/tag.model";
 import TagQuestion from "@/database/tag-question.model";
+import Tag from "@/database/tag.model";
 import handleError from "@/lib/handlers/error.handler";
 import { ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";

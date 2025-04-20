@@ -1,4 +1,6 @@
 import bcrypt from "bcryptjs";
+import dbConnect from "@/lib/mongoose";
+
 import { z } from "zod";
 
 import Account from "@/database/account.model";
@@ -12,7 +14,6 @@ import {
 } from "@/lib/http.errors";
 import { SignInSchema } from "@/lib/validations/index";
 import { UserModelIF } from "@/types/model";
-import dbConnect from "@/lib/mongoose";
 
 export async function POST(request: Request) {
   try {
