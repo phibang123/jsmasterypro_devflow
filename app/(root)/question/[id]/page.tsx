@@ -1,10 +1,8 @@
 interface QuestionDetailsProps {
-  params: { id: string };
+  id: string;
 }
 
-const QuestionDetails = async ({ params }: QuestionDetailsProps) => {
-  const { id } = params;
-
+const QuestionDetails = async ({ id }: QuestionDetailsProps) => {
   return <div>Question id {id}</div>;
 };
 
