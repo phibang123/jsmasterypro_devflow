@@ -12,9 +12,11 @@ import {
 } from "@/lib/http.errors";
 import { SignInSchema } from "@/lib/validations/index";
 import { UserModelIF } from "@/types/model";
+import dbConnect from "@/lib/mongoose";
 
 export async function POST(request: Request) {
   try {
+    await dbConnect();
     // Validate request
     const validatedRequest = await validateDataFromSignIp(request);
 

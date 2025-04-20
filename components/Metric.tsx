@@ -14,7 +14,7 @@ const Metric = ({
   value,
   imgStyles,
 }: MetricIF) => {
-  const sizeWidthAndHeight = isAuthor ? 32 : 20;
+  const sizeWidthAndHeight = isAuthor ? 28 : 18;
   const metricContent = (
     <div className="flex items-center gap-1.5">
       <Image

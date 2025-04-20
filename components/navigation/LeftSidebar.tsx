@@ -71,7 +71,7 @@ const LeftSidebar = async () => {
         <NavLinks userId={userId} />
       </div>
 
-      <div className="flex flex-col gap-3">{renderLoginLogout()}</div>
+      <div className="flex flex-col gap-3 mt-5">{renderLoginLogout()}</div>
     </section>
   );
 };

@@ -5,8 +5,9 @@ import dynamic from "next/dynamic";
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
-import { AskQuestionSchemaUI } from "@/lib/validations";
+import { AskQuestionSchema } from "@/lib/validations";
 
 import TagCard from "../cards/TagCard";
 import { Button } from "../ui/button";
@@ -20,6 +21,8 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import { createQuestion } from "@/lib/actions/question.action";
+import { toast } from "@/hooks/use-toast";
 
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
@@ -27,17 +30,43 @@ const Editor = dynamic(() => import("@/components/editor"), {
 
 const QuestionForm = () => {
   const editorRef = useRef<MDXEditorMethods>(null);
+  const router = useRouter();
 
-  const form = useForm<z.infer<typeof AskQuestionSchemaUI>>({
-    resolver: zodResolver(AskQuestionSchemaUI),
+  const form = useForm<z.infer<typeof AskQuestionSchema>>({
+    resolver: zodResolver(AskQuestionSchema),
     defaultValues: {
       title: "",
+      description: "",
       content: "",
       tags: [],
     },
   });
 
-  const handleCreateQuestion = () => {};
+  const handleCreateQuestion = async () => {
+    const { title, description, content, tags } = form.getValues();
+    const questionData = {
+      title,
+      description,
+      content,
+      tags,
+    };
+
+    const result = await createQuestion(questionData);
+    if (!result.success) {
+      toast({
+        title: `Error ${result.status}`,
+        description: result.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Success",
+        description: result.message,
+      });
+      form.reset();
+      router.push(`/question/${result.data.questionId}`);
+    }
+  };
 
   const handleTagRemove = (tag: string, filed: { value: string[] }) => {
     const newTags = filed.value.filter((t) => t !== tag);
@@ -107,6 +136,27 @@ const QuestionForm = () => {
         />
         <FormField
           control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem className="flex w-full flex-col">
+              <FormLabel className="paragraph-semibold text-dark400_light700">
+                Question Description <span className="text-primary-500">*</span>
+              </FormLabel>
+              <FormControl>
+                <Input
+                  className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] border"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription className="body-regular mt-2.5 text-light-500">
+                Provide a brief description of your question
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="content"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col">
@@ -142,7 +192,7 @@ const QuestionForm = () => {
                 <div>
                   <Input
                     className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] border"
-                    placeholder="Add tags..."
+                    placeholder="Add tags... (Press Enter to add)"
                     onKeyDown={(e) => handleInputKeydown(e, field)}
                     // {...field}
                   />
@@ -164,8 +214,8 @@ const QuestionForm = () => {
                 </div>
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
-                Add up to 3 tags to describe what your question is about. You
-                need to press to add a tag
+                Add up to 3 tags to describe what your question is about. Press
+                Enter to add each tag
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -175,9 +225,10 @@ const QuestionForm = () => {
         <div className="mt-16 flex justify-end">
           <Button
             type="submit"
+            disabled={form.formState.isSubmitting}
             className="primary-gradient w-fit !text-light-900"
           >
-            ASk A Question
+            {form.formState.isSubmitting ? "Submitting..." : "Ask A Question"}
           </Button>
         </div>
       </form>

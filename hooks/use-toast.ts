@@ -138,6 +138,11 @@ function dispatch(action: Action) {
   });
 }
 
+// Cleanup function to remove all listeners
+function cleanupListeners() {
+  listeners.length = 0;
+}
+
 type Toast = Omit<ToasterToast, "id">;
 
 function toast({ ...props }: Toast) {

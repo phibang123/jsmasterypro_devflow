@@ -23,6 +23,7 @@ const QuestionCard = ({
     answers,
     views,
     description,
+    updatedAt,
   },
 }: Props) => {
   const renderTagCard = () => {
@@ -58,6 +59,13 @@ const QuestionCard = ({
       </div>
     );
   };
+  const renderTimeAt = () => {
+    return (
+      <div className="flex flex-col gap-1">
+        <span>• asked {getTimeStamp(createdAt)}</span>
+      </div>
+    );
+  };
   return (
     <div className="card-wrapper background-light800_dark300 rounded-[10px] p-5 sm:px-11 flex gap-3">
       <div className="sm:flex hidden">{renderMetricContent()}</div>
@@ -75,12 +83,21 @@ const QuestionCard = ({
         </div>
         <div className="flex flex-col sm:mt-0 mt-4 w-full flex-wrap">
           <div className="sm:hidden">{renderMetricContent()}</div>
-          <div className="flex justify-start sm:justify-end items-center w-full flex-wrap gap-3 mt-4">
+          <div className="flex justify-start sm:justify-between items-center w-full flex-wrap gap-3 mt-4">
             <Metric
               imgUrl={author.image}
               alt={author.name}
               value={author.name}
-              title={`• asked ${getTimeStamp(createdAt)}`}
+              title={`• Answered ${getTimeStamp(createdAt)}`}
+              href={ROUTES.PROFILE(author._id)}
+              textStyles="body-medium text-dark400_light700"
+              isAuthor
+            />
+            <Metric
+              imgUrl={author.image}
+              alt={author.name}
+              value={author.name}
+              title={`• asked ${getTimeStamp(updatedAt)}`}
               href={ROUTES.PROFILE(author._id)}
               textStyles="body-medium text-dark400_light700"
               isAuthor

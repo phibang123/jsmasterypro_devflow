@@ -26,7 +26,10 @@ const handleSuccess = <T = unknown>({
   };
 
   return responseType === "api"
-    ? NextResponse.json(response, { status })
+    ? NextResponse.json(response, {
+        status,
+        headers: { "Content-Type": "application/json" },
+      })
     : response;
 };
 

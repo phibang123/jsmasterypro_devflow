@@ -7,6 +7,7 @@ import { ITagQuestion } from "@/database/tag-question.model";
 import { ITag } from "@/database/tag.model";
 import { IUser } from "@/database/user.model";
 import { IVote } from "@/database/vote.model";
+import { IQuestion } from "@/database/question.model";
 
 interface AccountModelIF extends IAccount, Document {}
 
@@ -16,7 +17,10 @@ interface CollectionModelIF extends ICollection, Document {}
 
 interface InteractionIF extends IInteraction, Document {}
 
-interface IQuestionModel extends IQuestion, Document {}
+interface QuestionModelIF extends IQuestion, Document {
+  createdAt: Date;
+  id: string;
+}
 
 interface TagQuestionModelIF extends ITagQuestion, Document {}
 

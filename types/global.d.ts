@@ -21,6 +21,7 @@ interface QuestionIF {
   answers: number;
   views: number;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 interface TagIF {
@@ -45,7 +46,7 @@ interface MetricIF {
   imgUrl: string;
   alt: string;
   value: string | number;
-  title: string;
+  title: string | React.ReactNode;
   href?: string;
   textStyles?: string;
   imgStyles?: string;

@@ -8,6 +8,7 @@ import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import { ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
+import logger from "@/lib/logger";
 import { SignInWithOAuthSchemaAPI } from "@/lib/validations";
 import { UserModelIF } from "@/types/model";
 
@@ -23,9 +24,11 @@ export async function POST(request: Request) {
 
   try {
     await dbConnect();
+    logger.info("Starting OAuth sign-in process");
 
     // Validate data
     const validatedData = await validateDataFromSignIn(request);
+    logger.info(`Validated OAuth data for provider: ${validatedData.provider}`);
 
     session.startTransaction();
     // Sanitize username and prepare user info
@@ -33,12 +36,14 @@ export async function POST(request: Request) {
       ...validatedData.user,
       username: slugifyData(validatedData.user.username),
     };
+    logger.info(`Prepared user data with username: ${validatedUser.username}`);
 
     // Create or update user
     const existingUser = await createUserOrUpdateIfUserExist(
       validatedUser,
       session,
     );
+    logger.info(`User operation completed for: ${existingUser._id}`);
 
     // Create account if it doesn't exist
     await createAccountIfAccountDoesNotExist(
@@ -46,14 +51,18 @@ export async function POST(request: Request) {
       session,
       validatedData,
     );
+    logger.info(`Account operation completed for user: ${existingUser._id}`);
 
     await session.commitTransaction();
+    logger.info(`OAuth sign-in successful for user: ${existingUser._id}`);
+
     return handleSuccess({
       data: existingUser,
       message: `login in by ${validatedData.provider} is successful`,
     });
   } catch (error: unknown) {
     await session.abortTransaction();
+    logger.error("OAuth sign-in failed:", error);
     return handleError({ error }) as APIErrorResponse;
   } finally {
     session.endSession();
@@ -61,13 +70,23 @@ export async function POST(request: Request) {
 }
 
 const validateDataFromSignIn = async (request: Request) => {
-  const dataRequest = await request.json();
+  try {
+    const dataRequest = await request.json();
+    const validatedData = SignInWithOAuthSchemaAPI.safeParse(dataRequest);
 
-  const validatedData = SignInWithOAuthSchemaAPI.safeParse(dataRequest);
-  if (!validatedData.success) {
-    throw new ValidationError(validatedData.error.flatten().fieldErrors);
+    if (!validatedData.success) {
+      logger.error(
+        "OAuth validation failed:",
+        validatedData.error.flatten().fieldErrors,
+      );
+      throw new ValidationError(validatedData.error.flatten().fieldErrors);
+    }
+
+    return validatedData.data;
+  } catch (error) {
+    logger.error("OAuth data validation error:", error);
+    throw error;
   }
-  return validatedData.data;
 };
 
 const slugifyData = (data: string) => {
@@ -87,6 +106,7 @@ const createUserOrUpdateIfUserExist = async (
   let existingUser = await User.findOne({ email }).session(session);
 
   if (!existingUser) {
+    logger.info(`Creating new user with email: ${email}`);
     [existingUser] = await User.create([{ name, username, email, image }], {
       session,
     });
@@ -97,6 +117,7 @@ const createUserOrUpdateIfUserExist = async (
     if (existingUser.image !== image) updateData.image = image;
 
     if (Object.keys(updateData).length > 0) {
+      logger.info(`Updating existing user: ${existingUser._id}`);
       await User.updateOne(
         { _id: existingUser._id },
         { $set: updateData },
@@ -124,8 +145,11 @@ const createAccountIfAccountDoesNotExist = async (
   }).session(session);
 
   if (!existingAccount) {
+    logger.info(
+      `Creating new account for user: ${existingUser._id}, provider: ${provider}`,
+    );
     await Account.create(
-      [{ name, userId: existingUser._id, image, provider, providerAccountId }], // if you use session transition/ must insert by arr
+      [{ name, userId: existingUser._id, image, provider, providerAccountId }],
       { session },
     );
   }
