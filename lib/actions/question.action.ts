@@ -18,7 +18,7 @@ export async function createQuestion(params: ICreateQuestionParam) {
   if (validationResult instanceof Error || !validationResult.params) {
     return handleError({ error: validationResult, responseType: "server" });
   }
-  const userId = validationResult.session?.user?.id!;
+  const userId = validationResult.session?.user?.id;
   if (!userId) {
     return handleError({
       error: new Error("User session not found"),
