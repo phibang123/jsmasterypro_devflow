@@ -2,11 +2,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MDXEditorMethods } from "@mdxeditor/editor";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
 
+import { createQuestion } from "@/lib/actions/question.action";
+import { toast } from "@/hooks/use-toast";
 import { AskQuestionSchema } from "@/lib/validations";
 
 import TagCard from "../cards/TagCard";
@@ -21,8 +23,6 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { createQuestion } from "@/lib/actions/question.action";
-import { toast } from "@/hooks/use-toast";
 
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,

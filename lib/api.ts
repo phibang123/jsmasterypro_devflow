@@ -1,10 +1,10 @@
 import ROUTES from "@/constants/routes";
+import { IQuestion } from "@/database/question.model";
 import { IAccount } from "@/database/account.model";
 import { IUser } from "@/database/user.model";
 import { QuestionModelIF, UserModelIF } from "@/types/model";
 
 import { axiosInstance } from "./handlers/axios.handler";
-import { IQuestion } from "@/database/question.model";
 
 export const constructorApi = {
   auth: {

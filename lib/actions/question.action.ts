@@ -1,11 +1,12 @@
 "use server";
 
-import { QuestionModelIF } from "@/types/model";
 import { constructorApi } from "../api";
 import handleError from "../handlers/error.handler";
 import GuardGateway from "../handlers/guard.handler";
 import handleSuccess from "../handlers/success.handler";
 import { AskQuestionSchema } from "../validations";
+
+import { QuestionModelIF } from "@/types/model";
 
 export async function createQuestion(params: ICreateQuestionParam) {
   const validationResult = await GuardGateway({
