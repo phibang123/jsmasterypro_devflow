@@ -59,13 +59,7 @@ const QuestionCard = ({
       </div>
     );
   };
-  const renderTimeAt = () => {
-    return (
-      <div className="flex flex-col gap-1">
-        <span>• asked {getTimeStamp(createdAt)}</span>
-      </div>
-    );
-  };
+
   return (
     <div className="card-wrapper background-light800_dark300 rounded-[10px] p-5 sm:px-11 flex gap-3">
       <div className="sm:flex hidden">{renderMetricContent()}</div>
