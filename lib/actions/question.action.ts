@@ -17,14 +17,14 @@ export async function createQuestion(params: ICreateQuestionParam) {
 
   if (validationResult instanceof Error || !validationResult.params) {
     return handleError({ error: validationResult, responseType: "server" });
-  }
-  const userId = validationResult.session?.user?.id;
-  if (!userId) {
+  } else if (!validationResult.session?.user?.id) {
     return handleError({
       error: new Error("User session not found"),
       responseType: "server",
     });
   }
+  const userId = validationResult.session.user.id;
+
   const validatedData = validationResult.params;
 
   const question = await constructorApi.questions.create({
