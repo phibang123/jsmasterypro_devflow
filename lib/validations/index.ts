@@ -87,4 +87,4 @@ export const AskQuestionSchema = z.object({
 export * from "./api-route.validation";
 export * from "./auth-credentials.validation";
 export * from "./server-action.validate";
-// export * from "./ui.validation";
+export * from "./ui.validation";
