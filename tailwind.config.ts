@@ -11,8 +11,8 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          "100": "#FFF1E6",
-          "500": "#FF7000",
+          "100": "#E1EEBC",
+          "500": "#328E6E",
         },
         dark: {
           "100": "#000000",
@@ -30,7 +30,7 @@ const config: Config = {
           "900": "#FFFFFF",
         },
         link: {
-          "100": "#1DA1F2",
+          "100": "#90C67C",
         },
       },
       boxShadow: {

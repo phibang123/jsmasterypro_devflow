@@ -61,7 +61,7 @@ const QuestionCard = ({
   };
 
   return (
-    <div className="card-wrapper background-light800_dark300 rounded-[10px] p-5 sm:px-11 flex gap-3">
+    <div className="card-wrapper background-light800_dark300 rounded-[10px] p-5 sm:px-8 flex gap-3">
       <div className="sm:flex hidden">{renderMetricContent()}</div>
       <div className="flex-1">
         <Link href={ROUTES.QUESTION(_id)}>

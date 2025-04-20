@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --main-color: #328e6e;
+  --secondary-color: #67ae6e;
+}
+
 body {
   font-family: "Inter", sans-serif;
 }
@@ -216,7 +221,26 @@ body {
   }
 
   .primary-gradient {
-    background: linear-gradient(129deg, #ff7000 0%, #e2995f 100%);
+    background: linear-gradient(
+      129deg,
+      var(--main-color) 0%,
+      var(--secondary-color) 100%
+    );
+  }
+
+  .primary-button-gradient {
+    background: linear-gradient(
+      129deg,
+      var(--main-color) 0%,
+      var(--secondary-color) 100%
+    );
+    &:hover {
+      background: linear-gradient(
+        129deg,
+        var(--main-color) 50%,
+        var(--secondary-color) 150%
+      );
+    }
   }
 
   .dark-gradient {
@@ -236,7 +260,11 @@ body {
   }
 
   .primary-text-gradient {
-    background: linear-gradient(129deg, #ff7000 0%, #e2995f 100%);
+    background: linear-gradient(
+      129deg,
+      var(--main-color) 0%,
+      var(--secondary-color) 100%
+    );
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -357,7 +385,7 @@ body {
 }
 
 .markdown a {
-  color: #1da1f2;
+  color: #90c67c;
 }
 
 .markdown a,
@@ -379,7 +407,7 @@ code {
   hyphens: auto;
 
   padding: 2px;
-  color: #ff7000 !important;
+  color: var(--main-color) !important;
 }
 
 .markdown pre {
