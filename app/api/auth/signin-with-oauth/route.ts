@@ -2,15 +2,14 @@ import mongoose from "mongoose";
 import slugify from "slugify";
 import { z } from "zod";
 
-import { ValidationError } from "@/lib/http.errors";
+import Account from "@/database/account.model";
+import User from "@/database/user.model";
 import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
+import { ValidationError } from "@/lib/http.errors";
 import logger from "@/lib/logger";
 import dbConnect from "@/lib/mongoose";
 import { SignInWithOAuthSchemaAPI } from "@/lib/validations";
-
-import Account from "@/database/account.model";
-import User from "@/database/user.model";
 import { UserModelIF } from "@/types/model";
 
 interface IUserFromLogin {

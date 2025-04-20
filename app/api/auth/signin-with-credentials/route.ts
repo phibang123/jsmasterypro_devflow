@@ -1,18 +1,17 @@
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 
+import Account from "@/database/account.model";
+import User from "@/database/user.model";
+import handleError from "@/lib/handlers/error.handler";
+import handleSuccess from "@/lib/handlers/success.handler";
 import {
   NotFoundError,
   UnauthorizedError,
   ValidationError,
 } from "@/lib/http.errors";
-import handleError from "@/lib/handlers/error.handler";
-import handleSuccess from "@/lib/handlers/success.handler";
 import dbConnect from "@/lib/mongoose";
 import { SignInSchema } from "@/lib/validations/index";
-
-import Account from "@/database/account.model";
-import User from "@/database/user.model";
 import { UserModelIF } from "@/types/model";
 
 export async function POST(request: Request) {
