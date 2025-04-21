@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { auth } from "@/auth";
 
+import { auth } from "@/auth";
 import QuestionForm from "@/components/forms/QuestionForm";
 
 const AskQuestion = async () => {
