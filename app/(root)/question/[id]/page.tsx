@@ -3,14 +3,7 @@ import Link from "next/link";
 import { getTimeStamp } from "@/lib/utils";
 import Metric from "@/components/Metric";
 
-interface Props {
-  params: {
-    id: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
-}
-
-const QuestionDetail = ({ params }: Props) => {
+const QuestionDetail = () => {
   // TODO: Fetch actual question data
   const mockQuestion = {
     title: "How to refresh all the data inside the Datatable",
