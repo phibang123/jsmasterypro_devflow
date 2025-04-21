@@ -1,11 +1,13 @@
-import { getQuestionById } from "@/lib/actions/question.action";
-import { getTimeStamp } from "@/lib/utils";
 import { Suspense } from "react";
-import { TagIF } from "@/types/global";
 
 import NotFound from "@/app/not-found";
 import TagCard from "@/components/cards/TagCard";
 import Metric from "@/components/Metric";
+
+import { getQuestionById } from "@/lib/actions/question.action";
+import { getTimeStamp } from "@/lib/utils";
+import { TagIF } from "@/types/global";
+
 import QuestionDetailLoading from "./loading";
 
 const QuestionDetail = async ({
