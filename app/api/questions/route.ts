@@ -5,6 +5,7 @@ import { DEFAULT_LIMIT, DEFAULT_PAGE } from "@/configs/constance";
 import Question from "@/database/question.model";
 import TagQuestion from "@/database/tag-question.model";
 import Tag from "@/database/tag.model";
+import "@/database/user.model";
 import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import { ValidationError } from "@/lib/http.errors";
@@ -168,6 +169,7 @@ export async function GET(request: Request) {
       message: "Questions fetched successfully",
     });
   } catch (error) {
+    console.log(error, "error");
     logger.error("Error fetching questions:", error);
     return handleError({ error });
   }
