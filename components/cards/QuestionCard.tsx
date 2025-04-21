@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 
 import ROUTES from "@/constants/routes";
-import { getAuthorName, getTimeStamp } from "@/lib/utils";
+import { getTimeStamp } from "@/lib/utils";
 import { QuestionIF, TagIF } from "@/types/global";
 
 import TagCard from "./TagCard";
@@ -18,7 +18,6 @@ const QuestionCard = ({
     title,
     tags,
     author,
-    createdAt,
     upVotes,
     answers,
     views,

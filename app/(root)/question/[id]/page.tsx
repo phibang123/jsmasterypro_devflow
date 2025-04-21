@@ -1,7 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
-import { getTimeStamp } from "@/lib/utils";
 import Metric from "@/components/Metric";
+import { getTimeStamp } from "@/lib/utils";
 
 const QuestionDetail = () => {
   // TODO: Fetch actual question data
