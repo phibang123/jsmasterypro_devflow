@@ -55,3 +55,11 @@ export async function getAllQuestions(params: {
     responseType: "server",
   });
 }
+
+export async function getQuestionById(id: string) {
+  const question = await constructorApi.questions.getById(id);
+  if (!question.success || !question.data) {
+    return handleError({ error: question.error, responseType: "server" });
+  }
+  return handleSuccess({ data: question.data, responseType: "server" });
+}

@@ -19,6 +19,7 @@ interface InteractionIF extends IInteraction, Document {}
 
 interface QuestionModelIF extends IQuestion, Document {
   createdAt: Date;
+  updatedAt: Date;
   id: string;
 }
 

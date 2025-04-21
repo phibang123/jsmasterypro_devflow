@@ -23,6 +23,7 @@ const Metric = ({
         width={sizeWidthAndHeight}
         height={sizeWidthAndHeight}
         className={`object-contain rounded-md ${imgStyles}`}
+        quality={100}
       />
       <div className={`flex items-center gap-1 ${textStyles}`}>
         <span className="font-semibold">{value}</span>

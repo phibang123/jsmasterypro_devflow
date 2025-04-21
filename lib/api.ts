@@ -97,5 +97,6 @@ export const constructorApi = {
         method: "GET",
         params,
       }),
+    getById: (id: string) => axiosInstance<QuestionModelIF>(`/questions/${id}`),
   },
 };

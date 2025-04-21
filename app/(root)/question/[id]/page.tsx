@@ -1,81 +1,104 @@
+import NotFound from "@/app/not-found";
 import Metric from "@/components/Metric";
+import { getQuestionById } from "@/lib/actions/question.action";
 import { getTimeStamp } from "@/lib/utils";
+import { Suspense } from "react";
+import QuestionDetailLoading from "./loading";
+import { TagIF } from "@/types/global";
+import TagCard from "@/components/cards/TagCard";
 
-const QuestionDetail = () => {
-  // TODO: Fetch actual question data
-  const mockQuestion = {
-    title: "How to refresh all the data inside the Datatable",
-    author: {
-      name: "Satheesh",
-      picture: "/assets/icons/avatar.svg",
-    },
-    createdAt: new Date("2024-01-20"),
-    upvotes: 12,
-    views: 5200,
-    answers: 900,
-    content: `When the user clicks a button for the first time, a spinner is displayed, the "close" button is disabled, and a modal popup is shown. When the user clicks on a table displayed within the modal popup, the table loads data.
+const QuestionDetail = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params;
+  const { data: question } = await getQuestionById(id);
+  if (!question) return NotFound();
+  const {
+    title,
+    author,
+    createdAt,
+    upVotes,
+    downVotes,
+    views,
+    answers,
+    content,
+    tags,
+  } = question;
 
-When the user closes the popup by clicking the "close" button, and then clicks the same button again without refreshing the page, the data in the table should be the same as it was before.
-
-I need it so that when the user clicks the button, any changes made stay in place even after closing and reopening the popup.`,
+  const renderTagCard = () => {
+    return tags.map((tag: TagIF) => (
+      <TagCard key={tag._id} _id={tag._id} name={tag.name} compact />
+    ));
   };
 
   return (
-    <div className="flex-col w-full">
-      <div className="flex w-full flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
-        <h1 className="h1-bold text-dark100_light900">{mockQuestion.title}</h1>
-      </div>
-
-      <div className="mt-5 flex flex-col-reverse justify-between gap-5 sm:flex-row">
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col-reverse gap-6">
-            <div className="flex w-full flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
-              <div className="flex flex-wrap gap-4">
-                <Metric
-                  imgUrl={mockQuestion.author.picture}
-                  alt="user avatar"
-                  value={mockQuestion.author.name}
-                  title={`• asked ${getTimeStamp(mockQuestion.createdAt)}`}
-                  href={`/profile/${mockQuestion.author.name}`}
-                  textStyles="body-medium text-dark400_light700"
-                  isAuthor
-                />
-              </div>
-
-              <div className="flex justify-end gap-3">
-                <div className="flex gap-3">
-                  <Metric
-                    imgUrl="/assets/icons/like.svg"
-                    alt="Upvotes"
-                    value={mockQuestion.upvotes}
-                    title="Votes"
-                    textStyles="small-medium text-dark400_light800"
-                  />
-                  <Metric
-                    imgUrl="/assets/icons/message.svg"
-                    alt="Answers"
-                    value={mockQuestion.answers}
-                    title="Answers"
-                    textStyles="small-medium text-dark400_light800"
-                  />
-                  <Metric
-                    imgUrl="/assets/icons/eye.svg"
-                    alt="Views"
-                    value={mockQuestion.views}
-                    title="Views"
-                    textStyles="small-medium text-dark400_light800"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="markdown text-dark200_light800">
-              {mockQuestion.content}
-            </div>
+    <Suspense fallback={<QuestionDetailLoading />}>
+      <div className="flex-col w-full">
+        <div className="flex justify-between items-center">
+          <Metric
+            imgUrl={author.image}
+            alt="user avatar"
+            value={author.name}
+            title={``}
+            href={`/profile/${author.name}`}
+            textStyles="body-medium text-dark400_light700"
+            isAuthor
+          />
+          <div className="flex gap-3">
+            <Metric
+              imgUrl="/icons/upvote.svg"
+              alt="upVotes"
+              value={upVotes}
+              title={``}
+              href={`/profile/${author.name}`}
+              textStyles="body-medium text-dark400_light700"
+            />
+            <Metric
+              imgUrl="/icons/downvote.svg"
+              alt="downVotes"
+              value={downVotes}
+              title={``}
+              href={`/profile/${author.name}`}
+              textStyles="body-medium text-dark400_light700"
+            />
           </div>
         </div>
+        <h1 className="sm:h1-bold base-semibold text-dark200_light900 primary-text-gradient mt-4 !tracking-wide">
+          {title}
+        </h1>
+        <div className="flex justify-s gap-3 mt-4">
+          <div className="flex gap-3">
+            <Metric
+              imgUrl="/icons/clock.svg"
+              alt="clock"
+              value=""
+              title={getTimeStamp(createdAt)}
+              textStyles="body-medium text-dark400_light800"
+            />
+            <Metric
+              imgUrl="/icons/message.svg"
+              alt="Answers"
+              value={answers}
+              title="Answers"
+              textStyles="body-medium text-dark400_light800"
+            />
+            <Metric
+              imgUrl="/icons/eye.svg"
+              alt="Views"
+              value={views}
+              title="Views"
+              textStyles="body-medium text-dark400_light800"
+            />
+          </div>
+        </div>
+        <div className="markdown text-dark200_light800 mt-4">{content}</div>
+        <div className="flex gap-2 flex-wrap flex-1 mt-4">
+          {renderTagCard()}
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 };
 
