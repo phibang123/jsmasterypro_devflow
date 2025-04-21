@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 
 import ROUTES from "@/constants/routes";
-import { getTimeStamp } from "@/lib/utils";
+import { getAuthorName, getTimeStamp } from "@/lib/utils";
 import { QuestionIF, TagIF } from "@/types/global";
 
 import TagCard from "./TagCard";
@@ -72,21 +72,11 @@ const QuestionCard = ({
         <div className="text-sm line-clamp-2 my-2">
           <span className="text-dark300_light700">{description}</span>
         </div>
-        <div className="mt-4 flex w-full flex-wrap gap-2">
-          {renderTagCard()}
-        </div>
+
         <div className="flex flex-col sm:mt-0 mt-4 w-full flex-wrap">
           <div className="sm:hidden">{renderMetricContent()}</div>
-          <div className="flex justify-start sm:justify-between items-center w-full flex-wrap gap-3 mt-4">
-            <Metric
-              imgUrl={author.image}
-              alt={author.name}
-              value={author.name}
-              title={`• Answered ${getTimeStamp(createdAt)}`}
-              href={ROUTES.PROFILE(author._id)}
-              textStyles="body-medium text-dark400_light700"
-              isAuthor
-            />
+          <div className="flex justify-between items-center w-full flex-wrap gap-3">
+            <div className="flex gap-2 flex-wrap flex-1">{renderTagCard()}</div>
             <Metric
               imgUrl={author.image}
               alt={author.name}

@@ -213,7 +213,7 @@ const QuestionForm = () => {
                   )}
                 </div>
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-500">
+              <FormDescription className="body-regular mt-2.5 text-light-500 ">
                 Add up to 3 tags to describe what your question is about. Press
                 Enter to add each tag
               </FormDescription>
@@ -226,7 +226,7 @@ const QuestionForm = () => {
           <Button
             type="submit"
             disabled={form.formState.isSubmitting}
-            className="primary-gradient w-fit !text-light-900"
+            className="primary-button-gradient w-fit !text-light-900 font-bold py-6 px-6 text-lg"
           >
             {form.formState.isSubmitting ? "Submitting..." : "Ask A Question"}
           </Button>

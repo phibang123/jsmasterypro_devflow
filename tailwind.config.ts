@@ -23,7 +23,7 @@ const config: Config = {
         },
         light: {
           "400": "#858EAD",
-          "500": "#7B8EC8",
+          "500": "#90C67C",
           "700": "#DCE3F1",
           "800": "#F4F6F8",
           "850": "#FDFDFD",

@@ -116,7 +116,10 @@ export async function POST(request: Request) {
 
     session.startTransaction();
 
+    // Create tags and question
     const tagIds = await createOrUpdateTags(tags, session);
+
+    // Create question and tag relations
     const questionId = await createQuestionAndTagRelations(
       tagIds,
       questionData,
