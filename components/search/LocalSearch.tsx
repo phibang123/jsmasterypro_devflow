@@ -62,8 +62,8 @@ function LocalSearch({ route, imgSrc, placeholder, otherClasses }: Props) {
         src={imgSrc}
         width={32}
         height={32}
-        alt="Search"
-        className={placeholder}
+        alt={`${placeholder}`}
+        className="invert-colors"
       />
       <Input
         type="text"
