@@ -43,9 +43,9 @@ const QuestionDetail = async ({
             imgUrl={author.image}
             alt="user avatar"
             value={author.name}
-            title={``}
+            title={`•`}
             href={`/profile/${author.name}`}
-            textStyles="body-medium text-dark400_light700"
+            textStyles="base-semibold text-dark400_light700 !tracking-wide"
             isAuthor
           />
           <div className="flex gap-3">

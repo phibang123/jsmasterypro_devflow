@@ -73,7 +73,7 @@ const QuestionCard = ({
         </div>
 
         <div className="flex flex-col sm:mt-0 mt-4 w-full flex-wrap">
-          <div className="sm:hidden">{renderMetricContent()}</div>
+          <div className="sm:hidden mb-4">{renderMetricContent()}</div>
           <div className="flex justify-between items-center w-full flex-wrap gap-3">
             <div className="flex gap-2 flex-wrap flex-1">{renderTagCard()}</div>
             <Metric
