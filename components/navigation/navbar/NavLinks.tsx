@@ -22,10 +22,12 @@ const NavLinks: React.FC<NavLinksProp> = ({ isMobileNav = false, userId }) => {
       const isActive =
         (pathName.includes(item.route) && item.route.length > 1) ||
         pathName === item.route;
-      if (item.route === "/profile") {
-        if (userId) item.route = `${item.route}/${userId}`;
-        else return null;
-      }
+
+      // Skip profile link if no userId
+      if (item.route === "/profile" && !userId) return null;
+
+      const route =
+        item.route === "/profile" ? `${item.route}/${userId}` : item.route;
 
       const LinkComponent = (
         <Link
@@ -35,7 +37,7 @@ const NavLinks: React.FC<NavLinksProp> = ({ isMobileNav = false, userId }) => {
               : "text-dark300_light900",
             "flex items-center justify-start gap-4 bg-transparent p-4",
           )}
-          href={item.route}
+          href={route}
           key={item.label}
         >
           <Image

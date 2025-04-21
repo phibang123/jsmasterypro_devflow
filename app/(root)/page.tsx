@@ -4,10 +4,12 @@ import { Suspense } from "react";
 import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
-import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
+
+import { Button } from "@/components/ui/button";
 import { getAllQuestions } from "@/lib/actions/question.action";
 import { QuestionIF } from "@/types/global";
+
 import HomeLoading from "./loading";
 
 interface SearchParams {
