@@ -60,24 +60,31 @@ export const getPaginationParams = (searchParams: URLSearchParams) => ({
     parseInt(searchParams.get("limit") || String(DEFAULT_LIMIT), 10),
 });
 
-export const validateRequest = async <T>(
+export const validateRequest = async <
+  T extends z.ZodObject<Record<string, any>>,
+>(
   request: Request,
-  schema: z.ZodSchema<T>,
-  requiredAuth = false,
-) => {
+  schema: T,
+  options: {
+    requiredAuth?: boolean;
+    partial?: boolean;
+  } = {
+    requiredAuth: false,
+    partial: false,
+  },
+): Promise<z.infer<T>> => {
   try {
     const dataRequest = await request.json();
-    if (requiredAuth && !dataRequest.userId)
+    if (options.requiredAuth && !dataRequest.userId)
       throw new UnauthorizedError("Unauthorized");
-    const validatedData = schema.safeParse(dataRequest);
+
+    const validatedData = options.partial
+      ? schema.partial().safeParse(dataRequest)
+      : schema.safeParse(dataRequest);
 
     if (!validatedData.success) {
-      const fieldErrors = Object.fromEntries(
-        Object.entries(validatedData.error.flatten().fieldErrors).map(
-          ([key, value]) => [key, value || []],
-        ),
-      ) as Record<string, string[]>;
-      throw new ValidationError(fieldErrors);
+      const fieldErrors = validatedData.error.flatten().fieldErrors;
+      throw new ValidationError(fieldErrors as Record<string, string[]>);
     }
 
     return validatedData.data;

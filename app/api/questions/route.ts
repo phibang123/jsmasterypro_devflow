@@ -1,17 +1,17 @@
 import mongoose from "mongoose";
 import { z } from "zod";
 
-import { DEFAULT_LIMIT, DEFAULT_PAGE } from "@/configs/constance";
 import Question from "@/database/question.model";
 import TagQuestion from "@/database/tag-question.model";
 import Tag from "@/database/tag.model";
 import "@/database/user.model";
 import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
-import { ValidationError } from "@/lib/http.errors";
+
 import logger from "@/lib/logger";
 import dbConnect from "@/lib/mongoose";
 import { CreateQuestionRequestSchemaAPI } from "@/lib/validations";
+import { getPaginationParams, validateRequest } from "@/lib/utils";
 
 // Types
 type QuestionData = Omit<
@@ -19,40 +19,11 @@ type QuestionData = Omit<
   "tags"
 >;
 
-// Helper functions
-const getPaginationParams = (searchParams: URLSearchParams) => {
-  const page = parseInt(searchParams.get("page") || String(DEFAULT_PAGE), 10);
-  const limit = parseInt(
-    searchParams.get("limit") || String(DEFAULT_LIMIT),
-    10,
-  );
-  const skip = (page - 1) * limit;
-
-  return { page, limit, skip };
-};
-
-const validateRequest = async (request: Request) => {
-  try {
-    const dataRequest = await request.json();
-    const validatedData = CreateQuestionRequestSchemaAPI.safeParse(dataRequest);
-
-    if (!validatedData.success) {
-      throw new ValidationError(validatedData.error.flatten().fieldErrors);
-    }
-
-    return validatedData.data;
-  } catch (error) {
-    logger.error("Validation error:", error);
-    throw error;
-  }
-};
-
 const createOrUpdateTags = async (
   tags: string[],
   session: mongoose.ClientSession,
 ) => {
   try {
-    // Prepare bulk operations for tags
     const tagOperations = tags.map((tag) => ({
       updateOne: {
         filter: { name: { $regex: new RegExp(`^${tag}$`, "i") } },
@@ -61,17 +32,13 @@ const createOrUpdateTags = async (
       },
     }));
 
-    // Execute bulk operations
     await Tag.bulkWrite(tagOperations, { session });
 
-    // Get all tag IDs
-    const tagIds = await Tag.find(
+    return Tag.find(
       { name: { $in: tags.map((tag) => new RegExp(`^${tag}$`, "i")) } },
       { _id: 1 },
       { session },
     ).distinct("_id");
-
-    return tagIds;
   } catch (error) {
     logger.error("Error creating/updating tags:", error);
     throw error;
@@ -80,19 +47,15 @@ const createOrUpdateTags = async (
 
 const createQuestionAndTagRelations = async (
   tagIds: string[],
-  questionData: QuestionData,
+  { userId, title, description, content }: QuestionData,
   session: mongoose.ClientSession,
 ) => {
   try {
-    const { userId, title, description, content } = questionData;
-
-    // Create question
     const [question] = await Question.create(
       [{ author: userId, title, description, content, tags: tagIds }],
       { session },
     );
 
-    // Create TagQuestion documents
     await TagQuestion.create(
       tagIds.map((tagId) => ({ question: question._id, tagId })),
       { session, ordered: true },
@@ -110,17 +73,17 @@ export async function POST(request: Request) {
   const session = await mongoose.startSession();
 
   try {
-    const validatedData = await validateRequest(request);
-    await dbConnect();
-
-    const { tags, ...questionData } = validatedData;
+    const [validatedData] = await Promise.all([
+      validateRequest(request, CreateQuestionRequestSchemaAPI, {
+        requiredAuth: true,
+      }),
+      dbConnect(),
+    ]);
 
     session.startTransaction();
 
-    // Create tags and question
+    const { tags, ...questionData } = validatedData;
     const tagIds = await createOrUpdateTags(tags, session);
-
-    // Create question and tag relations
     const questionId = await createQuestionAndTagRelations(
       tagIds,
       questionData,
@@ -146,8 +109,9 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
   try {
     await dbConnect();
-    const { searchParams } = new URL(request.url);
-    const { skip, limit } = getPaginationParams(searchParams);
+    const { skip, limit } = getPaginationParams(
+      new URL(request.url).searchParams,
+    );
 
     const questions = await Question.find()
       .populate("author", "name image")
@@ -169,7 +133,6 @@ export async function GET(request: Request) {
       message: "Questions fetched successfully",
     });
   } catch (error) {
-    console.log(error, "error");
     logger.error("Error fetching questions:", error);
     return handleError({ error });
   }
