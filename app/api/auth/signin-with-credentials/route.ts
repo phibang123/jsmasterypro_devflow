@@ -13,20 +13,29 @@ import {
 import dbConnect from "@/lib/mongoose";
 import { SignInSchema } from "@/lib/validations/index";
 import { UserModelIF } from "@/types/model";
+import { validateRequest } from "@/lib/utils";
+import logger from "@/lib/logger";
+
+// Step to signin with credentials
+// 1. Validate request
+// 2. Find account by email and compare password
+// 3. Get user by userId account
+// 4. Return user data
 
 export async function POST(request: Request) {
   try {
-    await dbConnect();
-    // Validate request
-    const validatedRequest = await validateDataFromSignIp(request);
+    logger.info("Starting signin with credentials");
+    const [validatedRequest] = await Promise.all([
+      validateRequest(request, SignInSchema),
+      dbConnect(),
+    ]);
 
-    // Process email and password for account
     const { userId } =
       await findAccountByEmailAndComparePassword(validatedRequest);
 
-    // Get user by userId account
     const user = await findUserByUserId(userId);
     const { id, image, name, email } = user;
+    logger.info("Login by credentials is successful");
     return handleSuccess({
       data: { id, image, name, email },
       message: "Login by credentials is successful",
@@ -35,19 +44,6 @@ export async function POST(request: Request) {
     return handleError({ error });
   }
 }
-
-const validateDataFromSignIp = async (request: Request) => {
-  const { email, password } = await request.json();
-
-  const validatedData = SignInSchema.safeParse({
-    email,
-    password,
-  });
-  if (!validatedData.success) {
-    throw new ValidationError(validatedData.error.flatten().fieldErrors);
-  }
-  return validatedData.data;
-};
 
 const findAccountByEmailAndComparePassword = async (
   dataRequest: z.infer<typeof SignInSchema>,

@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "*.googleusercontent.com",
+        hostname: "lh3.googleusercontent.com",
         port: "",
         pathname: "**",
       },
@@ -25,6 +25,11 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "**",
       },
+    ],
+    domains: [
+      "lh3.googleusercontent.com",
+      "avatars.githubusercontent.com",
+      "static.vecteezy.com",
     ],
   },
 };

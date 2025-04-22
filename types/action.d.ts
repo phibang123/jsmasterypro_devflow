@@ -1,12 +1,14 @@
+interface IUserFromLoginOAuth {
+  name: string;
+  username: string;
+  email: string;
+  image?: string | undefined;
+}
+
 interface ISignInWithOAuthParams {
   provider: "github" | "google";
   providerAccountId: string;
-  user: {
-    username: string;
-    name: string;
-    image: string;
-    email: string;
-  };
+  user: IUserFromLoginOAuth;
 }
 
 interface IAuthCredentials {
@@ -21,4 +23,8 @@ interface ICreateQuestionParam {
   description: string;
   content: string;
   tags: string[];
+}
+
+interface IUpdateQuestionParam extends ICreateQuestionParam {
+  questionId: string;
 }

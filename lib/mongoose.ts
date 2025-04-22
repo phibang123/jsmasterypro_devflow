@@ -1,8 +1,9 @@
 import mongoose, { Mongoose } from "mongoose";
 
 import logger from "./logger";
+import { ENV_CONFIG } from "@/configs/env.config";
 
-const MONGODB_URI = process.env.MONGODB_URI as string;
+const MONGODB_URI = ENV_CONFIG.MONGODB_URI;
 
 if (!MONGODB_URI) {
   throw new Error("MONGODB_URI is not defined");
@@ -30,6 +31,7 @@ const dbConnect = async (): Promise<Mongoose> => {
     return cached.conn;
   }
   if (!cached.promise) {
+    logger.info("Connecting to mongoDB");
     cached.promise = mongoose
       .connect(MONGODB_URI, {
         dbName: "devflow",
