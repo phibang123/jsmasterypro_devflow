@@ -4,7 +4,6 @@ import { z } from "zod";
 
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from "@/configs/constance";
 import { deviconClasses } from "@/constants/techMap";
-
 import { UnauthorizedError, ValidationError } from "@/lib/http.errors";
 import logger from "@/lib/logger";
 

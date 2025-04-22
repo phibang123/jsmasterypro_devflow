@@ -163,5 +163,5 @@ For any questions or support, please reach out to:
 - Email: bangtoken123@gmail.com
 - GitHub: https://github.com/phibang123
 
-![My avatar](public/images/5ba1c72c-e0fa-42e3-b226-6367457193ef.png)
-Thanks for read
+![My avatar](public/images/5ba1c72c-e0fa-42e3-b226-6367457193ef.png){width=100 height=100}
+Thanks for reading
