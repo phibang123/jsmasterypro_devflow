@@ -160,6 +160,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For any questions or support, please reach out to:
 
-- Email: support@devflow.com
-- Twitter: [@DevFlow](https://twitter.com/devflow)
-- GitHub: [DevFlow](https://github.com/devflow)
+- Email: bangtoken123@gmail.com
+- GitHub: https://github.com/phibang123
+
+![My avatar](public/images/5ba1c72c-e0fa-42e3-b226-6367457193ef.png)
+Thanks for read

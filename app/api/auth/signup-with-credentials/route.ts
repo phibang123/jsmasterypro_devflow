@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import { z } from "zod";
 
+import { ENV_CONFIG } from "@/configs/env.config";
 import Account from "@/database/account.model";
 import User from "@/database/user.model";
 import handleError from "@/lib/handlers/error.handler";
@@ -10,7 +11,6 @@ import logger from "@/lib/logger";
 import dbConnect from "@/lib/mongoose";
 import { validateRequest } from "@/lib/utils";
 import { SignUpSchema } from "@/lib/validations/index";
-import { ENV_CONFIG } from "@/configs/env.config";
 import { UserModelIF } from "@/types/model";
 
 // Step to signup with credentials

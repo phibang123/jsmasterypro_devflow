@@ -1,7 +1,7 @@
 import mongoose, { Mongoose } from "mongoose";
 
-import logger from "./logger";
 import { ENV_CONFIG } from "@/configs/env.config";
+import logger from "@/lib/logger";
 
 const MONGODB_URI = ENV_CONFIG.MONGODB_URI;
 
