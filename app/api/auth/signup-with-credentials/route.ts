@@ -8,10 +8,10 @@ import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import logger from "@/lib/logger";
 import dbConnect from "@/lib/mongoose";
-import { SignUpSchema } from "@/lib/validations/index";
-import { UserModelIF } from "@/types/model";
 import { validateRequest } from "@/lib/utils";
+import { SignUpSchema } from "@/lib/validations/index";
 import { ENV_CONFIG } from "@/configs/env.config";
+import { UserModelIF } from "@/types/model";
 
 // Step to signup with credentials
 // 1. Validate request

@@ -5,16 +5,12 @@ import Account from "@/database/account.model";
 import User from "@/database/user.model";
 import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
-import {
-  NotFoundError,
-  UnauthorizedError,
-  ValidationError,
-} from "@/lib/http.errors";
+import { NotFoundError, UnauthorizedError } from "@/lib/http.errors";
+import logger from "@/lib/logger";
 import dbConnect from "@/lib/mongoose";
+import { validateRequest } from "@/lib/utils";
 import { SignInSchema } from "@/lib/validations/index";
 import { UserModelIF } from "@/types/model";
-import { validateRequest } from "@/lib/utils";
-import logger from "@/lib/logger";
 
 // Step to signin with credentials
 // 1. Validate request

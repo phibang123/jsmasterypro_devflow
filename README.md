@@ -1,48 +1,165 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DevFlow - Next.js 15 Professional Development Platform
 
-## Getting Started
+![DevFlow Logo](public/images/logo.png)
 
-First, run the development server:
+## 🌟 Introduction
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+DevFlow is a modern, full-stack development platform built with Next.js 15, designed to help developers showcase their skills, connect with peers, and find exciting opportunities. Our platform combines the power of AI with a beautiful, intuitive interface to create a seamless experience for both developers and recruiters.
+
+### 🎯 Key Features
+
+- **AI-Powered Profile Optimization**: Get personalized suggestions to improve your profile
+- **Smart Job Matching**: Find opportunities that match your skills and preferences
+- **Real-time Collaboration**: Work with other developers on projects
+- **Portfolio Showcase**: Display your work in a professional manner
+- **Community Engagement**: Connect with like-minded developers
+
+## 🚀 Tech Stack
+
+### Frontend
+
+- **Next.js 15**: For server-side rendering and API routes
+- **TypeScript**: For type safety and better developer experience
+- **Tailwind CSS**: For responsive and modern UI design
+- **Shadcn/ui**: For beautiful, accessible components
+- **React Query**: For efficient data fetching and caching
+- **Zustand**: For state management
+- **React Hook Form**: For form handling and validation
+- **Zod**: For runtime type checking and validation
+
+### Backend
+
+- **MongoDB**: For flexible and scalable data storage
+- **Mongoose**: For MongoDB object modeling
+- **NextAuth.js**: For authentication and authorization
+- **Bcrypt**: For password hashing
+- **Pino**: For logging
+
+### DevOps & Tools
+
+- **ESLint & Prettier**: For code quality and formatting
+- **Husky**: For git hooks
+- **Commitlint**: For commit message validation
+- **GitHub Actions**: For CI/CD
+
+## 🛠️ Environment Setup
+
+### Prerequisites
+
+- Node.js 18.x or later
+- MongoDB Atlas account
+- GitHub OAuth app
+- Google OAuth credentials
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/yourusername/devflow.git
+   cd devflow
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
+
+3. **Set up environment variables**
+   Create a `.env.local` file in the root directory with the following variables:
+
+   ```env
+   MONGODB_URI=your_mongodb_uri
+   AUTH_SECRET=your_auth_secret
+   AUTH_GITHUB_ID=your_github_client_id
+   AUTH_GITHUB_SECRET=your_github_client_secret
+   AUTH_GOOGLE_ID=your_google_client_id
+   AUTH_GOOGLE_SECRET=your_google_client_secret
+   BCRYPT_HASH_NUMBER=10
+   ```
+
+4. **Run the development server**
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   ```
+
+5. **Open [http://localhost:3000](http://localhost:3000) in your browser**
+
+## 📚 Project Structure
+
+```
+devflow/
+├── app/                    # Next.js app directory
+│   ├── (auth)/            # Authentication routes
+│   ├── api/               # API routes
+│   ├── (root)/            # Main application routes
+│   └── layout.tsx         # Root layout
+├── components/            # Reusable components
+├── configs/              # Configuration files
+├── lib/                  # Utility functions
+├── models/              # Database models
+├── public/              # Static assets
+└── types/               # TypeScript type definitions
 ```
 
-## <a name="tech-stack">⚙️ Tech Stack</a>
+## 🎨 Features in Detail
 
-- Zod
-- Next.js
-- NextAuth
-- Open AI
-- MongoDB
-- ShadCN UI
-- TypeScript
-- TailwindCSS
-- React Hook Form
+### User Authentication
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- OAuth integration with GitHub and Google
+- Secure session management
+- Protected routes
+- Profile customization
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Profile Management
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- AI-powered profile optimization
+- Skills and experience tracking
+- Portfolio project showcase
+- Social media integration
 
-## Learn More
+### Job Search & Matching
 
-To learn more about Next.js, take a look at the following resources:
+- Advanced search filters
+- AI-powered job recommendations
+- Application tracking
+- Interview scheduling
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Community Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Developer forums
+- Code sharing
+- Project collaboration
+- Knowledge base
 
-## Deploy on Vercel
+## 🤝 Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Next.js team for the amazing framework
+- The open-source community for their contributions
+- All our users for their feedback and support
+
+## 📞 Contact
+
+For any questions or support, please reach out to:
+
+- Email: support@devflow.com
+- Twitter: [@DevFlow](https://twitter.com/devflow)
+- GitHub: [DevFlow](https://github.com/devflow)

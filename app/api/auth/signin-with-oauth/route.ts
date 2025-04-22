@@ -8,9 +8,9 @@ import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import logger from "@/lib/logger";
 import dbConnect from "@/lib/mongoose";
+import { validateRequest } from "@/lib/utils";
 import { SignInWithOAuthSchemaAPI } from "@/lib/validations";
 import { UserModelIF } from "@/types/model";
-import { validateRequest } from "@/lib/utils";
 
 // Step to signin with oauth
 // 1. Validate request
