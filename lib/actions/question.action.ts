@@ -6,7 +6,10 @@ import { constructorApi } from "../api";
 import handleError from "../handlers/error.handler";
 import GuardGateway from "../handlers/guard.handler";
 import handleSuccess from "../handlers/success.handler";
-import { AskQuestionSchema } from "../validations";
+import {
+  AskQuestionSchema,
+  UpdateQuestionRequestSchemaSERVER,
+} from "../validations";
 
 export async function createQuestion(params: ICreateQuestionParam) {
   const validationResult = await GuardGateway({
@@ -23,6 +26,7 @@ export async function createQuestion(params: ICreateQuestionParam) {
       responseType: "server",
     });
   }
+
   const userId = validationResult.session.user.id;
 
   const validatedData = validationResult.params;
@@ -57,7 +61,46 @@ export async function getAllQuestions(params: {
 }
 
 export async function getQuestionById(id: string) {
+  if (!id) {
+    return handleError({
+      error: new Error("Question ID is required"),
+      responseType: "server",
+    });
+  }
   const question = await constructorApi.questions.getById(id);
+  if (!question.success || !question.data) {
+    return handleError({ error: question.error, responseType: "server" });
+  }
+  return handleSuccess({ data: question.data, responseType: "server" });
+}
+
+export async function editQuestion(params: IUpdateQuestionParam) {
+  const validationResult = await GuardGateway({
+    params,
+    schema: UpdateQuestionRequestSchemaSERVER,
+    authorize: true,
+  });
+
+  if (validationResult instanceof Error || !validationResult.params) {
+    return handleError({ error: validationResult, responseType: "server" });
+  } else if (!validationResult.session?.user?.id) {
+    return handleError({
+      error: new Error("User session not found"),
+      responseType: "server",
+    });
+  }
+
+  const userId = validationResult.session.user.id;
+
+  const validatedData = validationResult.params;
+
+  const question = await constructorApi.questions.updateById(
+    params.questionId,
+    {
+      ...validatedData,
+      userId,
+    },
+  );
   if (!question.success || !question.data) {
     return handleError({ error: question.error, responseType: "server" });
   }

@@ -98,5 +98,10 @@ export const constructorApi = {
         params,
       }),
     getById: (id: string) => axiosInstance<QuestionModelIF>(`/questions/${id}`),
+    updateById: (id: string, questionData: IQuestionUpdateData) =>
+      axiosInstance<QuestionModelIF>(`/questions/${id}`, {
+        method: "PUT",
+        data: questionData,
+      }),
   },
 };
