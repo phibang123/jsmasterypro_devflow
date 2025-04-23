@@ -8,8 +8,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { toast } from "@/hooks/use-toast";
-import { createQuestion } from "@/lib/actions/question.action";
+import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { AskQuestionSchema } from "@/lib/validations";
+import { QuestionModelIF } from "@/types/model";
 
 import TagCard from "../cards/TagCard";
 import { Button } from "../ui/button";
@@ -23,22 +24,28 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
 });
 
-const QuestionForm = () => {
+interface QuestionFormProps {
+  isEdit?: boolean;
+  question?: Partial<QuestionModelIF>;
+}
+
+const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
   const editorRef = useRef<MDXEditorMethods>(null);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof AskQuestionSchema>>({
     resolver: zodResolver(AskQuestionSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      content: "",
-      tags: [],
+      title: question?.title || "",
+      description: question?.description || "",
+      content: question?.content || "",
+      tags: question?.tags?.map((tag) => tag.name) || [],
     },
   });
 
@@ -50,8 +57,15 @@ const QuestionForm = () => {
       content,
       tags,
     };
-
-    const result = await createQuestion(questionData);
+    let result;
+    if (isEdit) {
+      result = await editQuestion({
+        ...questionData,
+        questionId: question.id,
+      });
+    } else {
+      result = await createQuestion(questionData);
+    }
     if (!result.success) {
       toast({
         title: `Error ${result.status}`,
@@ -121,7 +135,7 @@ const QuestionForm = () => {
                 Question Title <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl>
-                <Input
+                <Textarea
                   className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] border"
                   {...field}
                 />
@@ -143,7 +157,7 @@ const QuestionForm = () => {
                 Question Description <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl>
-                <Input
+                <Textarea
                   className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] border"
                   {...field}
                 />

@@ -33,7 +33,7 @@ const QuestionCard = ({
 
   const renderMetricContent = () => {
     return (
-      <div className="flex flex-grow sm:flex-col gap-2">
+      <div className="flex grow gap-2 sm:flex-col">
         <Metric
           imgUrl="/icons/like.svg"
           alt="Like"
@@ -60,22 +60,22 @@ const QuestionCard = ({
   };
 
   return (
-    <div className="card-wrapper background-light800_dark300 rounded-[10px] p-5 sm:px-8 flex gap-3">
-      <div className="sm:flex hidden">{renderMetricContent()}</div>
+    <div className="card-wrapper background-light800_dark300 flex gap-3 rounded-[10px] p-5 sm:px-8">
+      <div className="hidden sm:flex">{renderMetricContent()}</div>
       <div className="flex-1">
         <Link href={ROUTES.QUESTION(_id)}>
-          <h3 className="sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1 primary-text-gradient">
+          <h3 className="sm:h3-semibold base-semibold text-dark200_light900 primary-text-gradient line-clamp-1 flex-1">
             {title}
           </h3>
         </Link>
-        <div className="text-sm line-clamp-2 my-2">
+        <div className="my-2 line-clamp-2 text-sm">
           <span className="text-dark300_light700">{description}</span>
         </div>
 
-        <div className="flex flex-col sm:mt-0 mt-4 w-full flex-wrap">
-          <div className="sm:hidden mb-4">{renderMetricContent()}</div>
-          <div className="flex justify-between items-center w-full flex-wrap gap-3">
-            <div className="flex gap-2 flex-wrap flex-1">{renderTagCard()}</div>
+        <div className="mt-4 flex w-full flex-col flex-wrap sm:mt-0">
+          <div className="mb-4 sm:hidden">{renderMetricContent()}</div>
+          <div className="flex w-full flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-1 flex-wrap gap-2">{renderTagCard()}</div>
             <Metric
               imgUrl={author.image}
               alt={author.name}

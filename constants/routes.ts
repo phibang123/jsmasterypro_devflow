@@ -6,9 +6,10 @@ const ROUTES = {
   QUESTION: (id: string) => `/question/${id}`,
   PROFILE: (id: string) => `/profile/${id}`,
   TAGS: (id: string) => `/tags/${id}`,
-  SIGNIN_WITH_OATH: "signin-with-oauth",
-  SIGNUP_WITH_CREDENTIALS: "signup-with-credentials",
-  SIGNIN_WITH_CREDENTIALS: "signin-with-credentials",
+  SIGNIN_WITH_OATH: "/auth/signin-with-oauth",
+  SIGNUP_WITH_CREDENTIALS: "/auth/signup-with-credentials",
+  SIGNIN_WITH_CREDENTIALS: "/auth/signin-with-credentials",
+  EDIT_QUESTION: (id: string) => `/question/${id}/edit`,
 };
 
 export default ROUTES;
