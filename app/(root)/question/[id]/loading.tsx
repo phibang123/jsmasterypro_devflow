@@ -2,10 +2,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const QuestionDetailLoading = () => {
   return (
-    <div className="flex-col w-full">
-      <div className="flex justify-between items-center">
+    <div className="w-full flex-col">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Skeleton className="h-10 w-10 rounded-full" />
+          <Skeleton className="size-10 rounded-full" />
           <Skeleton className="h-4 w-24" />
         </div>
         <div className="flex gap-3">
@@ -14,7 +14,7 @@ const QuestionDetailLoading = () => {
         </div>
       </div>
 
-      <Skeleton className="h-8 w-full mt-4" />
+      <Skeleton className="mt-4 h-8 w-full" />
 
       <div className="mt-5 flex flex-col-reverse justify-between gap-5 sm:flex-row">
         <div className="flex flex-col gap-6">
@@ -22,7 +22,7 @@ const QuestionDetailLoading = () => {
             <div className="flex w-full flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
               <div className="flex flex-wrap gap-4">
                 <div className="flex items-center gap-2">
-                  <Skeleton className="h-8 w-8 rounded-full" />
+                  <Skeleton className="size-10 rounded-full" />
                   <Skeleton className="h-4 w-32" />
                 </div>
               </div>

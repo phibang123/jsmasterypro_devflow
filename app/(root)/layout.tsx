@@ -4,7 +4,9 @@ import LeftSidebar from "@/components/navigation/LeftSidebar";
 import Navbar from "@/components/navigation/navbar";
 import RightSidebar from "@/components/navigation/RightSidebar";
 
-const RootLayout = ({ children }: { children: ReactNode }) => {
+const RootLayout = async ({ children }: { children: ReactNode }) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   return (
     <main className="background-light850_dark100 relative">
       <Navbar />

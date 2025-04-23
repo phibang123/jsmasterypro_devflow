@@ -126,7 +126,7 @@ const QuestionForm = () => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-500">
+              <FormDescription className="body-regular mt-2.5 text-light-400">
                 Be specific and imagine you&apos;re asking a question to another
                 person
               </FormDescription>
@@ -148,7 +148,7 @@ const QuestionForm = () => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-500">
+              <FormDescription className="body-regular mt-2.5 text-light-400">
                 Provide a brief description of your question
               </FormDescription>
               <FormMessage />
@@ -172,7 +172,7 @@ const QuestionForm = () => {
                   fieldChange={field.onChange}
                 />
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-500">
+              <FormDescription className="body-regular mt-2.5 text-light-400">
                 Introduce the problem and expand on what you&apos;ve put in the
                 title.
               </FormDescription>
@@ -213,7 +213,7 @@ const QuestionForm = () => {
                   )}
                 </div>
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-500 ">
+              <FormDescription className="body-regular mt-2.5 text-light-400">
                 Add up to 3 tags to describe what your question is about. Press
                 Enter to add each tag
               </FormDescription>
@@ -226,7 +226,7 @@ const QuestionForm = () => {
           <Button
             type="submit"
             disabled={form.formState.isSubmitting}
-            className="primary-button-gradient w-fit !text-light-900 font-bold py-6 px-6 text-lg"
+            className="primary-button-gradient w-fit p-6 text-lg font-bold !text-light-900"
           >
             {form.formState.isSubmitting ? "Submitting..." : "Ask A Question"}
           </Button>

@@ -3,7 +3,8 @@ import React, { ReactNode } from "react";
 
 import SocialAuthForm from "@/components/forms/SocialAuthForm";
 
-const AuthLayout = ({ children }: { children: ReactNode }) => {
+const AuthLayout = async ({ children }: { children: ReactNode }) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   return (
     <main className="flex-center min-h-screen bg-auth-light bg-cover bg-center bg-no-repeat px-4 py-10 dark:bg-auth-dark">
       <section className="light-border background-light800_dark200 shadow-light100_dark100 min-w-full rounded-[10px] border px-4 py-10 shadow-sm sm:min-w-[520px] sm:px-8">

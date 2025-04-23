@@ -53,7 +53,7 @@ const RightSidebar = () => {
     ));
   };
   return (
-    <section className="sticky custom-scrollbar border-none right-0 top-0 flex h-screen w-[350px] flex-col gap-6 overflow-y-auto border-l p-6 pt-32 pl-0 shadow-none max-xl:hidden">
+    <section className="custom-scrollbar sticky right-0 top-0 flex h-screen w-[350px] flex-col gap-6 overflow-y-auto border-l border-none p-6 pl-0 pt-32 shadow-none max-xl:hidden">
       {/* Top  Questions */}
       <div className="background-light800_dark300 rounded-lg p-6 shadow-light-300 dark:shadow-none">
         <div>
@@ -64,9 +64,9 @@ const RightSidebar = () => {
         </div>
       </div>
       {/* Popular Tags */}
-      <div className="mt-5 background-light800_dark300 rounded-lg p-6 shadow-light-300 dark:shadow-none">
+      <div className="background-light800_dark300 mt-5 rounded-lg p-6 shadow-light-300 dark:shadow-none">
         <h3 className="h3-bold text-dark200_light900">Popular Tags</h3>
-        <div className="mt-7 flex w-full flex-col gap-[30px]">
+        <div className="mt-7 flex w-full flex-col gap-[20px]">
           {renderingPopularTags()}
         </div>
       </div>

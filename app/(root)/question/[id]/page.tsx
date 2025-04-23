@@ -37,8 +37,8 @@ const QuestionDetail = async ({
 
   return (
     <Suspense fallback={<QuestionDetailLoading />}>
-      <div className="flex-col w-full">
-        <div className="flex justify-between items-center">
+      <div className="w-full flex-col">
+        <div className="flex items-center justify-between">
           <Metric
             imgUrl={author.image}
             alt="user avatar"
@@ -70,7 +70,7 @@ const QuestionDetail = async ({
         <h1 className="sm:h1-bold base-semibold text-dark200_light900 primary-text-gradient mt-4 !tracking-wide">
           {title}
         </h1>
-        <div className="flex justify-s gap-3 mt-4">
+        <div className="mt-4 flex justify-start gap-3">
           <div className="flex gap-3">
             <Metric
               imgUrl="/icons/clock.svg"
@@ -96,7 +96,7 @@ const QuestionDetail = async ({
           </div>
         </div>
         <div className="markdown text-dark200_light800 mt-4">{content}</div>
-        <div className="flex gap-2 flex-wrap flex-1 mt-4">
+        <div className="mt-4 flex flex-1 flex-wrap gap-2">
           {renderTagCard()}
         </div>
       </div>
