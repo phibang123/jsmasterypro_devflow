@@ -1,4 +1,6 @@
-import { model, models, Schema } from "mongoose";
+import { model, models, Schema, SchemaOptions } from "mongoose";
+
+import { schemaOptions } from "./schema.options";
 
 export interface IUser {
   name: string;
@@ -22,7 +24,7 @@ const UserSchema = new Schema<IUser>(
     portfolio: { type: String },
     reputation: { type: Number, default: 0 },
   },
-  { timestamps: true },
+  schemaOptions as SchemaOptions<IUser>,
 );
 
 const User = models?.User || model<IUser>("User", UserSchema);

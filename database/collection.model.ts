@@ -1,4 +1,6 @@
-import { model, models, Schema, Types } from "mongoose";
+import { model, models, Schema, SchemaOptions, Types } from "mongoose";
+
+import { schemaOptions } from "./schema.options";
 
 export interface ICollection {
   author: Types.ObjectId;
@@ -10,7 +12,7 @@ const CollectionSchema = new Schema<ICollection>(
     author: { type: Schema.Types.ObjectId, ref: "User", required: true },
     question: { type: Schema.Types.ObjectId, ref: "Question", required: true },
   },
-  { timestamps: true },
+  schemaOptions as SchemaOptions<ICollection>,
 );
 
 const Collection =

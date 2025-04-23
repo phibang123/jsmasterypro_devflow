@@ -1,4 +1,6 @@
-import { model, models, Schema, Types } from "mongoose";
+import { model, models, Schema, Types, SchemaOptions } from "mongoose";
+
+import { schemaOptions } from "./schema.options";
 
 export interface IQuestion {
   title: string;
@@ -26,7 +28,7 @@ const QuestionSchema = new Schema<IQuestion>(
     author: { type: Schema.Types.ObjectId, ref: "User", required: true },
     answerer: { type: Schema.Types.ObjectId, ref: "User" },
   },
-  { timestamps: true },
+  schemaOptions as SchemaOptions<IQuestion>,
 );
 
 const Question =

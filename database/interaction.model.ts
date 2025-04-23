@@ -1,4 +1,6 @@
-import { model, models, Schema, Types } from "mongoose";
+import { model, models, Schema, SchemaOptions, Types } from "mongoose";
+
+import { schemaOptions } from "./schema.options";
 
 export interface IInteraction {
   user: Types.ObjectId;
@@ -18,7 +20,7 @@ const InteractionSchema = new Schema<IInteraction>(
       required: true,
     },
   },
-  { timestamps: true },
+  schemaOptions as SchemaOptions<IInteraction>,
 );
 
 const Interaction =

@@ -36,7 +36,7 @@ const AskQuestionLoading = () => {
         </div>
 
         {/* Submit Button */}
-        <Skeleton className="h-10 w-[100px] ml-auto" />
+        <Skeleton className="ml-auto h-10 w-[100px]" />
       </div>
     </div>
   );

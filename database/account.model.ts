@@ -1,4 +1,6 @@
-import { models, Schema, model, Types } from "mongoose";
+import { models, Schema, model, Types, SchemaOptions } from "mongoose";
+
+import { schemaOptions } from "./schema.options";
 
 export interface IAccount {
   userId: Types.ObjectId;
@@ -18,7 +20,7 @@ const AccountSchema = new Schema<IAccount>(
     provider: { type: String, required: true },
     providerAccountId: { type: String, required: true },
   },
-  { timestamps: true },
+  schemaOptions as SchemaOptions<IAccount>,
 );
 
 const Account = models?.Account || model<IAccount>("Account", AccountSchema);
