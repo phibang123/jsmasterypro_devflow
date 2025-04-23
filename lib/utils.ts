@@ -61,7 +61,7 @@ export const getPaginationParams = (searchParams: URLSearchParams) => ({
 });
 
 export const validateRequest = async <
-  T extends z.ZodObject<Record<string, any>>,
+  T extends z.ZodObject<Record<string, z.ZodType>>,
 >(
   request: Request,
   schema: T,

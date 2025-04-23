@@ -7,11 +7,10 @@ import Tag from "@/database/tag.model";
 import "@/database/user.model";
 import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
-
 import logger from "@/lib/logger";
 import dbConnect from "@/lib/mongoose";
-import { CreateQuestionRequestSchemaAPI } from "@/lib/validations";
 import { getPaginationParams, validateRequest } from "@/lib/utils";
+import { CreateQuestionRequestSchemaAPI } from "@/lib/validations";
 
 // Types
 type QuestionData = Omit<
