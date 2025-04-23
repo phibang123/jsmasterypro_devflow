@@ -49,11 +49,11 @@ export async function POST(request: Request) {
       status: 201,
     });
   } catch (error) {
-    session.abortTransaction();
+    await session.abortTransaction();
     logger.error("Sign-up process failed:", error);
     return handleError({ error }) as APIErrorResponse;
   } finally {
-    session.endSession();
+    await session.endSession();
   }
 }
 

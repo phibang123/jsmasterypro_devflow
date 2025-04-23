@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     logger.error("OAuth sign-in failed:", error);
     return handleError({ error }) as APIErrorResponse;
   } finally {
-    session.endSession();
+    await session.endSession();
   }
 }
 

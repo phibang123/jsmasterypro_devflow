@@ -17,7 +17,9 @@ const handleSuccess = <T = unknown>({
   responseType = "api",
   message = "Success",
 }: IHandleSuccessParams<T>): APISuccessResponse<T> | SuccessResponse<T> => {
-  logger.info(`Data Success: ${JSON.stringify(data)}, Status: ${status}`);
+  logger.info(
+    `Data Success, Status: ${status}, Response Type: ${responseType}`,
+  );
   const response: SuccessResponse<T> = {
     data,
     success: true,

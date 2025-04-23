@@ -8,7 +8,7 @@ const HomeLoading = () => {
         <Skeleton className="h-12 w-[150px]" />
       </section>
 
-      <section className="mt-11">
+      <section className="mt-8">
         <Skeleton className="h-12 w-full" />
       </section>
 
@@ -19,7 +19,7 @@ const HomeLoading = () => {
         <Skeleton className="h-10 w-[100px]" />
       </div>
 
-      <div className="mt-10 flex w-full flex-col gap-6">
+      <div className="mt-8 flex w-full flex-col gap-6">
         {[1, 2, 3, 4, 5].map((item) => (
           <div
             key={item}

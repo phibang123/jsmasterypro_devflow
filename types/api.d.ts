@@ -4,3 +4,7 @@ interface IUserSignUpAndSignInResponse {
   email: string;
   image: string;
 }
+
+interface IQuestionUpdateData extends ICreateQuestionParam {
+  userId: string;
+}

@@ -68,7 +68,7 @@ const createQuestionAndTagRelations = async (
   }
 };
 
-// Route handlers
+// POST /api/questions
 export async function POST(request: Request) {
   const session = await mongoose.startSession();
 
@@ -102,10 +102,11 @@ export async function POST(request: Request) {
     logger.error("Error creating question:", error);
     return handleError({ error });
   } finally {
-    session.endSession();
+    await session.endSession();
   }
 }
 
+// GET /api/questions
 export async function GET(request: Request) {
   try {
     await dbConnect();

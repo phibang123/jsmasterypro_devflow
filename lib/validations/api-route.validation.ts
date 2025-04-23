@@ -65,21 +65,19 @@ export const CreateQuestionRequestSchemaAPI = z.object({
   userId: z.string().min(1, { message: "Unauth" }),
   title: z
     .string()
-    .min(5, { message: "Title is required!" })
-    .max(200, { message: "Title cannot exceed 100 characters." }),
-
+    .min(5, { message: "Title must be at least 5 characters long." })
+    .max(200, { message: "Title cannot exceed 200 characters." }),
   description: z
     .string()
     .min(10, { message: "Description must be at least 10 characters!" })
     .max(500, { message: "Description cannot exceed 500 characters." }),
-
   content: z.string().min(1, { message: "Body is required!" }),
 
   tags: z
     .array(
       z
         .string()
-        .min(1, { message: "Tag is required." })
+        .min(2, { message: "Tag must be at least 1 character long." })
         .max(30, { message: "Tag cannot exceed 30 characters." }),
     )
     .min(1, { message: "At least one tag is required." })

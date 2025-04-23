@@ -48,12 +48,12 @@ const Home = async ({ searchParams }: SearchParams) => {
           <h1 className="h1-bold text-dark100_light900">All Questions</h1>
           <Button
             asChild
-            className="primary-button-gradient min-h-[46px] px-4 py-3 !text-light-900"
+            className="primary-button-gradient min-h-[40px] px-4 py-3 !text-light-900"
           >
             <Link href={ROUTES.ASK_QUESTION}>Ask a Questions</Link>
           </Button>
         </section>
-        <section className="mt-11">
+        <section className="mt-8">
           <LocalSearch
             route="/"
             imgSrc="/icons/search.svg"
@@ -62,7 +62,7 @@ const Home = async ({ searchParams }: SearchParams) => {
           />
         </section>
         <HomeFilter />
-        <div className="mt-10 flex w-full flex-col gap-6">
+        <div className="mt-8 flex w-full flex-col gap-6">
           {filteredQuestions.map((question: QuestionIF) => (
             <QuestionCard key={question._id.toString()} question={question} />
           ))}

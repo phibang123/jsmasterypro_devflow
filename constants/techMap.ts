@@ -6,6 +6,8 @@ export const deviconClasses: objDefine = {
   // JavaScript variations
   javascript: "devicon-javascript-plain",
   js: "devicon-javascript-plain",
+  es6: "devicon-javascript-plain",
+  es2015: "devicon-javascript-plain",
 
   // TypeScript variations
   typescript: "devicon-typescript-plain",
@@ -14,6 +16,7 @@ export const deviconClasses: objDefine = {
   // React variations
   react: "devicon-react-original",
   reactjs: "devicon-react-original",
+  "react native": "devicon-react-original",
 
   // Next.js variations
   nextjs: "devicon-nextjs-plain",
@@ -22,6 +25,7 @@ export const deviconClasses: objDefine = {
   // Node.js variations
   nodejs: "devicon-nodejs-plain",
   node: "devicon-nodejs-plain",
+  express: "devicon-express-original",
 
   // Bun.js variations
   bun: "devicon-bun-plain",
@@ -31,172 +35,193 @@ export const deviconClasses: objDefine = {
   deno: "devicon-denojs-original",
   denojs: "devicon-denojs-plain",
 
-  // Python
+  // Python variations
   python: "devicon-python-plain",
+  py: "devicon-python-plain",
+  django: "devicon-django-plain",
+  flask: "devicon-flask-original",
+  fastapi: "devicon-fastapi-plain",
 
-  // Java
+  // Java variations
   java: "devicon-java-plain",
+  spring: "devicon-spring-plain",
+  springboot: "devicon-spring-plain",
 
-  // C++
+  // C++ variations
   "c++": "devicon-cplusplus-plain",
   cpp: "devicon-cplusplus-plain",
 
-  // C#
+  // C# variations
   "c#": "devicon-csharp-plain",
   csharp: "devicon-csharp-plain",
+  dotnet: "devicon-dotnetcore-plain",
 
-  // PHP
+  // PHP variations
   php: "devicon-php-plain",
+  laravel: "devicon-laravel-plain",
+  symfony: "devicon-symfony-original",
 
-  // HTML
+  // HTML variations
   html: "devicon-html5-plain",
   html5: "devicon-html5-plain",
 
-  // CSS
+  // CSS variations
   css: "devicon-css3-plain",
   css3: "devicon-css3-plain",
-
-  // Git
-  git: "devicon-git-plain",
-
-  // Docker
-  docker: "devicon-docker-plain",
-
-  // MongoDB
-  mongodb: "devicon-mongodb-plain",
-  mongo: "devicon-mongodb-plain",
-
-  // MySQL
-  mysql: "devicon-mysql-plain",
-
-  // PostgreSQL
-  postgresql: "devicon-postgresql-plain",
-  postgres: "devicon-postgresql-plain",
-
-  // AWS variations
-  aws: "devicon-amazonwebservices-original",
-  "amazon web services": "devicon-amazonwebservices-original",
-
-  // Firebase
-  firebase: "devicon-firebase-plain",
-
-  // GraphQL
-  graphql: "devicon-graphql-plain",
-
-  // Vue.js
-  vue: "devicon-vuejs-plain",
-  vuejs: "devicon-vuejs-plain",
-
-  // Tailwind CSS
-  tailwind: "devicon-tailwindcss-plain",
-  tailwindcss: "devicon-tailwindcss-plain",
-
-  // Angular
-  angular: "devicon-angularjs-plain",
-
-  // jQuery
-  jquery: "devicon-jquery-plain",
-
-  // SASS
   sass: "devicon-sass-plain",
+  scss: "devicon-sass-plain",
+  less: "devicon-less-plain",
+  stylus: "devicon-stylus-plain",
 
-  // Laravel
-  laravel: "devicon-laravel-plain",
-
-  // Ruby on Rails
-  rails: "devicon-rails-plain",
-  ruby: "devicon-rails-plain",
-
-  // Redis
-  redis: "devicon-redis-plain",
-
-  // Linux
-  linux: "devicon-linux-plain",
-
-  // Jenkins
-  jenkins: "devicon-jenkins-plain",
-
-  // Kubernetes
-  kubernetes: "devicon-kubernetes-plain",
-
-  // Azure
-  azure: "devicon-azure-plain",
-  "azure devops": "devicon-azure-plain",
-
-  // Google Cloud Platform
-  gcp: "devicon-googlecloud-plain",
-  "google cloud": "devicon-googlecloud-plain",
-
-  // Bitbucket
+  // Git variations
+  git: "devicon-git-plain",
+  github: "devicon-github-original",
+  gitlab: "devicon-gitlab-plain",
   bitbucket: "devicon-bitbucket-plain",
 
-  // NGINX
-  nginx: "devicon-nginx-plain",
+  // Docker variations
+  docker: "devicon-docker-plain",
+  kubernetes: "devicon-kubernetes-plain",
+  k8s: "devicon-kubernetes-plain",
 
-  // Blender
-  blender: "devicon-blender-plain",
+  // Database variations
+  mongodb: "devicon-mongodb-plain",
+  mongo: "devicon-mongodb-plain",
+  mysql: "devicon-mysql-plain",
+  postgresql: "devicon-postgresql-plain",
+  postgres: "devicon-postgresql-plain",
+  redis: "devicon-redis-plain",
+  sqlite: "devicon-sqlite-plain",
+  oracle: "devicon-oracle-plain",
+  cassandra: "devicon-cassandra-plain",
+  couchdb: "devicon-couchdb-plain",
 
-  // Unity
-  unity: "devicon-unity-original",
+  // Cloud variations
+  aws: "devicon-amazonwebservices-original",
+  "amazon web services": "devicon-amazonwebservices-original",
+  azure: "devicon-azure-plain",
+  "azure devops": "devicon-azure-plain",
+  gcp: "devicon-googlecloud-plain",
+  "google cloud": "devicon-googlecloud-plain",
+  digitalocean: "devicon-digitalocean-plain",
+  heroku: "devicon-heroku-plain",
+  firebase: "devicon-firebase-plain",
 
-  // Unreal Engine
-  unreal: "devicon-unrealengine-original",
+  // Frontend Framework variations
+  vue: "devicon-vuejs-plain",
+  vuejs: "devicon-vuejs-plain",
+  angular: "devicon-angularjs-plain",
+  angularjs: "devicon-angularjs-plain",
+  svelte: "devicon-svelte-plain",
+  ember: "devicon-ember-original",
+  backbone: "devicon-backbone-plain",
 
-  // Swift
-  swift: "devicon-swift-plain",
-
-  // Kotlin
-  kotlin: "devicon-kotlin-plain",
-
-  // Go
-  go: "devicon-go-plain",
-
-  // Rust
-  rust: "devicon-rust-plain",
-
-  // Dart
-  dart: "devicon-dart-plain",
-
-  // Flask
-  flask: "devicon-flask-original",
-
-  // Django
-  django: "devicon-django-plain",
-
-  // Bootstrap
+  // CSS Framework variations
+  tailwind: "devicon-tailwindcss-plain",
+  tailwindcss: "devicon-tailwindcss-plain",
   bootstrap: "devicon-bootstrap-plain",
-
-  // Material-UI
+  bulma: "devicon-bulma-plain",
   materialui: "devicon-materialui-plain",
   "material ui": "devicon-materialui-plain",
 
-  // Adobe tools
+  // Testing variations
+  jest: "devicon-jest-plain",
+  mocha: "devicon-mocha-plain",
+  jasmine: "devicon-jasmine-plain",
+  karma: "devicon-karma-plain",
+  selenium: "devicon-selenium-original",
+
+  // Build Tools variations
+  webpack: "devicon-webpack-plain",
+  babel: "devicon-babel-plain",
+  gulp: "devicon-gulp-plain",
+  grunt: "devicon-grunt-plain",
+  parcel: "devicon-parcel-plain",
+  rollup: "devicon-rollup-plain",
+
+  // Package Manager variations
+  npm: "devicon-npm-original-wordmark",
+  yarn: "devicon-yarn-plain",
+  pnpm: "devicon-npm-original-wordmark",
+
+  // IDE variations
+  vscode: "devicon-vscode-plain",
+  intellij: "devicon-intellij-plain",
+  webstorm: "devicon-webstorm-plain",
+  pycharm: "devicon-pycharm-plain",
+  phpstorm: "devicon-phpstorm-plain",
+  atom: "devicon-atom-original",
+  sublime: "devicon-sublime-plain",
+
+  // Version Control variations
+  svn: "devicon-svn-plain",
+  mercurial: "devicon-mercurial-plain",
+
+  // Server variations
+  nginx: "devicon-nginx-plain",
+  apache: "devicon-apache-plain",
+  tomcat: "devicon-tomcat-plain",
+
+  // Mobile variations
+  android: "devicon-android-plain",
+  ios: "devicon-apple-original",
+  flutter: "devicon-flutter-plain",
+  dart: "devicon-dart-plain",
+  kotlin: "devicon-kotlin-plain",
+  swift: "devicon-swift-plain",
+
+  // Game Development variations
+  unity: "devicon-unity-original",
+  unreal: "devicon-unrealengine-original",
+  blender: "devicon-blender-plain",
+
+  // Design Tools variations
+  figma: "devicon-figma-plain",
+  sketch: "devicon-sketch-line",
   photoshop: "devicon-photoshop-plain",
   illustrator: "devicon-illustrator-plain",
   xd: "devicon-xd-plain",
   premiere: "devicon-premiere-plain",
-
-  // Figma
-  figma: "devicon-figma-plain",
-
-  // Inkscape
+  aftereffects: "devicon-aftereffects-plain",
+  dreamweaver: "devicon-dreamweaver-plain",
   inkscape: "devicon-inkscape-plain",
 
-  // Trello
-  trello: "devicon-trello-plain",
-
-  // Jira
+  // Project Management variations
   jira: "devicon-jira-plain",
+  trello: "devicon-trello-plain",
+  confluence: "devicon-confluence-original",
+  slack: "devicon-slack-plain",
 
-  // Heroku
-  heroku: "devicon-heroku-plain",
+  // Other Languages variations
+  go: "devicon-go-plain",
+  golang: "devicon-go-plain",
+  rust: "devicon-rust-plain",
+  ruby: "devicon-ruby-plain",
+  rails: "devicon-rails-plain",
+  scala: "devicon-scala-plain",
+  haskell: "devicon-haskell-plain",
+  erlang: "devicon-erlang-plain",
+  elixir: "devicon-elixir-plain",
+  perl: "devicon-perl-plain",
+  r: "devicon-r-plain",
+  matlab: "devicon-matlab-plain",
 
-  // Elasticsearch
-  elasticsearch: "devicon-elasticsearch-plain",
-
-  // Redux
-  redux: "devicon-redux-original",
-
-  // Three.js
+  // Other Tools variations
+  graphql: "devicon-graphql-plain",
+  socketio: "devicon-socketio-original",
   threejs: "devicon-threejs-original",
+  webgl: "devicon-webgl-plain",
+  electron: "devicon-electron-original",
+  gatsby: "devicon-gatsby-plain",
+  nuxt: "devicon-nuxtjs-plain",
+  meteor: "devicon-meteor-plain",
+  markdown: "devicon-markdown-original",
+  bash: "devicon-bash-plain",
+  ssh: "devicon-ssh-original",
+  vim: "devicon-vim-plain",
+  linux: "devicon-linux-plain",
+  ubuntu: "devicon-ubuntu-plain",
+  debian: "devicon-debian-plain",
+  windows: "devicon-windows8-original",
+  apple: "devicon-apple-original",
 };

@@ -70,7 +70,6 @@ export const validateRequest = async <
     partial?: boolean;
   } = {
     requiredAuth: false,
-    partial: false,
   },
 ): Promise<z.infer<T>> => {
   try {
