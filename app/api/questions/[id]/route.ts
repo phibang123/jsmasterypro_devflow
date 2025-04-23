@@ -1,16 +1,16 @@
 import mongoose from "mongoose";
-import Question, { IQuestion } from "@/database/question.model";
+
+import Question from "@/database/question.model";
+import TagQuestion from "@/database/tag-question.model";
+import Tag from "@/database/tag.model";
 import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import { ForbiddenError, NotFoundError } from "@/lib/http.errors";
+import logger from "@/lib/logger";
 import dbConnect from "@/lib/mongoose";
 import { validateRequest } from "@/lib/utils";
 import { CreateQuestionRequestSchemaAPI } from "@/lib/validations/api-route.validation";
-import logger from "@/lib/logger";
-import { QuestionModelIF } from "@/types/model";
-import Tag from "@/database/tag.model";
-import TagQuestion from "@/database/tag-question.model";
-import { TagModelIF } from "@/types/model";
+import { QuestionModelIF, TagModelIF } from "@/types/model";
 
 const findQuestionForbidden = async (
   questionId: string,
