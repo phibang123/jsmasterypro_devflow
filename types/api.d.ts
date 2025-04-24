@@ -8,3 +8,7 @@ interface IUserSignUpAndSignInResponse {
 interface IQuestionUpdateData extends ICreateQuestionParam {
   userId: string;
 }
+
+type RouteParams = {
+  params: { id: string };
+};
