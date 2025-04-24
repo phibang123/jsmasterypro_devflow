@@ -1,3 +1,5 @@
+import { NextRequest } from "next/server";
+
 import Account from "@/database/account.model";
 import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
@@ -7,10 +9,10 @@ import { AccountSchemaAPI } from "@/lib/validations";
 
 // GET /api/accounts/id
 export async function GET(
-  _: Request,
-  { params }: { params: Promise<{ id: string }> },
+  _: NextRequest,
+  { params }: { params: { id: string } },
 ) {
-  const { id } = await params;
+  const { id } = params;
   if (!id) throw new NotFoundError("Account");
   try {
     await dbConnect();
@@ -26,10 +28,10 @@ export async function GET(
 
 // DELETE /api/account/id
 export async function DELETE(
-  _: Request,
-  { params }: { params: Promise<{ id: string }> },
+  _: NextRequest,
+  { params }: { params: { id: string } },
 ) {
-  const { id } = await params;
+  const { id } = params;
   if (!id) throw new NotFoundError("Account");
   try {
     await dbConnect();
@@ -45,10 +47,10 @@ export async function DELETE(
 
 // PUT /api/users/id
 export async function PUT(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
+  request: NextRequest,
+  { params }: { params: { id: string } },
 ) {
-  const { id } = await params;
+  const { id } = params;
   if (!id) throw new NotFoundError("Account");
   try {
     await dbConnect();
