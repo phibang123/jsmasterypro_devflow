@@ -53,9 +53,13 @@ export async function PUT(request: NextRequest, context: RouteParams) {
       throw new ValidationError(validatedData.error.flatten().fieldErrors);
     }
 
-    const updatedAccount = await Account.findByIdAndUpdate(id, validatedData, {
-      new: true,
-    });
+    const updatedAccount = await Account.findByIdAndUpdate(
+      id,
+      validatedData.data,
+      {
+        new: true,
+      },
+    );
 
     if (!updatedAccount) throw new NotFoundError("Account");
     return handleSuccess({ data: updatedAccount });
