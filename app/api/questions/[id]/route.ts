@@ -128,11 +128,8 @@ const updateQuestionForbidden = async (
 };
 
 // GET /api/questions/id
-export async function GET(
-  _: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  const { id } = await params;
+export async function GET(_: Request, { params }: { params: { id: string } }) {
+  const { id } = params;
   if (!id) throw new NotFoundError("Question");
   logger.info("Getting question");
   try {
@@ -152,9 +149,9 @@ export async function GET(
 // PUT /api/questions/id
 export async function PUT(
   request: Request,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: { id: string } },
 ) {
-  const { id } = await params;
+  const { id } = params;
   if (!id) throw new NotFoundError("Question");
   const session = await mongoose.startSession();
 

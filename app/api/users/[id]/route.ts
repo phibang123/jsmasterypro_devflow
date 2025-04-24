@@ -6,11 +6,8 @@ import dbConnect from "@/lib/mongoose";
 import { UserSchemaAPI } from "@/lib/validations";
 
 // GET /api/users/id
-export async function GET(
-  _: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  const { id } = await params;
+export async function GET(_: Request, { params }: { params: { id: string } }) {
+  const { id } = params;
   if (!id) throw new NotFoundError("User");
   try {
     await dbConnect();
@@ -27,9 +24,9 @@ export async function GET(
 // DELETE /api/users/id
 export async function DELETE(
   _: Request,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: { id: string } },
 ) {
-  const { id } = await params;
+  const { id } = params;
   if (!id) throw new NotFoundError("User");
   try {
     await dbConnect();
@@ -46,18 +43,18 @@ export async function DELETE(
 // PUT /api/users/id
 export async function PUT(
   request: Request,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: { id: string } },
 ) {
-  const { id } = await params;
+  const { id } = params;
   if (!id) throw new NotFoundError("User");
   try {
     await dbConnect();
 
     const body = await request.json();
-    const validatedData = UserSchemaAPI.partial().parse(body); // User partial for all key is optional, if it err, throw Error
+    const validatedData = UserSchemaAPI.partial().parse(body);
 
     const updatedUser = await User.findByIdAndUpdate(id, validatedData, {
-      new: true, // new flag for return new user after update instead of user after find
+      new: true,
     });
 
     if (!updatedUser) throw new NotFoundError("User");

@@ -6,11 +6,8 @@ import dbConnect from "@/lib/mongoose";
 import { AccountSchemaAPI } from "@/lib/validations";
 
 // GET /api/accounts/id
-export async function GET(
-  _: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  const { id } = await params;
+export async function GET(_: Request, { params }: { params: { id: string } }) {
+  const { id } = params;
   if (!id) throw new NotFoundError("Account");
   try {
     await dbConnect();
@@ -27,9 +24,9 @@ export async function GET(
 // DELETE /api/account/id
 export async function DELETE(
   _: Request,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: { id: string } },
 ) {
-  const { id } = await params;
+  const { id } = params;
   if (!id) throw new NotFoundError("Account");
   try {
     await dbConnect();
@@ -46,9 +43,9 @@ export async function DELETE(
 // PUT /api/users/id
 export async function PUT(
   request: Request,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: { id: string } },
 ) {
-  const { id } = await params;
+  const { id } = params;
   if (!id) throw new NotFoundError("Account");
   try {
     await dbConnect();
