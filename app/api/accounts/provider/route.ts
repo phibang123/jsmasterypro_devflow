@@ -5,7 +5,7 @@ import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import { NotFoundError, ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
-import { AccountSchemaAPI } from "@/lib/validations";
+import { SignUpSchema } from "@/lib/validations";
 
 // POST /api/accounts/provider
 export async function POST(request: NextRequest) {
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     const { providerAccountId } = await request.json();
     await dbConnect();
 
-    AccountSchemaAPI.partial().safeParse({
+    SignUpSchema.partial().safeParse({
       providerAccountId,
     });
 
