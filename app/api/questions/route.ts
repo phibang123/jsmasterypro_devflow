@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
 
     return handleSuccess({
       message: "Question created successfully",
-      data: { questionId },
+      data: { id: questionId },
     });
   } catch (error) {
     await session.abortTransaction();
