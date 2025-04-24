@@ -10,5 +10,5 @@ interface IQuestionUpdateData extends ICreateQuestionParam {
 }
 
 type RouteParams = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };

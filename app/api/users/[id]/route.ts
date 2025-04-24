@@ -7,7 +7,7 @@ import { UserSchemaAPI } from "@/lib/validations";
 
 // GET /api/users/id
 export async function GET(_: Request, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   if (!id) throw new NotFoundError("User");
   try {
     await dbConnect();
@@ -23,7 +23,7 @@ export async function GET(_: Request, { params }: RouteParams) {
 
 // DELETE /api/users/id
 export async function DELETE(_: Request, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   if (!id) throw new NotFoundError("User");
   try {
     await dbConnect();
@@ -39,7 +39,7 @@ export async function DELETE(_: Request, { params }: RouteParams) {
 
 // PUT /api/users/id
 export async function PUT(request: Request, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   if (!id) throw new NotFoundError("User");
   try {
     await dbConnect();

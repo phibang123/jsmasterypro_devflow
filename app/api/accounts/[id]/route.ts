@@ -9,7 +9,7 @@ import { AccountSchemaAPI } from "@/lib/validations";
 
 // GET /api/accounts/id
 export async function GET(_: NextRequest, context: RouteParams) {
-  const { id } = context.params;
+  const { id } = await context.params;
   if (!id) throw new NotFoundError("Account");
   try {
     await dbConnect();
@@ -25,7 +25,7 @@ export async function GET(_: NextRequest, context: RouteParams) {
 
 // DELETE /api/account/id
 export async function DELETE(_: NextRequest, context: RouteParams) {
-  const { id } = context.params;
+  const { id } = await context.params;
   if (!id) throw new NotFoundError("Account");
   try {
     await dbConnect();
@@ -41,7 +41,7 @@ export async function DELETE(_: NextRequest, context: RouteParams) {
 
 // PUT /api/users/id
 export async function PUT(request: NextRequest, context: RouteParams) {
-  const { id } = context.params;
+  const { id } = await context.params;
   if (!id) throw new NotFoundError("Account");
   try {
     await dbConnect();
