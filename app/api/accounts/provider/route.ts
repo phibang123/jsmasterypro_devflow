@@ -5,20 +5,19 @@ import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import { NotFoundError, ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
-import { SignUpSchema } from "@/lib/validations";
-
+import { AccountSchemaAPI } from "@/lib/validations";
 // POST /api/accounts/provider
 export async function POST(request: NextRequest) {
   try {
     const { providerAccountId } = await request.json();
     await dbConnect();
 
-    SignUpSchema.partial().safeParse({
+    const validatedData = AccountSchemaAPI.partial().safeParse({
       providerAccountId,
     });
 
-    if (!providerAccountId) {
-      throw new ValidationError({ hello: ["123"] });
+    if (!validatedData.success) {
+      throw new ValidationError(validatedData.error.flatten().fieldErrors);
     }
 
     const account = await Account.findOne({ providerAccountId });

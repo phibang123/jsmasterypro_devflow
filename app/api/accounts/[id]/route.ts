@@ -3,8 +3,9 @@ import { NextRequest } from "next/server";
 import Account from "@/database/account.model";
 import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
-import { NotFoundError } from "@/lib/http.errors";
+import { NotFoundError, ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
+import { AccountSchemaAPI } from "@/lib/validations";
 
 // GET /api/accounts/id
 export async function GET(_: NextRequest, context: RouteParams) {
@@ -39,30 +40,26 @@ export async function DELETE(_: NextRequest, context: RouteParams) {
 }
 
 // PUT /api/accounts/id
-// export async function PUT(request: NextRequest, context: RouteParams) {
-//   const { id } = await context.params;
-//   if (!id) throw new NotFoundError("Account");
-//   try {
-//     await dbConnect();
+export async function PUT(request: NextRequest, context: RouteParams) {
+  const { id } = await context.params;
+  if (!id) throw new NotFoundError("Account");
+  try {
+    await dbConnect();
 
-//     const body = await request.json();
-//     const validatedData = AccountSchemaAPI.partial().safeParse(body);
+    const body = await request.json();
+    const validatedData = AccountSchemaAPI.partial().safeParse(body);
 
-//     if (!validatedData.success) {
-//       throw new ValidationError(validatedData.error.flatten().fieldErrors);
-//     }
+    if (!validatedData.success) {
+      throw new ValidationError(validatedData.error.flatten().fieldErrors);
+    }
 
-//     const updatedAccount = await Account.findByIdAndUpdate(
-//       id,
-//       validatedData.data,
-//       {
-//         new: true,
-//       },
-//     );
+    const updatedAccount = await Account.findByIdAndUpdate(id, validatedData, {
+      new: true,
+    });
 
-//     if (!updatedAccount) throw new NotFoundError("Account");
-//     return handleSuccess({ data: updatedAccount });
-//   } catch (error) {
-//     return handleError({ error });
-//   }
-// }
+    if (!updatedAccount) throw new NotFoundError("Account");
+    return handleSuccess({ data: updatedAccount });
+  } catch (error) {
+    return handleError({ error });
+  }
+}
