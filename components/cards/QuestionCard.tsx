@@ -14,7 +14,7 @@ interface Props {
 
 const QuestionCard = ({
   question: {
-    _id,
+    id,
     title,
     tags,
     author,
@@ -27,7 +27,7 @@ const QuestionCard = ({
 }: Props) => {
   const renderTagCard = () => {
     return tags.map((tag: TagIF) => (
-      <TagCard key={tag._id} _id={tag._id} name={tag.name} compact />
+      <TagCard key={tag.id} id={tag.id} name={tag.name} compact />
     ));
   };
 
@@ -63,7 +63,7 @@ const QuestionCard = ({
     <div className="card-wrapper background-light800_dark300 flex gap-3 rounded-[10px] p-5 sm:px-8">
       <div className="hidden sm:flex">{renderMetricContent()}</div>
       <div className="flex-1">
-        <Link href={ROUTES.QUESTION(_id)}>
+        <Link href={ROUTES.QUESTION(id)}>
           <h3 className="sm:h3-semibold base-semibold text-dark200_light900 primary-text-gradient line-clamp-1 flex-1">
             {title}
           </h3>
@@ -81,7 +81,7 @@ const QuestionCard = ({
               alt={author.name}
               value={author.name}
               title={`• asked ${getTimeStamp(updatedAt)}`}
-              href={ROUTES.PROFILE(author._id)}
+              href={ROUTES.PROFILE(author.id)}
               textStyles="body-medium text-dark400_light700"
               isAuthor
             />

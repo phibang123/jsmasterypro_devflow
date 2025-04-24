@@ -58,12 +58,11 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
       tags,
     };
     let result;
-    await new Promise((resolve) => setTimeout(resolve, 50000));
-    if (isEdit && !question?._id) throw new Error("Question not found");
-    if (isEdit && question?._id) {
+    if (isEdit && !question?.id) throw new Error("Question not found");
+    if (isEdit && question?.id) {
       result = await editQuestion({
         ...questionData,
-        questionId: question._id as string,
+        questionId: question.id as string,
       });
     } else {
       result = await createQuestion(questionData);
@@ -81,7 +80,7 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
         description: toastMessage,
       });
       form.reset();
-      router.push(`/question/${result.data._id}`);
+      router.push(`/question/${result.data.id}`);
     }
   };
 
@@ -229,7 +228,7 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
                       {field.value.map((tag: string) => (
                         <TagCard
                           key={tag}
-                          _id={tag}
+                          id={tag}
                           compact
                           remove
                           isButton

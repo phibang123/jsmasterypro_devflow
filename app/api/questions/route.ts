@@ -56,11 +56,11 @@ const createQuestionAndTagRelations = async (
     );
 
     await TagQuestion.create(
-      tagIds.map((tagId) => ({ question: question._id, tagId })),
+      tagIds.map((tagId) => ({ question: question.id, tagId })),
       { session, ordered: true },
     );
 
-    return question._id;
+    return question.id;
   } catch (error) {
     logger.error("Error creating question and tag relations:", error);
     throw error;
@@ -118,15 +118,7 @@ export async function GET(request: Request) {
       .populate("tags", "name")
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(limit)
-      .lean()
-      .then((docs) =>
-        docs.map((doc) => ({
-          ...doc,
-          createdAt: new Date(doc.createdAt),
-          updatedAt: new Date(doc.updatedAt),
-        })),
-      );
+      .limit(limit);
 
     return handleSuccess({
       data: questions,

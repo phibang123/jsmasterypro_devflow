@@ -76,6 +76,7 @@ const createUserOrUpdateIfUserExist = async (
   const { name, username, email, image } = user;
 
   let existingUser = await User.findOne({ email }).session(session);
+  console.log(existingUser, "existingUser");
 
   if (!existingUser) {
     [existingUser] = await User.create([{ name, username, email, image }], {
@@ -89,7 +90,7 @@ const createUserOrUpdateIfUserExist = async (
 
     if (Object.keys(updateData).length > 0) {
       await User.updateOne(
-        { _id: existingUser._id },
+        { _id: existingUser.id },
         { $set: updateData },
       ).session(session);
     }
@@ -109,14 +110,14 @@ const createAccountIfAccountDoesNotExist = async (
   } = validatedData;
 
   const existingAccount = await Account.findOne({
-    userId: existingUser._id,
+    userId: existingUser.id,
     provider,
     providerAccountId,
   }).session(session);
 
   if (!existingAccount) {
     await Account.create(
-      [{ name, userId: existingUser._id, image, provider, providerAccountId }],
+      [{ name, userId: existingUser.id, image, provider, providerAccountId }],
       { session },
     );
   }

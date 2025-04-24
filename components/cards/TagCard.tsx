@@ -9,7 +9,7 @@ import { TagIF } from "@/types/global";
 import { Badge } from "../ui/badge";
 
 const TagCard = ({
-  _id,
+  id,
   name,
   questions,
   showCount = false,
@@ -62,7 +62,7 @@ const TagCard = ({
     </button>
   ) : (
     <Link
-      href={ROUTES.TAGS(_id)}
+      href={ROUTES.TAGS(id)}
       className="flex items-center justify-between gap-2"
     >
       {Content}

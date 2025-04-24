@@ -10,40 +10,40 @@ import { IUser } from "@/database/user.model";
 import { IVote } from "@/database/vote.model";
 
 interface AccountModelIF extends IAccount, Document {
-  _id: string;
+  id: string;
 }
 
 interface AnswerModelIF extends IAnswer, Document {
-  _id: string;
+  id: string;
 }
 
 interface CollectionModelIF extends ICollection, Document {
-  _id: string;
+  id: string;
 }
 
 interface InteractionIF extends IInteraction, Document {
-  _id: string;
+  id: string;
 }
 
 interface TagModelIF extends ITag, Document {
-  _id: string;
+  id: string;
 }
 
 interface QuestionModelIF extends IQuestion, Document {
-  _id: string;
+  id: string;
   createdAt: Date;
   updatedAt: Date;
   tags: TagModelIF[];
 }
 
 interface TagQuestionModelIF extends ITagQuestion, Document {
-  _id: string;
+  id: string;
 }
 
 interface UserModelIF extends IUser, Document {
-  _id: string;
+  id: string;
 }
 
 interface VoteModelIF extends IVote, Document {
-  _id: string;
+  id: string;
 }

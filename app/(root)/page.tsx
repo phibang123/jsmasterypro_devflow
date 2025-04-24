@@ -64,7 +64,7 @@ const Home = async ({ searchParams }: SearchParams) => {
         <HomeFilter />
         <div className="mt-8 flex w-full flex-col gap-6">
           {filteredQuestions.map((question: QuestionIF) => (
-            <QuestionCard key={question._id.toString()} question={question} />
+            <QuestionCard key={question.id} question={question} />
           ))}
         </div>
       </>

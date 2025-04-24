@@ -90,7 +90,7 @@ const handleUserCredentialsAndReturn = async (
   await Account.create(
     [
       {
-        userId: newUser._id,
+        userId: newUser.id,
         name,
         provider: "credentials",
         providerAccountId: email,

@@ -2,7 +2,6 @@ import { Pencil } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
-import NotFound from "@/app/not-found";
 import { auth } from "@/auth";
 import TagCard from "@/components/cards/TagCard";
 import Metric from "@/components/Metric";
@@ -21,7 +20,7 @@ const QuestionDetail = async ({
 }) => {
   const { id } = await params;
   const { data: question } = await getQuestionById(id);
-  if (!question) return NotFound();
+  if (!question) return new Error("Question not found");
   const {
     title,
     author,
@@ -39,19 +38,19 @@ const QuestionDetail = async ({
 
   const renderTagCard = () => {
     return tags.map((tag: TagIF) => (
-      <TagCard key={tag._id} _id={tag._id} name={tag.name} compact />
+      <TagCard key={tag.id} id={tag.id} name={tag.name} compact />
     ));
   };
 
   const renderEditButton = () => {
-    if (author._id !== session?.user?.id) return null;
+    if (author.id !== session?.user?.id) return null;
 
     return (
       <Button
         asChild
         className="primary-button-gradient min-h-[20px] px-4 py-3 !text-light-900"
       >
-        <Link href={ROUTES.EDIT_QUESTION(question._id)}>
+        <Link href={ROUTES.EDIT_QUESTION(question.id)}>
           <Pencil />
           Edit Question
         </Link>

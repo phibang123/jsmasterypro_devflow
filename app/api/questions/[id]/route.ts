@@ -52,13 +52,13 @@ const updateQuestionForbidden = async (
 
       if (tagsToRemove.length) {
         const tagIdsToRemove = tagsToRemove.map(
-          (tag) => (tag as TagModelIF)._id,
+          (tag) => (tag as TagModelIF).id,
         );
 
         // Batch operations for removing tags
         await Promise.all([
           TagQuestion.deleteMany(
-            { question: question._id, tagId: { $in: tagIdsToRemove } },
+            { question: question.id, tagId: { $in: tagIdsToRemove } },
             { session },
           ),
           Tag.updateMany(
@@ -109,8 +109,8 @@ const updateQuestionForbidden = async (
         // Create tag-question relationships
         await TagQuestion.insertMany(
           newTags.map((tag) => ({
-            question: question._id,
-            tagId: tag._id,
+            question: question.id,
+            tagId: tag.id,
           })),
           { session },
         );
@@ -139,8 +139,8 @@ export async function GET(
     await dbConnect();
 
     const question = await Question.findById(id)
-      .populate("author", "name image _id")
-      .populate("tags", "name");
+      .populate({ path: "author", select: "name image id" })
+      .populate({ path: "tags", select: "name" });
     if (!question) throw new NotFoundError("Question");
     logger.info("Question found");
     return handleSuccess({ data: question });

@@ -1,18 +1,18 @@
 import { MDXEditorMethods, MDXEditorProps } from "@mdxeditor/editor";
 
 interface Tags {
-  _id: string;
+  id: string;
   name: string;
 }
 
 interface Author {
-  _id: string;
+  id: string;
   name: string;
   image: string;
 }
 
 interface QuestionIF {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   tags: Tags[];
@@ -25,7 +25,7 @@ interface QuestionIF {
 }
 
 interface TagIF {
-  _id: string;
+  id: string;
   name: string;
   questions?: number;
   showCount?: boolean;

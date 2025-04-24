@@ -5,9 +5,7 @@ export const schemaOptions: SchemaOptions = {
     transform: (_doc, ret) => {
       const { _id, ...rest } = ret;
       return {
-        id: _id.toString(),
-        createdAt: ret.createdAt.toISOString(),
-        updatedAt: ret.updatedAt.toISOString(),
+        ...(_id && { id: _id.toString() }),
         __v: ret.__v,
         ...rest,
       };
@@ -17,9 +15,7 @@ export const schemaOptions: SchemaOptions = {
     transform: (_doc, ret) => {
       const { _id, ...rest } = ret;
       return {
-        id: _id.toString(),
-        createdAt: ret.createdAt.toISOString(),
-        updatedAt: ret.updatedAt.toISOString(),
+        ...(_id && { id: _id.toString() }),
         __v: ret.__v,
         ...rest,
       };
