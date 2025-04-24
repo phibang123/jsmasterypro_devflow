@@ -20,6 +20,7 @@ const LeftSidebar = async () => {
         <form action={logoutWithCredentials}>
           <Button
             type="submit"
+            classNameAdditional="w-full"
             className="base-medium btn-secondary min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none"
           >
             <LogOut className="size-5 text-black dark:text-white" />

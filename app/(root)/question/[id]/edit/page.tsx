@@ -23,7 +23,7 @@ const EditQuestion = async ({
 
   return (
     <Suspense fallback={<EditQuestionLoading />}>
-      <div>
+      <div className="card-wrapper background-light900_dark300 shadow-light-customer rounded-lg p-9">
         <h1 className="h1-bold text-dark100_light900">Edit a question</h1>
 
         <div className="mt-9">

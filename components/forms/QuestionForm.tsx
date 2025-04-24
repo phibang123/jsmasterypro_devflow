@@ -249,7 +249,7 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
           )}
         />
 
-        <div className="mt-16 flex justify-end">
+        <div className="flex justify-end">
           <Button
             type="submit"
             disabled={form.formState.isSubmitting}
