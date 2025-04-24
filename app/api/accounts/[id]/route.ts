@@ -12,7 +12,7 @@ type RouteParams = {
 };
 
 // GET /api/accounts/id
-export async function GET(request: NextRequest, context: RouteParams) {
+export async function GET(_: NextRequest, context: RouteParams) {
   const { id } = await context.params;
   if (!id) throw new NotFoundError("Account");
   try {
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest, context: RouteParams) {
 }
 
 // DELETE /api/account/id
-export async function DELETE(request: NextRequest, context: RouteParams) {
+export async function DELETE(_: NextRequest, context: RouteParams) {
   const { id } = await context.params;
   if (!id) throw new NotFoundError("Account");
   try {
