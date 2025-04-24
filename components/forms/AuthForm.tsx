@@ -44,8 +44,8 @@ const AuthForm = <T extends FieldValues>({
   const handleSubmit: SubmitHandler<T> = async (data) => {
     const result = await onSubmit(data);
 
+    const description = `Signed ${formType === SIGN_IN ? "in" : "up"} ${result.success ? "successfully" : "with error"}`;
     if (result?.success) {
-      const description = `Signed ${formType === SIGN_IN ? "in" : "up"} successfully`;
       toast({
         title: "Success",
         description,
@@ -54,7 +54,7 @@ const AuthForm = <T extends FieldValues>({
     } else {
       toast({
         title: `Error ${result.status}`,
-        description: result.message,
+        description,
         variant: "destructive",
       });
     }

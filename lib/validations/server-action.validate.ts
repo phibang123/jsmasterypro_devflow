@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { CreateQuestionRequestSchemaAPI } from "./api-route.validation";
+import { AskQuestionSchema } from ".";
 
 export const CreateQuestionSchemaSERVER = z.object({
   title: z.string().min(1),
@@ -8,7 +8,6 @@ export const CreateQuestionSchemaSERVER = z.object({
   tags: z.array(z.string()).min(1),
 });
 
-export const UpdateQuestionRequestSchemaSERVER =
-  CreateQuestionRequestSchemaAPI.extend({
-    questionId: z.string().min(1, { message: "Question ID is required." }),
-  });
+export const UpdateQuestionRequestSchemaSERVER = AskQuestionSchema.extend({
+  questionId: z.string().min(1, { message: "Question ID is required." }),
+});

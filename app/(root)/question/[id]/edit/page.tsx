@@ -19,7 +19,7 @@ const EditQuestion = async ({
 
   const { data: question, success } = await getQuestionById(id);
 
-  if (!question || !success || question.author.id !== session.user.id)
+  if (!question || !success || question.author._id !== session.user.id)
     return NotFound();
 
   return (

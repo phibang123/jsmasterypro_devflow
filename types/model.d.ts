@@ -9,25 +9,41 @@ import { ITag } from "@/database/tag.model";
 import { IUser } from "@/database/user.model";
 import { IVote } from "@/database/vote.model";
 
-interface AccountModelIF extends IAccount, Document {}
+interface AccountModelIF extends IAccount, Document {
+  _id: string;
+}
 
-interface AnswerModelIF extends IAnswer, Document {}
+interface AnswerModelIF extends IAnswer, Document {
+  _id: string;
+}
 
-interface CollectionModelIF extends ICollection, Document {}
+interface CollectionModelIF extends ICollection, Document {
+  _id: string;
+}
 
-interface InteractionIF extends IInteraction, Document {}
+interface InteractionIF extends IInteraction, Document {
+  _id: string;
+}
 
-interface TagModelIF extends ITag, Document {}
+interface TagModelIF extends ITag, Document {
+  _id: string;
+}
 
 interface QuestionModelIF extends IQuestion, Document {
+  _id: string;
   createdAt: Date;
   updatedAt: Date;
   tags: TagModelIF[];
-  id: string;
 }
 
-interface TagQuestionModelIF extends ITagQuestion, Document {}
+interface TagQuestionModelIF extends ITagQuestion, Document {
+  _id: string;
+}
 
-interface UserModelIF extends IUser, Document {}
+interface UserModelIF extends IUser, Document {
+  _id: string;
+}
 
-interface VoteModelIF extends IVote, Document {}
+interface VoteModelIF extends IVote, Document {
+  _id: string;
+}

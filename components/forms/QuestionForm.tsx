@@ -32,7 +32,7 @@ const Editor = dynamic(() => import("@/components/editor"), {
 
 interface QuestionFormProps {
   isEdit?: boolean;
-  question?: Partial<QuestionModelIF>;
+  question?: QuestionModelIF;
 }
 
 const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
@@ -49,7 +49,7 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
     },
   });
 
-  const handleCreateQuestion = async () => {
+  const handleCreateOrEditQuestion = async () => {
     const { title, description, content, tags } = form.getValues();
     const questionData = {
       title,
@@ -58,27 +58,30 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
       tags,
     };
     let result;
-    if (isEdit) {
+    await new Promise((resolve) => setTimeout(resolve, 50000));
+    if (isEdit && !question?._id) throw new Error("Question not found");
+    if (isEdit && question?._id) {
       result = await editQuestion({
         ...questionData,
-        questionId: question.id,
+        questionId: question._id as string,
       });
     } else {
       result = await createQuestion(questionData);
     }
+    const toastMessage = `Question ${isEdit ? "updated" : "created"} ${result.success ? "successfully" : "with error"}`;
     if (!result.success) {
       toast({
-        title: `Error ${result.status}`,
-        description: result.message,
+        title: `Error`,
+        description: toastMessage,
         variant: "destructive",
       });
     } else {
       toast({
         title: "Success",
-        description: result.message,
+        description: toastMessage,
       });
       form.reset();
-      router.push(`/question/${result.data.questionId}`);
+      router.push(`/question/${result.data._id}`);
     }
   };
 
@@ -119,12 +122,18 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
       }
     }
   };
+  const renderButtonSubmit = () => {
+    if (form.formState.isSubmitting) {
+      return "Submitting...";
+    }
+    return isEdit ? "Update Question" : "Ask A Question";
+  };
 
   return (
     <Form {...form}>
       <form
         className="flex w-full flex-col gap-10"
-        onSubmit={form.handleSubmit(handleCreateQuestion)}
+        onSubmit={form.handleSubmit(handleCreateOrEditQuestion)}
       >
         <FormField
           control={form.control}
@@ -136,7 +145,9 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
               </FormLabel>
               <FormControl>
                 <Textarea
-                  className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] border"
+                  disabled={form.formState.isSubmitting}
+                  className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] resize-none overflow-hidden border"
+                  style={{ height: "auto" }}
                   {...field}
                 />
               </FormControl>
@@ -158,7 +169,9 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
               </FormLabel>
               <FormControl>
                 <Textarea
-                  className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] border"
+                  disabled={form.formState.isSubmitting}
+                  className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] resize-none overflow-hidden border"
+                  style={{ height: "auto" }}
                   {...field}
                 />
               </FormControl>
@@ -184,6 +197,7 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
                   editorRef={editorRef}
                   markdown="# Hello World"
                   fieldChange={field.onChange}
+                  readOnly={form.formState.isSubmitting}
                 />
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-400">
@@ -205,10 +219,10 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
               <FormControl>
                 <div>
                   <Input
+                    disabled={form.formState.isSubmitting}
                     className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] border"
                     placeholder="Add tags... (Press Enter to add)"
                     onKeyDown={(e) => handleInputKeydown(e, field)}
-                    // {...field}
                   />
                   {field.value.length > 0 && (
                     <div className="flex-start mt-2.5 flex-wrap gap-2.5">
@@ -242,7 +256,7 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
             disabled={form.formState.isSubmitting}
             className="primary-button-gradient w-fit p-6 text-lg font-bold !text-light-900"
           >
-            {form.formState.isSubmitting ? "Submitting..." : "Ask A Question"}
+            {renderButtonSubmit()}
           </Button>
         </div>
       </form>

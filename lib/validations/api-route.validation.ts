@@ -70,7 +70,7 @@ export const CreateQuestionRequestSchemaAPI = z.object({
   description: z
     .string()
     .min(10, { message: "Description must be at least 10 characters!" })
-    .max(500, { message: "Description cannot exceed 500 characters." }),
+    .max(200, { message: "Description cannot exceed 500 characters." }),
   content: z.string().min(1, { message: "Body is required!" }),
 
   tags: z

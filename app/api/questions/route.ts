@@ -60,7 +60,7 @@ const createQuestionAndTagRelations = async (
       { session, ordered: true },
     );
 
-    return question.id.toString();
+    return question._id;
   } catch (error) {
     logger.error("Error creating question and tag relations:", error);
     throw error;

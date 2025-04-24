@@ -32,6 +32,7 @@ const QuestionDetail = async ({
     answers,
     content,
     tags,
+    description,
   } = question;
 
   const session = await auth();
@@ -93,6 +94,9 @@ const QuestionDetail = async ({
         <h1 className="sm:h1-bold base-semibold text-dark200_light900 primary-text-gradient mt-4 !tracking-wide">
           {title}
         </h1>
+        <div className="background-light800_dark300 text-light400_light500 mt-4 rounded-lg p-4 text-sm">
+          <span className="">{description}</span>
+        </div>
         <div className="mt-4 flex justify-between gap-3">
           <div className="flex gap-3">
             <Metric

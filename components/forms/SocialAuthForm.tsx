@@ -43,10 +43,10 @@ const SocialAuthForm = () => {
   };
 
   const buttonClass =
-    "background-dark400_light900 body-medium text-dark200_light800 min-h-12 flex-1 rounded-2 px-4 py-3.5";
+    "background-dark400_light900 body-medium text-dark200_light800 min-h-12 flex-1 rounded-2 px-4 py-3.5 w-full";
 
   return (
-    <div className="mt-10 flex flex-wrap gap-2.5">
+    <div className="mt-10 flex w-full flex-wrap items-center justify-around gap-2">
       {storeSocialAuth.map(({ image, title, classEx, provider }, key) => {
         return (
           <Button
