@@ -10,9 +10,9 @@ import { AccountSchemaAPI } from "@/lib/validations";
 // GET /api/accounts/id
 export async function GET(
   _: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
-  const { id } = params;
+  const { id } = await params;
   if (!id) throw new NotFoundError("Account");
   try {
     await dbConnect();
@@ -29,9 +29,9 @@ export async function GET(
 // DELETE /api/account/id
 export async function DELETE(
   _: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
-  const { id } = params;
+  const { id } = await params;
   if (!id) throw new NotFoundError("Account");
   try {
     await dbConnect();
@@ -48,9 +48,9 @@ export async function DELETE(
 // PUT /api/users/id
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
-  const { id } = params;
+  const { id } = await params;
   if (!id) throw new NotFoundError("Account");
   try {
     await dbConnect();
