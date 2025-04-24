@@ -6,11 +6,8 @@ import dbConnect from "@/lib/mongoose";
 import { UserSchemaAPI } from "@/lib/validations";
 
 // GET /api/users/id
-export async function GET(
-  _: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  const { id } = await params;
+export async function GET(_: Request, { params }: RouteParams) {
+  const { id } = params;
   if (!id) throw new NotFoundError("User");
   try {
     await dbConnect();
@@ -25,11 +22,8 @@ export async function GET(
 }
 
 // DELETE /api/users/id
-export async function DELETE(
-  _: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  const { id } = await params;
+export async function DELETE(_: Request, { params }: RouteParams) {
+  const { id } = params;
   if (!id) throw new NotFoundError("User");
   try {
     await dbConnect();
@@ -44,11 +38,8 @@ export async function DELETE(
 }
 
 // PUT /api/users/id
-export async function PUT(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  const { id } = await params;
+export async function PUT(request: Request, { params }: RouteParams) {
+  const { id } = params;
   if (!id) throw new NotFoundError("User");
   try {
     await dbConnect();

@@ -7,10 +7,6 @@ import { NotFoundError, ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
 import { AccountSchemaAPI } from "@/lib/validations";
 
-type RouteParams = {
-  params: { id: string };
-};
-
 // GET /api/accounts/id
 export async function GET(_: NextRequest, context: RouteParams) {
   const { id } = context.params;
