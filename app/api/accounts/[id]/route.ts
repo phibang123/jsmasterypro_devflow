@@ -39,31 +39,31 @@ export async function DELETE(_: NextRequest, context: RouteParams) {
   }
 }
 
-// PUT /api/users/id
-export async function PUT(request: NextRequest, context: RouteParams) {
-  const { id } = await context.params;
-  if (!id) throw new NotFoundError("Account");
-  try {
-    await dbConnect();
+// PUT /api/accounts/id
+// export async function PUT(request: NextRequest, context: RouteParams) {
+//   const { id } = await context.params;
+//   if (!id) throw new NotFoundError("Account");
+//   try {
+//     await dbConnect();
 
-    const body = await request.json();
-    const validatedData = AccountSchemaAPI.partial().safeParse(body);
+//     const body = await request.json();
+//     const validatedData = AccountSchemaAPI.partial().safeParse(body);
 
-    if (!validatedData.success) {
-      throw new ValidationError(validatedData.error.flatten().fieldErrors);
-    }
+//     if (!validatedData.success) {
+//       throw new ValidationError(validatedData.error.flatten().fieldErrors);
+//     }
 
-    const updatedAccount = await Account.findByIdAndUpdate(
-      id,
-      validatedData.data,
-      {
-        new: true,
-      },
-    );
+//     const updatedAccount = await Account.findByIdAndUpdate(
+//       id,
+//       validatedData.data,
+//       {
+//         new: true,
+//       },
+//     );
 
-    if (!updatedAccount) throw new NotFoundError("Account");
-    return handleSuccess({ data: updatedAccount });
-  } catch (error) {
-    return handleError({ error });
-  }
-}
+//     if (!updatedAccount) throw new NotFoundError("Account");
+//     return handleSuccess({ data: updatedAccount });
+//   } catch (error) {
+//     return handleError({ error });
+//   }
+// }
