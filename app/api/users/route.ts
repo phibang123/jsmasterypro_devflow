@@ -1,3 +1,5 @@
+import { NextRequest } from "next/server";
+
 import User from "@/database/user.model";
 import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
@@ -19,7 +21,7 @@ export async function GET() {
 }
 
 // POST /api/users
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     await dbConnect();
     const body = await request.json();

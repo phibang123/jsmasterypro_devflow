@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { NextRequest } from "next/server";
 import { z } from "zod";
 
 import Account from "@/database/account.model";
@@ -18,7 +19,7 @@ import { UserModelIF } from "@/types/model";
 // 3. Get user by userId account
 // 4. Return user data
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     logger.info("Starting signin with credentials");
     const [validatedRequest] = await Promise.all([

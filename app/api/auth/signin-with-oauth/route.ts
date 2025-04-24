@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { NextRequest } from "next/server";
 import slugify from "slugify";
 import { z } from "zod";
 
@@ -18,7 +19,7 @@ import { UserModelIF } from "@/types/model";
 // 3. Create or update user
 // 4. Create account if it doesn't exist
 // 5. Commit transaction
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const session = await mongoose.startSession();
 
   try {

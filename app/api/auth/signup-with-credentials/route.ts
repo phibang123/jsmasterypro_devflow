@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
+import { NextRequest } from "next/server";
 import { z } from "zod";
 
 import { ENV_CONFIG } from "@/configs/env.config";
@@ -19,7 +20,7 @@ import { UserModelIF } from "@/types/model";
 // 3. Create user and account
 // 4. Commit transaction
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const session = await mongoose.startSession();
 
   try {

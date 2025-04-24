@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { NextRequest } from "next/server";
 import { z } from "zod";
 
 import Question from "@/database/question.model";
@@ -68,7 +69,7 @@ const createQuestionAndTagRelations = async (
 };
 
 // POST /api/questions
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const session = await mongoose.startSession();
 
   try {
@@ -106,7 +107,7 @@ export async function POST(request: Request) {
 }
 
 // GET /api/questions
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
     await dbConnect();
     const { skip, limit } = getPaginationParams(
