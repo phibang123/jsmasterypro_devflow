@@ -7,12 +7,13 @@ import { NotFoundError, ValidationError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
 import { AccountSchemaAPI } from "@/lib/validations";
 
+type RouteParams = {
+  params: Promise<{ id: string }>;
+};
+
 // GET /api/accounts/id
-export async function GET(
-  _: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  const { id } = await params;
+export async function GET(request: NextRequest, context: RouteParams) {
+  const { id } = await context.params;
   if (!id) throw new NotFoundError("Account");
   try {
     await dbConnect();
@@ -27,11 +28,8 @@ export async function GET(
 }
 
 // DELETE /api/account/id
-export async function DELETE(
-  _: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  const { id } = await params;
+export async function DELETE(request: NextRequest, context: RouteParams) {
+  const { id } = await context.params;
   if (!id) throw new NotFoundError("Account");
   try {
     await dbConnect();
@@ -46,11 +44,8 @@ export async function DELETE(
 }
 
 // PUT /api/users/id
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  const { id } = await params;
+export async function PUT(request: NextRequest, context: RouteParams) {
+  const { id } = await context.params;
   if (!id) throw new NotFoundError("Account");
   try {
     await dbConnect();
