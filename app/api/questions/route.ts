@@ -73,12 +73,15 @@ export async function POST(request: NextRequest) {
   const session = await mongoose.startSession();
 
   try {
-    const [validatedData] = await Promise.all([
-      validateRequest(request, CreateQuestionRequestSchemaAPI, {
+    const body = await request.json();
+    const validatedData = validateRequest(
+      body,
+      CreateQuestionRequestSchemaAPI,
+      {
         requiredAuth: true,
-      }),
-      dbConnect(),
-    ]);
+      },
+    );
+    await dbConnect();
 
     session.startTransaction();
 

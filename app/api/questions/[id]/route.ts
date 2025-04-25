@@ -154,13 +154,17 @@ export async function PUT(request: Request, { params }: RouteParams) {
 
   try {
     logger.info("Updating question");
-    const [validatedData] = await Promise.all([
-      validateRequest(request, CreateQuestionRequestSchemaAPI, {
+    const body = await request.json();
+    const validatedData = validateRequest(
+      body,
+      CreateQuestionRequestSchemaAPI,
+      {
         requiredAuth: true,
         partial: true,
-      }),
-      dbConnect(),
-    ]);
+      },
+    );
+    await dbConnect();
+
     session.startTransaction();
     const question = await findQuestionForbidden(
       id,

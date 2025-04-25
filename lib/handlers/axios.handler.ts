@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 
 import logger from "../logger";
 import handleError from "./error.handler";
@@ -40,6 +40,14 @@ export async function axiosInstance<T>(
     return response.data as ActionResponse<T>;
   } catch (err) {
     const error = isError(err) ? err : new Error("Unknown error");
+
+    if (axios.isAxiosError(err)) {
+      const errorMessage = err.response?.data?.message || err.message;
+      return handleError({
+        error: new AxiosError(errorMessage),
+        responseType: "server",
+      }) as ActionResponse<T>;
+    }
 
     if (axios.isCancel(err)) {
       logger.warn(`Request to ${url} was cancelled.`);

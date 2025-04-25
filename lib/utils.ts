@@ -4,8 +4,8 @@ import { z } from "zod";
 
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from "@/configs/constance";
 import { deviconClasses } from "@/constants/techMap";
-import { UnauthorizedError, ValidationError } from "@/lib/http.errors";
-import logger from "@/lib/logger";
+
+import { UnauthorizedError, ValidationError } from "./http.errors";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -60,10 +60,10 @@ export const getPaginationParams = (searchParams: URLSearchParams) => ({
     parseInt(searchParams.get("limit") || String(DEFAULT_LIMIT), 10),
 });
 
-export const validateRequest = async <
+export const validateRequest = <
   T extends z.ZodObject<Record<string, z.ZodType>>,
 >(
-  request: Request,
+  dataRequest: z.infer<T>,
   schema: T,
   options: {
     requiredAuth?: boolean;
@@ -71,24 +71,18 @@ export const validateRequest = async <
   } = {
     requiredAuth: false,
   },
-): Promise<z.infer<T>> => {
-  try {
-    const dataRequest = await request.json();
-    if (options.requiredAuth && !dataRequest.userId)
-      throw new UnauthorizedError("Unauthorized");
+): z.infer<T> => {
+  if (options.requiredAuth && !dataRequest?.userId)
+    throw new UnauthorizedError("Unauthorized");
 
-    const validatedData = options.partial
-      ? schema.partial().safeParse(dataRequest)
-      : schema.safeParse(dataRequest);
+  const validatedData = options.partial
+    ? schema.partial().safeParse(dataRequest)
+    : schema.safeParse(dataRequest);
 
-    if (!validatedData.success) {
-      const fieldErrors = validatedData.error.flatten().fieldErrors;
-      throw new ValidationError(fieldErrors as Record<string, string[]>);
-    }
-
-    return validatedData.data;
-  } catch (error) {
-    logger.error("Validation error:", error);
-    throw error;
+  if (!validatedData.success) {
+    const fieldErrors = validatedData.error.flatten().fieldErrors;
+    throw new ValidationError(fieldErrors as Record<string, string[]>);
   }
+
+  return validatedData.data;
 };

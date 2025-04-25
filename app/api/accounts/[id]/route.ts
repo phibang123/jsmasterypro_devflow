@@ -3,8 +3,9 @@ import { NextRequest } from "next/server";
 import Account from "@/database/account.model";
 import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
-import { NotFoundError, ValidationError } from "@/lib/http.errors";
+import { NotFoundError } from "@/lib/http.errors";
 import dbConnect from "@/lib/mongoose";
+import { validateRequest } from "@/lib/utils";
 import { AccountSchemaAPI } from "@/lib/validations";
 
 // GET /api/accounts/id
@@ -47,11 +48,9 @@ export async function PUT(request: NextRequest, context: RouteParams) {
     await dbConnect();
 
     const body = await request.json();
-    const validatedData = AccountSchemaAPI.partial().safeParse(body);
-
-    if (!validatedData.success) {
-      throw new ValidationError(validatedData.error.flatten().fieldErrors);
-    }
+    const validatedData = validateRequest(body, AccountSchemaAPI, {
+      partial: true,
+    });
 
     const updatedAccount = await Account.findByIdAndUpdate(id, validatedData, {
       new: true,

@@ -22,10 +22,9 @@ import { UserModelIF } from "@/types/model";
 export async function POST(request: NextRequest) {
   try {
     logger.info("Starting signin with credentials");
-    const [validatedRequest] = await Promise.all([
-      validateRequest(request, SignInSchema),
-      dbConnect(),
-    ]);
+    const body = await request.json();
+    const validatedRequest = validateRequest(body, SignInSchema);
+    await dbConnect();
 
     const { userId } =
       await findAccountByEmailAndComparePassword(validatedRequest);

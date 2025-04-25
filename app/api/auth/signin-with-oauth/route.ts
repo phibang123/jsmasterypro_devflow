@@ -24,11 +24,9 @@ export async function POST(request: NextRequest) {
 
   try {
     logger.info("Starting OAuth sign-in process");
-
-    const [validatedData] = await Promise.all([
-      validateRequest(request, SignInWithOAuthSchemaAPI),
-      dbConnect(),
-    ]);
+    const body = await request.json();
+    const validatedData = validateRequest(body, SignInWithOAuthSchemaAPI);
+    await dbConnect();
 
     session.startTransaction();
     const validatedUser = {

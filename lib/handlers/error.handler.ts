@@ -119,22 +119,6 @@ const handleValidationError = (
   );
 };
 
-const handleAxiosError = (
-  error: unknown,
-  responseType: ResponseType,
-): APIErrorResponse | ErrorResponse => {
-  if (!isAxiosError(error)) {
-    throw new Error("Expected Axios error");
-  }
-
-  const statusCode = error.response?.status || 500;
-  const message =
-    error.response?.data?.message ||
-    `Request failed with status code ${statusCode}`;
-
-  return formatResponse(responseType, statusCode, message);
-};
-
 const handleAuthError = (
   error: AuthError,
   responseType: ResponseType,
@@ -175,12 +159,14 @@ const handleError = ({
 
     // Generic errors
     logger.error(error.message);
-    return formatResponse(responseType, 500, error.message);
+    return formatResponse(responseType, 400, error.message);
   }
 
   // Axios errors
   if (isAxiosError(error)) {
-    return handleAxiosError(error, responseType);
+    const statusCode = error.response?.status || 500;
+    const message = error.response?.data?.message || error.message;
+    return formatResponse(responseType, statusCode, message);
   }
 
   // Unexpected errors

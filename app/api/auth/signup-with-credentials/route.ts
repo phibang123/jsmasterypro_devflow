@@ -25,11 +25,10 @@ export async function POST(request: NextRequest) {
 
   try {
     logger.info("Starting credentials sign-up process");
+    const body = await request.json();
+    const validatedData = validateRequest(body, SignUpSchema);
+    await dbConnect();
 
-    const [validatedData] = await Promise.all([
-      validateRequest(request, SignUpSchema),
-      dbConnect(),
-    ]);
     const { email, username } = validatedData;
 
     session.startTransaction();
@@ -50,7 +49,7 @@ export async function POST(request: NextRequest) {
       status: 201,
     });
   } catch (error) {
-    await session.abortTransaction();
+    // await session.abortTransaction();
     logger.error("Sign-up process failed:", error);
     return handleError({ error }) as APIErrorResponse;
   } finally {
