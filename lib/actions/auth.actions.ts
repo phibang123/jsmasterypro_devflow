@@ -9,18 +9,14 @@ import handleSuccess from "../handlers/success.handler";
 import { SignUpSchema, SignInSchema } from "../validations/index";
 
 export async function signUpWithCredentials(params: IAuthCredentials) {
-  const validationResult = await GuardGateway({
-    params,
-    schema: SignUpSchema,
-  });
-
-  if (validationResult instanceof Error || !validationResult.params) {
-    return handleError({ error: validationResult, responseType: "server" });
-  }
   try {
-    const response = await constructorApi.auth.credentialsSignUp(
-      validationResult.params,
-    );
+    const validationResult = await GuardGateway({
+      params,
+      schema: SignUpSchema,
+    });
+    const validatedParams = validationResult.params!;
+    const response =
+      await constructorApi.auth.credentialsSignUp(validatedParams);
     if (!response.success || !response.data) return response;
     const { id, image, name, email } = response.data;
     await signIn("credentials", {
@@ -36,17 +32,14 @@ export async function signUpWithCredentials(params: IAuthCredentials) {
 export async function signInWithCredentials(
   params: Pick<IAuthCredentials, "email" | "password">,
 ) {
-  const validationResult = await GuardGateway({
-    params,
-    schema: SignInSchema,
-  });
-
-  if (validationResult instanceof Error || !validationResult.params) {
-    return handleError({ error: validationResult, responseType: "server" });
-  }
-
   try {
-    const response = await constructorApi.auth.credentialsSignIn(params);
+    const validationResult = await GuardGateway({
+      params,
+      schema: SignInSchema,
+    });
+    const validatedParams = validationResult.params!;
+    const response =
+      await constructorApi.auth.credentialsSignIn(validatedParams);
     if (!response.success || !response.data) return response;
     const { id, email, image, name } = response.data;
 

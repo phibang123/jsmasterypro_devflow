@@ -1,15 +1,15 @@
 import { Session } from "next-auth";
-import { ZodError, ZodSchema } from "zod";
+import { z } from "zod";
 
 import { auth } from "@/auth";
 
 import { UnauthorizedError, ValidationError } from "../http.errors";
-// import dbConnect from "../mongoose";
 
 type IActionOptions<T> = {
   params?: T;
-  schema?: ZodSchema<T>;
+  schema?: z.ZodObject<Record<string, z.ZodType>>;
   authorize?: boolean;
+  partial?: boolean;
 };
 
 // 1.Checking whether the schema and params are provided and validated.
@@ -20,16 +20,16 @@ async function GuardGateway<T>({
   params,
   schema,
   authorize,
+  partial,
 }: IActionOptions<T>) {
   if (schema && params) {
-    try {
-      schema.parse(params);
-    } catch (error) {
-      return error instanceof ZodError
-        ? new ValidationError(
-            error.flatten().fieldErrors as Record<string, string[]>,
-          )
-        : new Error("Schema validation field");
+    const result = partial
+      ? schema.partial().safeParse(params)
+      : schema.safeParse(params);
+
+    if (!result.success) {
+      const fieldErrors = result.error.flatten().fieldErrors;
+      throw new ValidationError(fieldErrors as Record<string, string[]>);
     }
   }
 
@@ -39,13 +39,9 @@ async function GuardGateway<T>({
     session = await auth();
 
     if (!session || !session.user || !session.user.id) {
-      return new UnauthorizedError();
+      throw new UnauthorizedError();
     }
   }
-
-  // optional
-  // await dbConnect();
-
   return { params, session };
 }
 

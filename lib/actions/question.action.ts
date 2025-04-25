@@ -12,33 +12,24 @@ import {
 } from "../validations";
 
 export async function createQuestion(params: ICreateQuestionParam) {
-  const validationResult = await GuardGateway({
-    params,
-    schema: AskQuestionSchema,
-    authorize: true,
-  });
-
-  if (validationResult instanceof Error || !validationResult.params) {
-    return handleError({ error: validationResult, responseType: "server" });
-  } else if (!validationResult.session?.user?.id) {
-    return handleError({
-      error: new Error("User session not found"),
-      responseType: "server",
+  try {
+    const validationResult = await GuardGateway({
+      params,
+      schema: AskQuestionSchema,
+      authorize: true,
     });
+    const { session, params: validatedParams } = validationResult;
+
+    const userId = session?.user?.id;
+
+    const question = await constructorApi.questions.create({
+      ...validatedParams!,
+      userId: userId!,
+    });
+    return handleSuccess({ data: question.data, responseType: "server" });
+  } catch (error) {
+    return handleError({ error, responseType: "server" });
   }
-
-  const userId = validationResult.session.user.id;
-
-  const validatedData = validationResult.params;
-
-  const question = await constructorApi.questions.create({
-    ...validatedData,
-    userId,
-  });
-  if (!question.success) {
-    return handleError({ error: question.error, responseType: "server" });
-  }
-  return handleSuccess({ data: question.data, responseType: "server" });
 }
 
 export async function getAllQuestions(params: {
@@ -75,34 +66,29 @@ export async function getQuestionById(id: string) {
 }
 
 export async function editQuestion(params: IUpdateQuestionParam) {
-  const validationResult = await GuardGateway({
-    params,
-    schema: UpdateQuestionRequestSchemaSERVER,
-    authorize: true,
-  });
-
-  if (validationResult instanceof Error || !validationResult.params) {
-    return handleError({ error: validationResult, responseType: "server" });
-  } else if (!validationResult.session?.user?.id) {
-    return handleError({
-      error: new Error("User session not found"),
-      responseType: "server",
+  try {
+    const validationResult = await GuardGateway({
+      params,
+      schema: UpdateQuestionRequestSchemaSERVER,
+      authorize: true,
     });
+
+    const { session, params: validatedParams } = validationResult;
+
+    const userId = session?.user?.id;
+
+    const question = await constructorApi.questions.updateById(
+      params.questionId,
+      {
+        ...validatedParams!,
+        userId: userId!,
+      },
+    );
+    if (!question.success || !question.data) {
+      return handleError({ error: question.error, responseType: "server" });
+    }
+    return handleSuccess({ data: question.data, responseType: "server" });
+  } catch (error) {
+    return handleError({ error, responseType: "server" });
   }
-
-  const userId = validationResult.session.user.id;
-
-  const validatedData = validationResult.params;
-
-  const question = await constructorApi.questions.updateById(
-    params.questionId,
-    {
-      ...validatedData,
-      userId,
-    },
-  );
-  if (!question.success || !question.data) {
-    return handleError({ error: question.error, responseType: "server" });
-  }
-  return handleSuccess({ data: question.data, responseType: "server" });
 }
