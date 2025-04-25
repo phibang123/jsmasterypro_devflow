@@ -26,8 +26,8 @@ const config: Config = {
           "400": "#858EAD",
           "500": "#EBE8DB",
           "700": "#DCE3F1",
-          "800": "hsl(0, 0%, 100%)",
-          "850": "hsl(0, 0%, 98%)",
+          "800": "#FFFFFF",
+          "850": "#F8F8F8",
           "900": "#FFFFFF",
         },
         link: {
@@ -36,7 +36,7 @@ const config: Config = {
       },
       boxShadow: {
         "light-100":
-          "0px 12px 20px 0px rgba(184, 184, 184, 0.03), 0px 6px 12px 0px rgba(184, 184, 184, 0.02), 0px 2px 4px 0px rgba(184, 184, 184, 0.03)",
+          "0 0 0 1px rgba(0, 0, 0, 0.08), 0px 2px 2px rgba(0, 0, 0, 0.04), 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 0 1px rgba(0, 0, 0, 0.08), 0px 2px 2px rgba(0, 0, 0, 0.04)",
         "light-200": "10px 10px 20px 0px rgba(218, 213, 213, 0.10)",
         "light-300": "-10px 10px 20px 0px rgba(218, 213, 213, 0.10)",
         "dark-100": "0px 2px 10px 0px rgba(46, 52, 56, 0.10)",

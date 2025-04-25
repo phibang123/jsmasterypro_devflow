@@ -55,7 +55,7 @@ const RightSidebar = () => {
   return (
     <section className="custom-scrollbar sticky right-0 top-0 flex h-screen w-[350px] flex-col gap-6 overflow-y-auto border-l border-none p-6 pl-0 pt-32 shadow-none max-xl:hidden sm:gap-10">
       {/* Top  Questions */}
-      <div className="background-light800_dark300 shadow-light-customer ml-1 rounded-lg p-6 dark:shadow-none">
+      <div className="background-light800_dark300 shadow-light100_dark100 ml-1 rounded-lg p-6 dark:shadow-none">
         <div>
           <h3 className="h3-bold text-dark200_light900">Top Question</h3>
         </div>
@@ -64,7 +64,7 @@ const RightSidebar = () => {
         </div>
       </div>
       {/* Popular Tags */}
-      <div className="background-light800_dark300 shadow-light-customer ml-1 rounded-lg p-6 dark:shadow-none">
+      <div className="background-light800_dark300 shadow-light100_dark100 ml-1 rounded-lg p-6 dark:shadow-none">
         <h3 className="h3-bold text-dark200_light900">Popular Tags</h3>
         <div className="mt-7 flex w-full flex-col gap-[20px]">
           {renderingPopularTags()}

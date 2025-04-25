@@ -12,7 +12,7 @@ const AskQuestion = async () => {
   if (!session?.user) return redirect("/sign-in");
   return (
     <Suspense fallback={<AskQuestionLoading />}>
-      <div className="card-wrapper background-light900_dark300 shadow-light-customer rounded-lg p-9">
+      <div className="card-wrapper p-9">
         <h1 className="h1-bold text-dark100_light900">Ask a question</h1>
 
         <div className="mt-9">

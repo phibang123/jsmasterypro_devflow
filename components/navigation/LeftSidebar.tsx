@@ -68,7 +68,7 @@ const LeftSidebar = async () => {
 
   return (
     <section className="custom-scrollbar sticky left-0 top-0 flex h-screen flex-col justify-between overflow-y-auto border-r border-none p-6 pr-2 pt-32 shadow-light-300 dark:shadow-none max-sm:hidden lg:w-[300px]">
-      <div className="background-light800_dark300 shadow-light-customer flex flex-col gap-4 rounded-lg p-6 dark:shadow-none">
+      <div className="background-light800_dark300 shadow-light100_dark100 flex flex-col gap-4 rounded-lg p-6 dark:shadow-none">
         <NavLinks userId={userId} />
       </div>
 
