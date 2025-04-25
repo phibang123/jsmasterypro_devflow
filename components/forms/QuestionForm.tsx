@@ -145,7 +145,7 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
               <FormControl>
                 <Textarea
                   disabled={form.formState.isSubmitting}
-                  className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] resize-none overflow-hidden border"
+                  className="paragraph-regular background-light850_dark100 light-border-2 text-dark300_light700 no-focus min-h-[56px] resize-none overflow-hidden border"
                   style={{ height: "auto" }}
                   {...field}
                 />
@@ -169,7 +169,7 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
               <FormControl>
                 <Textarea
                   disabled={form.formState.isSubmitting}
-                  className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] resize-none overflow-hidden border"
+                  className="paragraph-regular background-light850_dark100 light-border-2 text-dark300_light700 no-focus min-h-[56px] resize-none overflow-hidden border"
                   style={{ height: "auto" }}
                   {...field}
                 />
@@ -219,7 +219,7 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
                 <div>
                   <Input
                     disabled={form.formState.isSubmitting}
-                    className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] border"
+                    className="paragraph-regular background-light850_dark100 light-border-2 text-dark300_light700 no-focus min-h-[56px] border shadow-light-100"
                     placeholder="Add tags... (Press Enter to add)"
                     onKeyDown={(e) => handleInputKeydown(e, field)}
                   />

@@ -32,6 +32,7 @@ const QuestionDetail = async ({
     content,
     tags,
     description,
+    updatedAt,
   } = question;
 
   const session = await auth();
@@ -101,8 +102,15 @@ const QuestionDetail = async ({
             <Metric
               imgUrl="/icons/clock.svg"
               alt="clock"
-              value=""
-              title={getTimeStamp(createdAt)}
+              value={getTimeStamp(createdAt)}
+              title=" Asked"
+              textStyles="body-medium text-dark400_light800"
+            />
+            <Metric
+              imgUrl="/icons/edit.svg"
+              alt="Updated"
+              value={getTimeStamp(updatedAt)}
+              title=" Updated"
               textStyles="body-medium text-dark400_light800"
             />
             <Metric
