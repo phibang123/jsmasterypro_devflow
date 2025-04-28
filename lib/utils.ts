@@ -99,6 +99,17 @@ export const validateRequest = <
   return validatedData.data;
 };
 
+export const validateDuplicateTags = (tags: string[] | undefined) => {
+  if (!tags || !tags?.length || tags.length > 2) return;
+  const duplicateTags = tags.filter(
+    (tag, index, self) => self.indexOf(tag) !== index,
+  );
+  if (duplicateTags.length > 0) {
+    throw new Error(
+      `Duplicate tags are not allowed: ${duplicateTags.join(", ")}`,
+    );
+  }
+};
 export const transformLeanDocument = <
   T extends { _id: ObjectId | string; __v?: number },
 >(

@@ -7,6 +7,7 @@ import { constructorApi } from "../api";
 import handleError from "../handlers/error.handler";
 import GuardGateway from "../handlers/guard.handler";
 import handleSuccess from "../handlers/success.handler";
+import { validateDuplicateTags } from "../utils";
 import {
   AskQuestionSchema,
   PaginationSearchParamsSchema,
@@ -23,6 +24,8 @@ export async function createQuestion(
       authorize: true,
     });
     const { session, params: validatedParams } = validationResult;
+
+    validateDuplicateTags(validatedParams?.tags);
 
     const userId = session?.user?.id;
 
@@ -91,6 +94,8 @@ export async function editQuestion(
     });
 
     const { session, params: validatedParams } = validationResult;
+
+    validateDuplicateTags(validatedParams?.tags);
 
     const userId = session?.user?.id;
 

@@ -10,7 +10,11 @@ import handleError from "@/lib/handlers/error.handler";
 import handleSuccess from "@/lib/handlers/success.handler";
 import logger from "@/lib/logger";
 import dbConnect from "@/lib/mongoose";
-import { getPaginationParams, validateRequest } from "@/lib/utils";
+import {
+  getPaginationParams,
+  validateDuplicateTags,
+  validateRequest,
+} from "@/lib/utils";
 import { CreateQuestionRequestSchemaAPI } from "@/lib/validations";
 
 // Types
@@ -77,6 +81,8 @@ export async function POST(request: NextRequest) {
     validatedData = validateRequest(body, CreateQuestionRequestSchemaAPI, {
       requiredAuth: true,
     });
+
+    validateDuplicateTags(validatedData.tags);
   } catch (error) {
     return handleError({ error });
   }

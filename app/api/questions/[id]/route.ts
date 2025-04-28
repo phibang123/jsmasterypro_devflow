@@ -9,7 +9,7 @@ import handleSuccess from "@/lib/handlers/success.handler";
 import { ForbiddenError, NotFoundError } from "@/lib/http.errors";
 import logger from "@/lib/logger";
 import dbConnect from "@/lib/mongoose";
-import { validateRequest } from "@/lib/utils";
+import { validateDuplicateTags, validateRequest } from "@/lib/utils";
 import { CreateQuestionRequestSchemaAPI } from "@/lib/validations/api-route.validation";
 import { QuestionModelIF, TagModelIF } from "@/types/model";
 
@@ -160,6 +160,7 @@ export async function PUT(request: Request, { params }: RouteParams) {
       requiredAuth: true,
       partial: true,
     });
+    validateDuplicateTags(validatedData.tags);
   } catch (error) {
     return handleError({ error });
   }
