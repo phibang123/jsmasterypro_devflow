@@ -19,8 +19,8 @@ const QuestionDetail = async ({
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await params;
-  const { data: question } = await getQuestionById(id);
-  if (!question) return new Error("Question not found");
+  const { data: question, success } = await getQuestionById(id);
+  if (!success || !question) return new Error("Question not found");
   const {
     title,
     author,

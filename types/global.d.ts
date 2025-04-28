@@ -19,6 +19,7 @@ interface QuestionIF {
   tags: Tags[];
   author: Author;
   upVotes: number;
+  downVotes: number;
   answers: number;
   views: number;
   createdAt: Date;
