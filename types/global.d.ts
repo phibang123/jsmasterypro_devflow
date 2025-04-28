@@ -38,7 +38,7 @@ interface TagIF {
 interface AuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
   defaultValue: T;
-  onSubmit: (data: T) => Promise<ActionResponse<unknown | T>>;
+  onSubmit: (data: T) => Promise<APIResponse<unknown | T>>;
   formType: "SIGN_UP" | "SIGN_IN";
 }
 

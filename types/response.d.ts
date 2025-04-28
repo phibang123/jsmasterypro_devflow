@@ -1,4 +1,4 @@
-type ActionResponse<T = unknown> = {
+type DefaultResponse<T = unknown> = {
   success: boolean;
   data?: T;
   error?: {
@@ -8,8 +8,8 @@ type ActionResponse<T = unknown> = {
   status?: number;
 };
 
-type SuccessResponse<T = unknown> = ActionResponse<T> & { success: true };
-type ErrorResponse = ActionResponse & { success: false };
+type SuccessResponse<T = unknown> = DefaultResponse<T> & { success: true };
+type ErrorResponse = DefaultResponse & { success: false };
 
 type APIErrorResponse = NextResponse<ErrorResponse>;
 type APISuccessResponse<T = unknown> = NextResponse<SuccessResponse<T>>;

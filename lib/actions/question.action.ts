@@ -16,7 +16,7 @@ import {
 
 export async function createQuestion(
   params: ICreateQuestionParam,
-): ActionResponse<QuestionModelIF> {
+): ServerResponse<QuestionModelIF> {
   try {
     const validationResult = await GuardGateway({
       params,
@@ -36,13 +36,13 @@ export async function createQuestion(
     if (!question.success || !question.data) return question;
     return handleSuccess({ data: question.data, responseType: "server" });
   } catch (error) {
-    return handleError({ error, responseType: "server" });
+    return handleError({ error, responseType: "server" }) as ErrorResponse;
   }
 }
 
 export async function getQuestions(
   params: PaginationSearchParamsIF,
-): ActionResponse<{
+): ServerResponse<{
   questions: QuestionModelIF[];
   total: number;
   isNext: boolean;
@@ -61,31 +61,31 @@ export async function getQuestions(
       responseType: "server",
     });
   } catch (error) {
-    return handleError({ error, responseType: "server" });
+    return handleError({ error, responseType: "server" }) as ErrorResponse;
   }
 }
 
 export async function getQuestionById(
   id: string,
-): ActionResponse<QuestionModelIF> {
+): ServerResponse<QuestionModelIF> {
   try {
     if (!id) {
       return handleError({
         error: new Error("Question ID is required"),
         responseType: "server",
-      });
+      }) as ErrorResponse;
     }
     const question = await constructorApi.questions.getById(id);
     if (!question.success || !question.data) return question;
     return handleSuccess({ data: question.data, responseType: "server" });
   } catch (error) {
-    return handleError({ error, responseType: "server" });
+    return handleError({ error, responseType: "server" }) as ErrorResponse;
   }
 }
 
 export async function editQuestion(
   params: IUpdateQuestionParam,
-): ActionResponse<QuestionModelIF> {
+): ServerResponse<QuestionModelIF> {
   try {
     const validationResult = await GuardGateway({
       params,
@@ -109,6 +109,6 @@ export async function editQuestion(
     if (!question.success || !question.data) return question;
     return handleSuccess({ data: question.data, responseType: "server" });
   } catch (error) {
-    return handleError({ error, responseType: "server" });
+    return handleError({ error, responseType: "server" }) as ErrorResponse;
   }
 }

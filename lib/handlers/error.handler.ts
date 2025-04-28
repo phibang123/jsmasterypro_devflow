@@ -41,11 +41,11 @@ const formatResponse = (
   };
 
   return responseType === "api"
-    ? NextResponse.json(responseContent, {
+    ? (NextResponse.json(responseContent, {
         status,
         headers: { "Content-Type": "application/json" },
-      })
-    : { status, ...responseContent };
+      }) as APIErrorResponse)
+    : ({ status, ...responseContent } as ErrorResponse);
 };
 
 // Error handlers

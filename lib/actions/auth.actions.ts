@@ -10,7 +10,7 @@ import { SignUpSchema, SignInSchema } from "../validations/index";
 
 export async function signUpWithCredentials(
   params: IAuthCredentials,
-): ActionResponse<IAuthCredentials> {
+): ServerResponse<IAuthCredentials> {
   try {
     const validationResult = await GuardGateway({
       params,
@@ -27,13 +27,13 @@ export async function signUpWithCredentials(
     });
     return handleSuccess({ message: response.message, responseType: "server" });
   } catch (error) {
-    return handleError({ error, responseType: "server" });
+    return handleError({ error, responseType: "server" }) as ErrorResponse;
   }
 }
 
 export async function signInWithCredentials(
   params: Pick<IAuthCredentials, "email" | "password">,
-): ActionResponse<IAuthCredentials> {
+): ServerResponse<IAuthCredentials> {
   try {
     const validationResult = await GuardGateway({
       params,
@@ -51,7 +51,7 @@ export async function signInWithCredentials(
     });
     return handleSuccess({ message: response.message, responseType: "server" });
   } catch (error) {
-    return handleError({ error, responseType: "server" });
+    return handleError({ error, responseType: "server" }) as ErrorResponse;
   }
 }
 

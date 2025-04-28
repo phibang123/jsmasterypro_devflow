@@ -14,7 +14,7 @@ function isError(error: unknown): error is Error {
 export async function fetchHandler<T>(
   url: string,
   options: FetchOptions = {},
-): Promise<ActionResponse<T>> {
+): Promise<APIResponse<T>> {
   const {
     timeOut = 5000,
     headers: customerHeader = {},
@@ -48,7 +48,7 @@ export async function fetchHandler<T>(
       throw new RequestError(response.status, `HTTP error: ${response.status}`);
     }
 
-    return (await response.json()) as ActionResponse<T>;
+    return (await response.json()) as SuccessResponse<T>;
   } catch (err) {
     const error = isError(err) ? err : new Error("Unknown error");
 
@@ -58,6 +58,6 @@ export async function fetchHandler<T>(
       logger.warn(`Error fetching ${url}: ${error}`);
     }
 
-    return handleError({ error, responseType: "server" }) as ActionResponse<T>;
+    return handleError({ error, responseType: "server" }) as APIErrorResponse;
   }
 }

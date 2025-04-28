@@ -18,7 +18,7 @@ const API_BASE_URL =
 export async function axiosInstance<T>(
   url: string,
   options: FetchOptions = {},
-): Promise<ActionResponse<T> | APIErrorResponse> {
+): Promise<APIResponse<T>> {
   const {
     timeOut = 50000,
     headers: customerHeaders = {},
@@ -37,7 +37,7 @@ export async function axiosInstance<T>(
 
   try {
     const response = await axiosInstance(url, restOptions);
-    return response.data as ActionResponse<T>;
+    return response.data as SuccessResponse<T>;
   } catch (err) {
     const error = isError(err) ? err : new Error("Unknown error");
 
@@ -46,7 +46,7 @@ export async function axiosInstance<T>(
       return handleError({
         error: new AxiosError(errorMessage),
         responseType: "server",
-      }) as ActionResponse<T>;
+      }) as APIErrorResponse;
     }
 
     if (axios.isCancel(err)) {
@@ -55,6 +55,6 @@ export async function axiosInstance<T>(
       logger.warn(`Error fetching ${url}: ${error}`);
     }
 
-    return handleError({ error, responseType: "server" }) as ActionResponse<T>;
+    return handleError({ error, responseType: "server" }) as APIErrorResponse;
   }
 }
