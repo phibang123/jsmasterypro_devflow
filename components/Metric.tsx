@@ -22,7 +22,7 @@ const Metric = ({
         alt={alt}
         width={sizeWidthAndHeight}
         height={sizeWidthAndHeight}
-        className={`rounded-md object-contain ${imgStyles}`}
+        className={`rounded-md object-contain ${imgStyles} ${isAuthor && "size-[28px]"}`}
         quality={100}
       />
       <div className={`flex items-center gap-1 ${textStyles}`}>

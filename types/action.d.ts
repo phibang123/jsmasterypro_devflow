@@ -28,3 +28,5 @@ interface ICreateQuestionParam {
 interface IUpdateQuestionParam extends ICreateQuestionParam {
   questionId: string;
 }
+
+type ActionResponse<T> = Promise<APISuccessResponse<T> | APIErrorResponse>;

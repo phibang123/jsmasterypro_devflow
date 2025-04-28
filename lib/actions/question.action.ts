@@ -1,5 +1,6 @@
 "use server";
 
+import { PaginationSearchParamsIF } from "@/types/global";
 import { QuestionModelIF } from "@/types/model";
 
 import { constructorApi } from "../api";
@@ -8,10 +9,13 @@ import GuardGateway from "../handlers/guard.handler";
 import handleSuccess from "../handlers/success.handler";
 import {
   AskQuestionSchema,
+  PaginationSearchParamsSchema,
   UpdateQuestionRequestSchemaSERVER,
 } from "../validations";
 
-export async function createQuestion(params: ICreateQuestionParam) {
+export async function createQuestion(
+  params: ICreateQuestionParam,
+): ActionResponse<QuestionModelIF> {
   try {
     const validationResult = await GuardGateway({
       params,
@@ -26,46 +30,59 @@ export async function createQuestion(params: ICreateQuestionParam) {
       ...validatedParams!,
       userId: userId!,
     });
+    if (!question.success || !question.data) return question;
     return handleSuccess({ data: question.data, responseType: "server" });
   } catch (error) {
     return handleError({ error, responseType: "server" });
   }
 }
 
-export async function getAllQuestions(params: {
-  page?: number;
-  limit?: number;
-}): Promise<APISuccessResponse<QuestionModelIF[]> | []> {
-  const questions = await constructorApi.questions.getAll(params);
-  if (!questions.success || !questions.data?.length) {
+export async function getQuestions(
+  params: PaginationSearchParamsIF,
+): ActionResponse<{
+  questions: QuestionModelIF[];
+  total: number;
+  isNext: boolean;
+}> {
+  try {
+    const validationResult = await GuardGateway({
+      params,
+      schema: PaginationSearchParamsSchema,
+    });
+    const { params: validatedParams } = validationResult;
+    const questions = await constructorApi.questions.getAll(validatedParams!);
+    if (!questions.success || !questions.data) return questions;
     return handleSuccess({
-      data: [],
-      message: "No questions found",
+      data: questions.data,
+      message: "Questions fetched successfully",
       responseType: "server",
     });
+  } catch (error) {
+    return handleError({ error, responseType: "server" });
   }
-  return handleSuccess({
-    data: questions.data,
-    message: "Questions fetched successfully",
-    responseType: "server",
-  });
 }
 
-export async function getQuestionById(id: string) {
-  if (!id) {
-    return handleError({
-      error: new Error("Question ID is required"),
-      responseType: "server",
-    });
+export async function getQuestionById(
+  id: string,
+): ActionResponse<QuestionModelIF> {
+  try {
+    if (!id) {
+      return handleError({
+        error: new Error("Question ID is required"),
+        responseType: "server",
+      });
+    }
+    const question = await constructorApi.questions.getById(id);
+    if (!question.success || !question.data) return question;
+    return handleSuccess({ data: question.data, responseType: "server" });
+  } catch (error) {
+    return handleError({ error, responseType: "server" });
   }
-  const question = await constructorApi.questions.getById(id);
-  if (!question.success || !question.data) {
-    return handleError({ error: question.error, responseType: "server" });
-  }
-  return handleSuccess({ data: question.data, responseType: "server" });
 }
 
-export async function editQuestion(params: IUpdateQuestionParam) {
+export async function editQuestion(
+  params: IUpdateQuestionParam,
+): ActionResponse<QuestionModelIF> {
   try {
     const validationResult = await GuardGateway({
       params,
@@ -84,9 +101,7 @@ export async function editQuestion(params: IUpdateQuestionParam) {
         userId: userId!,
       },
     );
-    if (!question.success || !question.data) {
-      return handleError({ error: question.error, responseType: "server" });
-    }
+    if (!question.success || !question.data) return question;
     return handleSuccess({ data: question.data, responseType: "server" });
   } catch (error) {
     return handleError({ error, responseType: "server" });

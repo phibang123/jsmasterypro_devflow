@@ -6,7 +6,7 @@ import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { getAllQuestions } from "@/lib/actions/question.action";
+import { getQuestions } from "@/lib/actions/question.action";
 import { QuestionIF } from "@/types/global";
 
 import HomeLoading from "./loading";
@@ -16,31 +16,62 @@ interface SearchParams {
 }
 
 const Home = async ({ searchParams }: SearchParams) => {
-  const { query = "", filter = "" } = await searchParams;
-  const { data: questions } = await getAllQuestions({
-    page: 1,
-    limit: 10,
+  const {
+    query = "",
+    filter = "",
+    sort = "",
+    page = 1,
+    pageSize = 10,
+  } = await searchParams;
+  const {
+    data: { questions },
+    success,
+    message,
+  } = await getQuestions({
+    page: parseInt(page as string),
+    pageSize: parseInt(pageSize as string),
+    query,
+    sort,
+    filter,
   });
 
-  const filteredQuestions =
-    questions?.length > 0
-      ? questions?.filter((question: QuestionIF) => {
-          // Match query against the title
-          const matchesQuery = question.title
-            .toLowerCase()
-            .includes(query.toLowerCase());
+  const renderQuestion = () => {
+    if (!success) {
+      return (
+        <div className="mt-10 flex w-full items-center justify-center">
+          <p className="text-dark400_light700">
+            {message || "Something went wrong"}
+          </p>
+        </div>
+      );
+    }
+    if (questions.length === 0) {
+      return (
+        <div className="mt-10 flex w-full items-center justify-center">
+          <p className="text-dark400_light700">No questions found</p>
+        </div>
+      );
+    }
+    const filteredQuestions = questions.filter((question: QuestionIF) => {
+      // Match query against the title
+      console.log(question, "question");
+      const matchesQuery = question.title
+        .toLowerCase()
+        .includes(query.toLowerCase());
 
-          // Match filter against tags or author name, adjust logic as needed
-          const matchesFilter = filter
-            ? question.tags.some(
-                (tag) => tag.name.toLowerCase() === filter.toLowerCase(),
-              ) || question.author.name.toLowerCase() === filter.toLowerCase()
-            : true; // If no filter is provided, include all questions
+      // Match filter against tags or author name, adjust logic as needed
+      const matchesFilter = filter
+        ? question.tags.some(
+            (tag) => tag.name.toLowerCase() === filter.toLowerCase(),
+          ) || question.author.name.toLowerCase() === filter.toLowerCase()
+        : true; // If no filter is provided, include all questions
 
-          return matchesQuery && matchesFilter;
-        })
-      : [];
-
+      return matchesQuery && matchesFilter;
+    });
+    return filteredQuestions.map((question: QuestionIF) => (
+      <QuestionCard key={question.id} question={question} />
+    ));
+  };
   return (
     <Suspense fallback={<HomeLoading />}>
       <>
@@ -63,9 +94,7 @@ const Home = async ({ searchParams }: SearchParams) => {
         </section>
         <HomeFilter />
         <div className="mt-8 flex w-full flex-col gap-6">
-          {filteredQuestions.map((question: QuestionIF) => (
-            <QuestionCard key={question.id} question={question} />
-          ))}
+          {renderQuestion()}
         </div>
       </>
     </Suspense>

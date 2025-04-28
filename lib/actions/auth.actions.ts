@@ -8,7 +8,9 @@ import GuardGateway from "../handlers/guard.handler";
 import handleSuccess from "../handlers/success.handler";
 import { SignUpSchema, SignInSchema } from "../validations/index";
 
-export async function signUpWithCredentials(params: IAuthCredentials) {
+export async function signUpWithCredentials(
+  params: IAuthCredentials,
+): ActionResponse<IAuthCredentials> {
   try {
     const validationResult = await GuardGateway({
       params,
@@ -31,7 +33,7 @@ export async function signUpWithCredentials(params: IAuthCredentials) {
 
 export async function signInWithCredentials(
   params: Pick<IAuthCredentials, "email" | "password">,
-) {
+): ActionResponse<IAuthCredentials> {
   try {
     const validationResult = await GuardGateway({
       params,
@@ -53,7 +55,7 @@ export async function signInWithCredentials(
   }
 }
 
-export async function logoutWithCredentials() {
+export async function logoutWithCredentials(): Promise<void> {
   // Doesn't use trycatch
   await signOut();
 }

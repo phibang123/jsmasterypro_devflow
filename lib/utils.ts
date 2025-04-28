@@ -1,11 +1,19 @@
 import { clsx, type ClassValue } from "clsx";
+import { ObjectId } from "mongoose";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
-import { DEFAULT_PAGE, DEFAULT_LIMIT } from "@/configs/constance";
+import {
+  DEFAULT_PAGE,
+  DEFAULT_LIMIT,
+  DEFAULT_QUERY,
+  DEFAULT_SORT,
+  DEFAULT_FILTER,
+} from "@/configs/constance";
 import { deviconClasses } from "@/constants/techMap";
 
 import { UnauthorizedError, ValidationError } from "./http.errors";
+import logger from "./logger";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -54,10 +62,13 @@ export const getAuthorName = (name = "") => {
 
 export const getPaginationParams = (searchParams: URLSearchParams) => ({
   page: parseInt(searchParams.get("page") || String(DEFAULT_PAGE), 10),
-  limit: parseInt(searchParams.get("limit") || String(DEFAULT_LIMIT), 10),
+  limit: parseInt(searchParams.get("pageSize") || String(DEFAULT_LIMIT), 10),
   skip:
     (parseInt(searchParams.get("page") || String(DEFAULT_PAGE), 10) - 1) *
-    parseInt(searchParams.get("limit") || String(DEFAULT_LIMIT), 10),
+    parseInt(searchParams.get("pageSize") || String(DEFAULT_LIMIT), 10),
+  query: searchParams.get("query") || DEFAULT_QUERY,
+  sort: searchParams.get("sort") || DEFAULT_SORT,
+  filter: searchParams.get("filter") || DEFAULT_FILTER,
 });
 
 export const validateRequest = <
@@ -72,6 +83,7 @@ export const validateRequest = <
     requiredAuth: false,
   },
 ): z.infer<T> => {
+  logger.info("Validating request");
   if (options.requiredAuth && !dataRequest?.userId)
     throw new UnauthorizedError("Unauthorized");
 
@@ -83,6 +95,19 @@ export const validateRequest = <
     const fieldErrors = validatedData.error.flatten().fieldErrors;
     throw new ValidationError(fieldErrors as Record<string, string[]>);
   }
-
+  logger.info("Request validated successfully");
   return validatedData.data;
+};
+
+export const transformLeanDocument = <
+  T extends { _id: ObjectId | string; __v?: number },
+>(
+  doc: T,
+): Omit<T, "_id"> & { id: string } => {
+  const { _id, ...rest } = doc;
+  return {
+    ...(_id && { id: _id.toString() }),
+    __v: doc.__v,
+    ...rest,
+  } as Omit<T, "_id"> & { id: string };
 };

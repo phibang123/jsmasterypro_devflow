@@ -18,7 +18,7 @@ const API_BASE_URL =
 export async function axiosInstance<T>(
   url: string,
   options: FetchOptions = {},
-): Promise<ActionResponse<T>> {
+): Promise<ActionResponse<T> | APIErrorResponse> {
   const {
     timeOut = 50000,
     headers: customerHeaders = {},

@@ -58,3 +58,11 @@ interface EditorIF extends MDXEditorProps {
   value: string;
   fieldChange: (value: string) => void;
 }
+
+interface PaginationSearchParamsIF {
+  page?: number;
+  pageSize?: number;
+  query?: string;
+  sort?: string;
+  filter?: string;
+}

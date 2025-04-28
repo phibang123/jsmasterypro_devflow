@@ -2,6 +2,7 @@ import ROUTES from "@/constants/routes";
 import { IAccount } from "@/database/account.model";
 import { IQuestion } from "@/database/question.model";
 import { IUser } from "@/database/user.model";
+import { PaginationSearchParamsIF } from "@/types/global";
 import { QuestionModelIF, UserModelIF } from "@/types/model";
 
 import { axiosInstance } from "./handlers/axios.handler";
@@ -92,8 +93,12 @@ export const constructorApi = {
         method: "POST",
         data: questionData,
       }),
-    getAll: (params?: { page?: number; limit?: number }) =>
-      axiosInstance<QuestionModelIF[]>("/questions", {
+    getAll: (params: PaginationSearchParamsIF) =>
+      axiosInstance<{
+        questions: QuestionModelIF[];
+        total: number;
+        isNext: boolean;
+      }>("/questions", {
         method: "GET",
         params,
       }),

@@ -69,7 +69,7 @@ export const AskQuestionSchema = z.object({
   description: z
     .string()
     .min(10, { message: "Description must be at least 10 characters!" })
-    .max(200, { message: "Description cannot exceed 500 characters." }),
+    .max(200, { message: "Description cannot exceed 200 characters." }),
 
   content: z.string().min(1, { message: "Body is required!" }),
 
@@ -82,6 +82,14 @@ export const AskQuestionSchema = z.object({
     )
     .min(1, { message: "At least one tag is required." })
     .max(3, { message: "Cannot add more than 3 tags" }),
+});
+
+export const PaginationSearchParamsSchema = z.object({
+  page: z.number().int().positive().default(1),
+  pageSize: z.number().int().positive().default(10),
+  query: z.string().optional(),
+  filter: z.string().optional(),
+  sort: z.string().optional(),
 });
 
 export * from "./api-route.validation";
