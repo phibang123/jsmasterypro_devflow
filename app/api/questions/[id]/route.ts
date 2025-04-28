@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { z } from "zod";
 
 import Question from "@/database/question.model";
 import TagQuestion from "@/database/tag-question.model";
@@ -129,10 +130,10 @@ const updateQuestionForbidden = async (
 
 // GET /api/questions/id
 export async function GET(_: Request, { params }: RouteParams) {
-  const { id } = await params;
-  if (!id) throw new NotFoundError("Question");
   logger.info("Getting question");
   try {
+    const { id } = await params;
+    if (!id) throw new NotFoundError("Question");
     await dbConnect();
 
     const question = await Question.findById(id)
@@ -142,33 +143,36 @@ export async function GET(_: Request, { params }: RouteParams) {
     logger.info("Question found");
     return handleSuccess({ data: question });
   } catch (error) {
+    logger.error("Error getting question");
     return handleError({ error });
   }
 }
 
 // PUT /api/questions/id
 export async function PUT(request: Request, { params }: RouteParams) {
-  const { id } = await params;
-  if (!id) throw new NotFoundError("Question");
+  logger.info("Updating question");
   const session = await mongoose.startSession();
+  let validatedData: Partial<z.infer<typeof CreateQuestionRequestSchemaAPI>>;
+  try {
+    await dbConnect();
+    const body = await request.json();
+    validatedData = validateRequest(body, CreateQuestionRequestSchemaAPI, {
+      requiredAuth: true,
+      partial: true,
+    });
+  } catch (error) {
+    return handleError({ error });
+  }
 
   try {
-    logger.info("Updating question");
-    const body = await request.json();
-    const validatedData = validateRequest(
-      body,
-      CreateQuestionRequestSchemaAPI,
-      {
-        requiredAuth: true,
-        partial: true,
-      },
-    );
+    const { id } = await params;
+    if (!id) throw new NotFoundError("Question");
     await dbConnect();
 
     session.startTransaction();
     const question = await findQuestionForbidden(
       id,
-      validatedData.userId,
+      validatedData.userId!,
       session,
     );
     const newQuestionData = await updateQuestionForbidden(

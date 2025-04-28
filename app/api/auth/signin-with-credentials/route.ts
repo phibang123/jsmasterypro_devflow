@@ -20,12 +20,12 @@ import { UserModelIF } from "@/types/model";
 // 4. Return user data
 
 export async function POST(request: NextRequest) {
+  logger.info("Starting signin with credentials");
+
   try {
-    logger.info("Starting signin with credentials");
+    await dbConnect();
     const body = await request.json();
     const validatedRequest = validateRequest(body, SignInSchema);
-    await dbConnect();
-
     const { userId } =
       await findAccountByEmailAndComparePassword(validatedRequest);
 
@@ -36,8 +36,9 @@ export async function POST(request: NextRequest) {
       data: { id, image, name, email },
       message: "Login by credentials is successful",
     });
-  } catch (error) {
-    return handleError({ error });
+  } catch (error: unknown) {
+    logger.error("Error signing in with credentials");
+    return handleError({ error }) as APIErrorResponse;
   }
 }
 

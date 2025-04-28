@@ -70,17 +70,20 @@ const createQuestionAndTagRelations = async (
 
 // POST /api/questions
 export async function POST(request: NextRequest) {
+  logger.info("Creating question");
+  let validatedData: z.infer<typeof CreateQuestionRequestSchemaAPI>;
+  try {
+    const body = await request.json();
+    validatedData = validateRequest(body, CreateQuestionRequestSchemaAPI, {
+      requiredAuth: true,
+    });
+  } catch (error) {
+    return handleError({ error });
+  }
+
   const session = await mongoose.startSession();
 
   try {
-    const body = await request.json();
-    const validatedData = validateRequest(
-      body,
-      CreateQuestionRequestSchemaAPI,
-      {
-        requiredAuth: true,
-      },
-    );
     await dbConnect();
 
     session.startTransaction();
@@ -101,31 +104,137 @@ export async function POST(request: NextRequest) {
       data: { id: questionId },
     });
   } catch (error) {
-    await session.abortTransaction();
+    await session?.abortTransaction();
     logger.error("Error creating question:", error);
     return handleError({ error });
   } finally {
-    await session.endSession();
+    await session?.endSession();
   }
 }
 
 // GET /api/questions
 export async function GET(request: NextRequest) {
+  logger.info("Fetching questions");
+  const { skip, limit, query, sort, filter } = getPaginationParams(
+    new URL(request.url).searchParams,
+  );
+  let sortDefinition = sort;
+  let queryRegex = {};
+  if (query) {
+    queryRegex = {
+      $or: [
+        { title: { $regex: new RegExp(`^${query}$`, "i") } },
+        { description: { $regex: new RegExp(`^${query}$`, "i") } },
+        { content: { $regex: new RegExp(`^${query}$`, "i") } },
+      ],
+    };
+  }
+
+  if (filter) {
+    if (filter === "recommendation") {
+      return handleSuccess({
+        data: {
+          questions: [],
+          total: 0,
+          isNext: false,
+        },
+      });
+      // try {
+      //   await dbConnect();
+      //   // Get all questions with their metrics
+      //   const questions = await Question.find({})
+      //     .populate("author", "name image")
+      //     .populate("tags", "name");
+      //   // Calculate recommendation score for each question
+      //   const recommendedQuestions = questions.map((question) => {
+      //     const now = new Date();
+      //     const createdAt = new Date(question.createdAt);
+      //     const timeDiff = now.getTime() - createdAt.getTime();
+      //     const daysOld = timeDiff / (1000 * 60 * 60 * 24);
+      //     // Calculate score based on multiple factors
+      //     const score =
+      //       question.votes * 0.3 + // 30% weight for votes
+      //       question.views * 0.2 + // 20% weight for views
+      //       question.answers.length * 0.2 + // 20% weight for answers
+      //       question.tags.length * 0.1 + // 10% weight for tag count
+      //       (1 / (1 + daysOld)) * 0.2; // 20% weight for recency (decaying factor)
+      //     return {
+      //       ...question.toObject(),
+      //       recommendationScore: score,
+      //     };
+      //   });
+      //   // Sort by recommendation score and get top questions
+      //   const sortedQuestions = recommendedQuestions
+      //     .sort((a, b) => b.recommendationScore - a.recommendationScore)
+      //     .slice(skip, skip + limit);
+      //   return handleSuccess({
+      //     data: {
+      //       questions: sortedQuestions,
+      //       total: recommendedQuestions.length,
+      //       isNext: recommendedQuestions.length > skip + limit,
+      //     },
+      //     message: "Recommended questions fetched successfully",
+      //   });
+      // } catch (error) {
+      //   logger.error("Error fetching recommended questions:", error);
+      //   return handleError({ error });
+      // }
+    }
+    switch (filter) {
+      case "newest":
+        sortDefinition = "createdAt";
+        break;
+      case "oldest":
+        sortDefinition = "-createdAt";
+        break;
+      case "most-votes":
+        sortDefinition = "votes";
+        break;
+      case "least-votes":
+        sortDefinition = "-votes";
+        break;
+      case "most-answers":
+        sortDefinition = "answers";
+        break;
+      case "least-answers":
+        sortDefinition = "-answers";
+        break;
+      case "most-views":
+        sortDefinition = "views";
+        break;
+      case "least-views":
+        sortDefinition = "-views";
+        break;
+      case "most-comments":
+        sortDefinition = "comments";
+        break;
+      case "least-comments":
+        sortDefinition = "-comments";
+        break;
+      default:
+        sortDefinition = "-createdAt";
+        break;
+    }
+  }
   try {
     await dbConnect();
-    const { skip, limit } = getPaginationParams(
-      new URL(request.url).searchParams,
-    );
 
-    const questions = await Question.find()
+    const questions = await Question.find(queryRegex)
       .populate("author", "name image")
       .populate("tags", "name")
-      .sort({ createdAt: -1 })
+      .sort({ [sortDefinition]: -1 })
       .skip(skip)
       .limit(limit);
-
+    // .lean(); // ToDo
+    const total = await Question.countDocuments(queryRegex);
+    logger.info(`Questions fetched successfully: ${total}`);
     return handleSuccess({
-      data: questions,
+      data: {
+        // questions: questions.map((question) => transformLeanDocument(question)), // ToDo
+        questions,
+        total,
+        isNext: total > skip + questions.length,
+      },
       message: "Questions fetched successfully",
     });
   } catch (error) {

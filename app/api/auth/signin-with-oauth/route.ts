@@ -20,12 +20,17 @@ import { UserModelIF } from "@/types/model";
 // 4. Create account if it doesn't exist
 // 5. Commit transaction
 export async function POST(request: NextRequest) {
-  const session = await mongoose.startSession();
-
+  logger.info("Starting OAuth sign-in process");
+  let validatedData: z.infer<typeof SignInWithOAuthSchemaAPI>;
   try {
-    logger.info("Starting OAuth sign-in process");
     const body = await request.json();
-    const validatedData = validateRequest(body, SignInWithOAuthSchemaAPI);
+    validatedData = validateRequest(body, SignInWithOAuthSchemaAPI);
+  } catch (error) {
+    return handleError({ error });
+  }
+
+  const session = await mongoose.startSession();
+  try {
     await dbConnect();
 
     session.startTransaction();

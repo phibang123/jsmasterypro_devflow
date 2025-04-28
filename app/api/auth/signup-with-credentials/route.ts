@@ -21,12 +21,16 @@ import { UserModelIF } from "@/types/model";
 // 4. Commit transaction
 
 export async function POST(request: NextRequest) {
-  const session = await mongoose.startSession();
-
+  logger.info("Starting credentials sign-up process");
+  let validatedData: z.infer<typeof SignUpSchema>;
   try {
-    logger.info("Starting credentials sign-up process");
     const body = await request.json();
-    const validatedData = validateRequest(body, SignUpSchema);
+    validatedData = validateRequest(body, SignUpSchema);
+  } catch (error) {
+    return handleError({ error });
+  }
+  const session = await mongoose.startSession();
+  try {
     await dbConnect();
 
     const { email, username } = validatedData;
@@ -48,8 +52,8 @@ export async function POST(request: NextRequest) {
       message: "Sign up by credentials successful",
       status: 201,
     });
-  } catch (error) {
-    // await session.abortTransaction();
+  } catch (error: unknown) {
+    await session.abortTransaction();
     logger.error("Sign-up process failed:", error);
     return handleError({ error }) as APIErrorResponse;
   } finally {
