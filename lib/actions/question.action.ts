@@ -1,6 +1,6 @@
 "use server";
 
-import { PaginationSearchParamsIF } from "@/types/global";
+import { PaginationSearchParamsIF, QuestionIF } from "@/types/global";
 import { QuestionModelIF } from "@/types/model";
 
 import { constructorApi } from "../api";
@@ -43,7 +43,7 @@ export async function createQuestion(
 export async function getQuestions(
   params: PaginationSearchParamsIF,
 ): ServerResponse<{
-  questions: QuestionModelIF[];
+  questions: QuestionIF[];
   total: number;
   isNext: boolean;
 }> {

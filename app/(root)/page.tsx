@@ -23,11 +23,7 @@ const Home = async ({ searchParams }: SearchParams) => {
     page = 1,
     pageSize = 10,
   } = await searchParams;
-  const {
-    data: { questions },
-    success,
-    message,
-  } = await getQuestions({
+  const { data, success, message } = await getQuestions({
     page: parseInt(page as string),
     pageSize: parseInt(pageSize as string),
     query,
@@ -45,7 +41,8 @@ const Home = async ({ searchParams }: SearchParams) => {
         </div>
       );
     }
-    if (questions.length === 0) {
+    const { questions } = data!;
+    if (!questions || questions.length === 0) {
       return (
         <div className="mt-10 flex w-full items-center justify-center">
           <p className="text-dark400_light700">No questions found</p>
@@ -54,7 +51,6 @@ const Home = async ({ searchParams }: SearchParams) => {
     }
     const filteredQuestions = questions.filter((question: QuestionIF) => {
       // Match query against the title
-      console.log(question, "question");
       const matchesQuery = question.title
         .toLowerCase()
         .includes(query.toLowerCase());
@@ -72,6 +68,7 @@ const Home = async ({ searchParams }: SearchParams) => {
       <QuestionCard key={question.id} question={question} />
     ));
   };
+
   return (
     <Suspense fallback={<HomeLoading />}>
       <>

@@ -58,8 +58,9 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
       tags,
     };
     let result;
-    if (isEdit && !question?.id) throw new Error("Question not found");
-    if (isEdit && question?.id) {
+
+    if (isEdit) {
+      if (!question?.id) throw new Error("Question not found");
       result = await editQuestion({
         ...questionData,
         questionId: question.id as string,
@@ -67,6 +68,7 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
     } else {
       result = await createQuestion(questionData);
     }
+
     const toastMessage = `Question ${isEdit ? "updated" : "created"} ${result.success ? "successfully" : "with error"}`;
     if (!result.success) {
       toast({
@@ -74,13 +76,21 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
         description: toastMessage,
         variant: "destructive",
       });
-    } else {
+    } else if (result.success && result.data) {
       toast({
         title: "Success",
         description: toastMessage,
       });
       form.reset();
       router.push(`/question/${result.data.id}`);
+    } else {
+      toast({
+        title: "Error",
+        description:
+          result.message ||
+          `An error occurred while ${isEdit ? "updating" : "creating"} the question`,
+        variant: "destructive",
+      });
     }
   };
 
