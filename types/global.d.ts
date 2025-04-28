@@ -15,6 +15,7 @@ interface QuestionIF {
   id: string;
   title: string;
   description: string;
+  content: string;
   tags: Tags[];
   author: Author;
   upVotes: number;

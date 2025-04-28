@@ -65,9 +65,7 @@ export async function getQuestions(
   }
 }
 
-export async function getQuestionById(
-  id: string,
-): ServerResponse<QuestionModelIF> {
+export async function getQuestionById(id: string): ServerResponse<QuestionIF> {
   try {
     if (!id) {
       return handleError({

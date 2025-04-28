@@ -10,7 +10,7 @@ import { z } from "zod";
 import { toast } from "@/hooks/use-toast";
 import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { AskQuestionSchema } from "@/lib/validations";
-import { QuestionModelIF } from "@/types/model";
+import { QuestionIF } from "@/types/global";
 
 import TagCard from "../cards/TagCard";
 import { Button } from "../ui/button";
@@ -32,7 +32,7 @@ const Editor = dynamic(() => import("@/components/editor"), {
 
 interface QuestionFormProps {
   isEdit?: boolean;
-  question?: QuestionModelIF;
+  question?: QuestionIF;
 }
 
 const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
