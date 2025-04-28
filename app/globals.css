@@ -8,7 +8,7 @@
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 :root {
@@ -228,18 +228,23 @@ body {
   }
 
   .primary-button-gradient {
-    background: linear-gradient(
-      129deg,
-      var(--main-color) 0%,
-      var(--secondary-color) 100%
-    );
-    &:hover {
-      background: linear-gradient(
-        129deg,
-        var(--main-color) 50%,
-        var(--secondary-color) 150%
-      );
-    }
+    @apply bg-gradient-to-r from-primary-500 via-primary-300 to-primary-100 duration-300 hover:scale-105 hover:opacity-90 shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+
+  .secondary-button-gradient {
+    @apply border-primary-500 bg-transparent dark:bg-dark-300 text-primary-500 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-primary-500 dark:hover:bg-primary-500 hover:text-white focus:outline-none focus:ring-primary-500 focus:ring-offset-2;
+  }
+
+  .third-button-gradient_no-focus {
+    @apply bg-light-800 text-light-400 hover:bg-light-800 dark:bg-dark-300 dark:text-light-500 dark:hover:bg-dark-400;
+  }
+
+  .third-button-gradient_focus {
+    @apply bg-primary-500  hover:bg-primary-300 dark:bg-dark-300 dark:text-primary-500 dark:hover:bg-dark-400;
+  }
+
+  .button-toggle-theme {
+    @apply bg-light-800 shadow-light-100 text-dark-500 hover:bg-light-800 dark:bg-dark-300 dark:text-light-500 dark:hover:bg-dark-400;
   }
 
   .dark-gradient {
@@ -349,8 +354,9 @@ body {
 }
 
 .active-theme {
-  filter: invert(53%) sepia(98%) saturate(3332%) hue-rotate(0deg)
-    brightness(104%) contrast(106%) !important;
+  filter: invert(53%) sepia(98%) saturate(3332%)
+    hue-rotate(0deg) brightness(104%)
+    contrast(106%) !important;
 }
 
 .hash-span {
@@ -375,7 +381,7 @@ body {
   color: #000 !important;
 }
 
-.dark .mdxeditor-toolbar [role="separator"] {
+.dark .mdxeditor-toolbar [role='separator'] {
   border-color: #555 !important;
 }
 
@@ -418,7 +424,7 @@ code {
   color: inherit !important;
 }
 
-[data-lexical-editor="true"] {
+[data-lexical-editor='true'] {
   height: 350px !important;
   overflow-y: auto !important;
 }
