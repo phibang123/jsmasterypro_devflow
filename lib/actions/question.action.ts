@@ -52,7 +52,6 @@ export async function getQuestions(params: PaginationSearchParamsIF): ServerResp
   isNext: boolean;
 }> {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 10000));
     const validationResult = await GuardGateway({
       params,
       schema: PaginationSearchParamsSchema,

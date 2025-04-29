@@ -3,7 +3,7 @@ import { IAccount } from '@/database/account.model';
 import { IQuestion } from '@/database/question.model';
 import { IUser } from '@/database/user.model';
 import { PaginationSearchParamsIF } from '@/types/global';
-import { QuestionModelIF, UserModelIF } from '@/types/model';
+import { QuestionModelIF, TagModelIF, UserModelIF } from '@/types/model';
 
 import { axiosInstance } from './handlers/axios.handler';
 
@@ -95,6 +95,17 @@ export const constructorApi = {
       axiosInstance<QuestionModelIF>(`/questions/${id}`, {
         method: 'PUT',
         data: questionData,
+      }),
+  },
+  tags: {
+    getAll: (params: PaginationSearchParamsIF) =>
+      axiosInstance<{
+        tags: TagModelIF[];
+        total: number;
+        isNext: boolean;
+      }>('/tags', {
+        method: 'GET',
+        params,
       }),
   },
 };

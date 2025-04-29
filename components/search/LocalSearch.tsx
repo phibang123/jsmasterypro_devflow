@@ -1,27 +1,25 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import Image from 'next/image';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
-import {
-  fromUrlQuery,
-  removeKeysFromUrlQuery,
-} from "@/lib/handlers/url.handler";
+import { fromUrlQuery, removeKeysFromUrlQuery } from '@/lib/handlers/url.handler';
 
-import { Input } from "../ui/input";
+import { Input } from '../ui/input';
 
 interface Props {
   route: string;
   imgSrc: string;
   placeholder: string;
   otherClasses?: string;
+  iconPosition: 'left' | 'right';
 }
 
-function LocalSearch({ route, imgSrc, placeholder, otherClasses }: Props) {
+function LocalSearch({ route, imgSrc, placeholder, otherClasses, iconPosition = 'left' }: Props) {
   const pathname = usePathname();
   const searchParam = useSearchParams();
-  const query = searchParam.get("query") || "";
+  const query = searchParam.get('query') || '';
   const router = useRouter();
 
   const [searchQuery, setSearchQuery] = useState(query);
@@ -30,7 +28,7 @@ function LocalSearch({ route, imgSrc, placeholder, otherClasses }: Props) {
     if ((searchQuery || pathname === route) && query !== searchQuery) {
       const params = searchParam.toString();
       let newUrl;
-      const queryString = "query";
+      const queryString = 'query';
       if (searchQuery) {
         newUrl = fromUrlQuery({
           key: queryString,
@@ -58,13 +56,15 @@ function LocalSearch({ route, imgSrc, placeholder, otherClasses }: Props) {
     <div
       className={`background-light800_dark_gradient shadow-light100_dark100 flex min-h-[56px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
     >
-      <Image
-        src={imgSrc}
-        width={32}
-        height={32}
-        alt={`${placeholder}`}
-        className="invert-colors"
-      />
+      {iconPosition === 'left' && (
+        <Image
+          src={imgSrc}
+          width={32}
+          height={32}
+          alt={`${placeholder}`}
+          className="invert-colors"
+        />
+      )}
       <Input
         type="text"
         placeholder="Search questions..."
@@ -72,6 +72,15 @@ function LocalSearch({ route, imgSrc, placeholder, otherClasses }: Props) {
         onChange={(event) => setSearchQuery(event.target.value)}
         className="paragraph-regular no-focus placeholder text-dark400_light700 border-none shadow-none outline-none"
       />
+      {iconPosition === 'right' && (
+        <Image
+          src={imgSrc}
+          width={32}
+          height={32}
+          alt={`${placeholder}`}
+          className="invert-colors"
+        />
+      )}
     </div>
   );
 }
