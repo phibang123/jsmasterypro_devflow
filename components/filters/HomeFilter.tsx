@@ -1,15 +1,9 @@
 'use client';
 
-import {
-  useRouter,
-  useSearchParams,
-} from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 
-import {
-  fromUrlQuery,
-  removeKeysFromUrlQuery,
-} from '@/lib/handlers/url.handler';
+import { fromUrlQuery, removeKeysFromUrlQuery } from '@/lib/handlers/url.handler';
 import { cn } from '@/lib/utils';
 
 import { Button } from '../ui/button';
@@ -27,9 +21,7 @@ const HomeFilter = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const filterParams = searchParams.get('filter');
-  const [active, setActive] = useState(
-    filterParams || ''
-  );
+  const [active, setActive] = useState(filterParams || '');
 
   const handleTypeClick = (filter: string) => {
     const filterString = 'filter';
@@ -53,20 +45,18 @@ const HomeFilter = () => {
   };
 
   return (
-    <div className="mt-10 hidden flex-wrap gap-3 sm:flex">
-      {filters.map(filter => {
+    <div className="mt-4 hidden flex-wrap gap-3 sm:flex">
+      {filters.map((filter) => {
         return (
           <Button
             className={cn(
               'body-medium rounded-lg px-6 py-3 capitalize shadow-none text-light-900',
               active === filter.value
                 ? 'third-button-gradient_focus'
-                : 'third-button-gradient_no-focus'
+                : 'third-button-gradient_no-focus',
             )}
             key={filter.name}
-            onClick={() =>
-              handleTypeClick(filter.value)
-            }
+            onClick={() => handleTypeClick(filter.value)}
           >
             {filter.name}
           </Button>

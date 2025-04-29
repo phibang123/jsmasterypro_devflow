@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
-import logger from "../logger";
+import logger from '../logger';
 
-type ResponseType = "api" | "server";
+type ResponseType = 'api' | 'server';
 
 interface IHandleSuccessParams<T = unknown> {
   data?: T;
@@ -14,12 +14,10 @@ interface IHandleSuccessParams<T = unknown> {
 const handleSuccess = <T = unknown>({
   data,
   status = 200,
-  responseType = "api",
-  message = "Success",
+  responseType = 'api',
+  message = 'Success',
 }: IHandleSuccessParams<T>): APISuccessResponse<T> | SuccessResponse<T> => {
-  logger.info(
-    `Data Success, Status: ${status}, Response Type: ${responseType}`,
-  );
+  logger.info(`Data Success, Status: ${status}, Response Type: ${responseType}`);
   const response: SuccessResponse<T> = {
     data,
     success: true,
@@ -27,10 +25,10 @@ const handleSuccess = <T = unknown>({
     message,
   };
 
-  return responseType === "api"
+  return responseType === 'api'
     ? NextResponse.json(response, {
         status,
-        headers: { "Content-Type": "application/json" },
+        headers: { 'Content-Type': 'application/json' },
       })
     : response;
 };

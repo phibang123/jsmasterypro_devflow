@@ -1,50 +1,27 @@
-import { Pencil } from "lucide-react";
-import Link from "next/link";
-import { Suspense } from "react";
+import { Pencil } from 'lucide-react';
+import Link from 'next/link';
+import { Suspense } from 'react';
 
-import { auth } from "@/auth";
-import TagCard from "@/components/cards/TagCard";
-import Metric from "@/components/Metric";
-import { Button } from "@/components/ui/button";
-import ROUTES from "@/constants/routes";
-import { getQuestionById } from "@/lib/actions/question.action";
-import { getTimeStamp } from "@/lib/utils";
-import { TagIF } from "@/types/global";
+import { auth } from '@/auth';
+import TagCard from '@/components/cards/TagCard';
+import DataRenderer from '@/components/DataRenderer';
+import Metric from '@/components/Metric';
+import { Button } from '@/components/ui/button';
+import ROUTES from '@/constants/routes';
+import { getQuestionById } from '@/lib/actions/question.action';
+import { getTimeStamp } from '@/lib/utils';
+import { QuestionIF, TagIF } from '@/types/global';
 
-import QuestionDetailLoading from "./loading";
+import QuestionDetailLoading from './loading';
 
-const QuestionDetail = async ({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) => {
+const QuestionDetail = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const { data: question, success } = await getQuestionById(id);
-  if (!success || !question) return new Error("Question not found");
-  const {
-    title,
-    author,
-    createdAt,
-    upVotes,
-    downVotes,
-    views,
-    answers,
-    content,
-    tags,
-    description,
-    updatedAt,
-  } = question;
 
   const session = await auth();
 
-  const renderTagCard = () => {
-    return tags.map((tag: TagIF) => (
-      <TagCard key={tag.id} id={tag.id} name={tag.name} compact />
-    ));
-  };
-
-  const renderEditButton = () => {
-    if (author.id !== session?.user?.id) return null;
+  const renderEditButton = (authorId: string) => {
+    if (authorId !== session?.user?.id) return null;
 
     return (
       <Button
@@ -59,8 +36,33 @@ const QuestionDetail = async ({
     );
   };
 
-  return (
-    <Suspense fallback={<QuestionDetailLoading />}>
+  const renderTagCard = (tags: TagIF[]) => {
+    return tags.map((tag: TagIF) => (
+      <TagCard
+        key={tag.id}
+        id={tag.id}
+        name={tag.name}
+        compact
+      />
+    ));
+  };
+
+  const renderQuestionDetail = (question: QuestionIF) => {
+    const {
+      title,
+      author,
+      createdAt,
+      upVotes,
+      downVotes,
+      views,
+      answers,
+      content,
+      tags,
+      description,
+      updatedAt,
+    } = question;
+
+    return (
       <div className="w-full flex-col">
         <div className="flex items-center justify-between">
           <Metric
@@ -131,10 +133,20 @@ const QuestionDetail = async ({
         </div>
         <div className="markdown text-dark200_light800 mt-4">{content}</div>
         <div className="background-light800_dark300 mt-4 flex flex-1 flex-wrap items-center justify-between rounded-lg px-4 py-2 shadow-light-100">
-          <div className="flex flex-1 flex-wrap gap-4">{renderTagCard()}</div>
-          {renderEditButton()}
+          <div className="flex flex-1 flex-wrap gap-4">{renderTagCard(tags)}</div>
+          {renderEditButton(author.id)}
         </div>
       </div>
+    );
+  };
+
+  return (
+    <Suspense fallback={<QuestionDetailLoading />}>
+      <DataRenderer
+        success={success}
+        data={question}
+        render={renderQuestionDetail}
+      />
     </Suspense>
   );
 };

@@ -1,4 +1,4 @@
-type DefaultResponse<T = unknown> = {
+type DefaultResponse<T> = {
   success: boolean;
   data?: T;
   error?: {
@@ -13,6 +13,4 @@ type ErrorResponse = DefaultResponse & { success: false };
 
 type APIErrorResponse = NextResponse<ErrorResponse>;
 type APISuccessResponse<T = unknown> = NextResponse<SuccessResponse<T>>;
-type APIResponse<T = unknown> = NextResponse<
-  SuccessResponse<T> | ErrorResponse
->;
+type APIResponse<T = unknown> = NextResponse<SuccessResponse<T> | ErrorResponse>;

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
 export default function NotFound() {
   const { theme } = useTheme();
@@ -28,7 +28,7 @@ export default function NotFound() {
         <motion.div
           initial={{ scale: 0.5 }}
           animate={{ scale: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 20 }}
+          transition={{ type: 'spring', stiffness: 200, damping: 20 }}
         >
           <h1 className={`primary-text-gradient text-9xl font-bold`}>404</h1>
         </motion.div>
@@ -38,7 +38,7 @@ export default function NotFound() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
           className={`text-4xl font-semibold ${
-            theme === "dark" ? "text-gray-200" : "text-gray-800"
+            theme === 'dark' ? 'text-gray-200' : 'text-gray-800'
           }`}
         >
           Oops! Page Not Found
@@ -49,11 +49,11 @@ export default function NotFound() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
           className={`mx-auto max-w-md text-lg ${
-            theme === "dark" ? "text-gray-400" : "text-gray-600"
+            theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
           }`}
         >
-          The page you are looking for might have been removed, had its name
-          changed, or is temporarily unavailable.
+          The page you are looking for might have been removed, had its name changed, or is
+          temporarily unavailable.
         </motion.p>
 
         <motion.div
@@ -64,7 +64,7 @@ export default function NotFound() {
         >
           <Link
             href="/"
-            className={`primary-button-gradient inline-flex items-center rounded-lg border border-transparent px-8 py-4 text-lg font-medium shadow-lg transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-offset-2`}
+            className={`primary-button-gradient inline-flex items-center rounded-lg border border-transparent px-8 py-4 text-lg font-medium shadow-lg transition-all duration-300 hover:scale-105`}
           >
             Go back home
           </Link>

@@ -1,26 +1,18 @@
-import { isAxiosError } from "axios";
-import mongoose from "mongoose";
-import { NextResponse } from "next/server";
-import { AuthError } from "next-auth";
-import { ZodError } from "zod";
+import { isAxiosError } from 'axios';
+import mongoose from 'mongoose';
+import { NextResponse } from 'next/server';
+import { AuthError } from 'next-auth';
+import { ZodError } from 'zod';
 
-import { ValidationError, RequestError } from "../http.errors";
-import logger from "../logger";
+import { ValidationError, RequestError } from '../http.errors';
+import logger from '../logger';
 
 // Types
-type ResponseType = "api" | "server";
+type ResponseType = 'api' | 'server';
 
 interface IHandleErrorParams {
   error: unknown;
   responseType?: ResponseType;
-}
-
-interface ErrorResponse {
-  success: boolean;
-  error: {
-    details?: Record<string, string[]>;
-  };
-  message: string;
 }
 
 type APIErrorResponse = NextResponse<ErrorResponse>;
@@ -34,16 +26,17 @@ const formatResponse = (
 ): APIErrorResponse | ErrorResponse => {
   const responseContent: ErrorResponse = {
     success: false,
+    data: null,
     error: {
       details: errors,
     },
     message,
   };
 
-  return responseType === "api"
+  return responseType === 'api'
     ? (NextResponse.json(responseContent, {
         status,
-        headers: { "Content-Type": "application/json" },
+        headers: { 'Content-Type': 'application/json' },
       }) as APIErrorResponse)
     : ({ status, ...responseContent } as ErrorResponse);
 };
@@ -55,50 +48,28 @@ const handleMongoError = (
 ): APIErrorResponse | ErrorResponse => {
   const errorMessage = error.message.toLowerCase();
 
-  if (
-    errorMessage.includes("timeout") ||
-    errorMessage.includes("buffering timed out")
-  ) {
+  if (errorMessage.includes('timeout') || errorMessage.includes('buffering timed out')) {
     return formatResponse(
       responseType,
       503,
-      "Database operation timed out. Please try again later.",
+      'Database operation timed out. Please try again later.',
     );
   }
 
-  if (
-    errorMessage.includes("connection") ||
-    errorMessage.includes("buffering")
-  ) {
-    return formatResponse(
-      responseType,
-      503,
-      "Database connection issue. Please try again later.",
-    );
+  if (errorMessage.includes('connection') || errorMessage.includes('buffering')) {
+    return formatResponse(responseType, 503, 'Database connection issue. Please try again later.');
   }
 
-  return formatResponse(
-    responseType,
-    503,
-    "Database error occurred. Please try again later.",
-  );
+  return formatResponse(responseType, 503, 'Database error occurred. Please try again later.');
 };
 
 const handleRequestError = (
   error: RequestError,
   responseType: ResponseType,
 ): APIErrorResponse | ErrorResponse => {
-  logger.error(
-    { err: error },
-    `${responseType.toUpperCase()} Error: ${error.message}`,
-  );
+  logger.error({ err: error }, `${responseType.toUpperCase()} Error: ${error.message}`);
 
-  return formatResponse(
-    responseType,
-    error.statusCode,
-    error.message,
-    error.errors,
-  );
+  return formatResponse(responseType, error.statusCode, error.message, error.errors);
 };
 
 const handleValidationError = (
@@ -124,21 +95,17 @@ const handleAuthError = (
   responseType: ResponseType,
 ): APIErrorResponse | ErrorResponse => {
   logger.error(`AuthJS Error: ${error.message}`);
-  return formatResponse(
-    responseType,
-    500,
-    "Server is down, please try it later",
-  );
+  return formatResponse(responseType, 500, 'Server is down, please try it later');
 };
 
 // Main error handler
 const handleError = ({
   error,
-  responseType = "api",
+  responseType = 'api',
 }: IHandleErrorParams): APIErrorResponse | ErrorResponse => {
   if (error instanceof Error) {
     // MongoDB errors
-    if (error.name === "MongooseError") {
+    if (error.name === 'MongooseError') {
       return handleMongoError(error as mongoose.Error, responseType);
     }
 
@@ -170,7 +137,7 @@ const handleError = ({
   }
 
   // Unexpected errors
-  const defaultMessage = "An unexpected error occurred";
+  const defaultMessage = 'An unexpected error occurred';
   logger.error({ err: error }, defaultMessage);
   return formatResponse(responseType, 500, defaultMessage);
 };

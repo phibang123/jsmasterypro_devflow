@@ -1,29 +1,24 @@
-import Link from "next/link";
-import { Suspense } from "react";
+import Link from 'next/link';
+import { Suspense } from 'react';
 
-import QuestionCard from "@/components/cards/QuestionCard";
-import HomeFilter from "@/components/filters/HomeFilter";
-import LocalSearch from "@/components/search/LocalSearch";
-import { Button } from "@/components/ui/button";
-import ROUTES from "@/constants/routes";
-import { getQuestions } from "@/lib/actions/question.action";
-import { QuestionIF } from "@/types/global";
+import QuestionCard from '@/components/cards/QuestionCard';
+import DataRenderer from '@/components/DataRenderer';
+import HomeFilter from '@/components/filters/HomeFilter';
+import LocalSearch from '@/components/search/LocalSearch';
+import { Button } from '@/components/ui/button';
+import ROUTES from '@/constants/routes';
+import { getQuestions } from '@/lib/actions/question.action';
+import { QuestionIF } from '@/types/global';
 
-import HomeLoading from "./loading";
+import HomeLoading from './loading';
 
 interface SearchParams {
   searchParams: Promise<{ [key: string]: string }>;
 }
 
-const Home = async ({ searchParams }: SearchParams) => {
-  const {
-    query = "",
-    filter = "",
-    sort = "",
-    page = 1,
-    pageSize = 10,
-  } = await searchParams;
-  const { data, success, message } = await getQuestions({
+const RenderQuestionComponent = async ({ searchParams }: SearchParams) => {
+  const { query = '', filter = '', sort = '', page = 1, pageSize = 10 } = await searchParams;
+  const { data, success } = await getQuestions({
     page: parseInt(page as string),
     pageSize: parseInt(pageSize as string),
     query,
@@ -31,44 +26,38 @@ const Home = async ({ searchParams }: SearchParams) => {
     filter,
   });
 
-  const renderQuestion = () => {
-    if (!success) {
-      return (
-        <div className="mt-10 flex w-full items-center justify-center">
-          <p className="text-dark400_light700">
-            {message || "Something went wrong"}
-          </p>
-        </div>
-      );
-    }
-    const { questions } = data!;
-    if (!questions || questions.length === 0) {
-      return (
-        <div className="mt-10 flex w-full items-center justify-center">
-          <p className="text-dark400_light700">No questions found</p>
-        </div>
-      );
-    }
-    const filteredQuestions = questions.filter((question: QuestionIF) => {
+  const renderQuestion = (data: QuestionIF[]) => {
+    const filteredQuestions = data.filter((question: QuestionIF) => {
       // Match query against the title
-      const matchesQuery = question.title
-        .toLowerCase()
-        .includes(query.toLowerCase());
+      const matchesQuery = question.title.toLowerCase().includes(query.toLowerCase());
 
       // Match filter against tags or author name, adjust logic as needed
       const matchesFilter = filter
-        ? question.tags.some(
-            (tag) => tag.name.toLowerCase() === filter.toLowerCase(),
-          ) || question.author.name.toLowerCase() === filter.toLowerCase()
+        ? question.tags.some((tag) => tag.name.toLowerCase() === filter.toLowerCase()) ||
+          question.author.name.toLowerCase() === filter.toLowerCase()
         : true; // If no filter is provided, include all questions
 
       return matchesQuery && matchesFilter;
     });
+
     return filteredQuestions.map((question: QuestionIF) => (
-      <QuestionCard key={question.id} question={question} />
+      <QuestionCard
+        key={question.id}
+        question={question}
+      />
     ));
   };
+  return (
+    <DataRenderer
+      success={success}
+      data={data?.questions || []}
+      render={renderQuestion}
+      className="mt-4 flex w-full flex-col gap-6"
+    />
+  );
+};
 
+const Home = async ({ searchParams }: SearchParams) => {
   return (
     <Suspense fallback={<HomeLoading />}>
       <>
@@ -81,7 +70,7 @@ const Home = async ({ searchParams }: SearchParams) => {
             <Link href={ROUTES.ASK_QUESTION}>Ask a Questions</Link>
           </Button>
         </section>
-        <section className="mt-8">
+        <section className="mt-4">
           <LocalSearch
             route="/"
             imgSrc="/icons/search.svg"
@@ -90,9 +79,7 @@ const Home = async ({ searchParams }: SearchParams) => {
           />
         </section>
         <HomeFilter />
-        <div className="mt-8 flex w-full flex-col gap-6">
-          {renderQuestion()}
-        </div>
+        <RenderQuestionComponent searchParams={searchParams} />
       </>
     </Suspense>
   );

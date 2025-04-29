@@ -1,9 +1,6 @@
 'use server';
 
-import {
-  PaginationSearchParamsIF,
-  QuestionIF,
-} from '@/types/global';
+import { PaginationSearchParamsIF, QuestionIF } from '@/types/global';
 import { QuestionModelIF } from '@/types/model';
 
 import { constructorApi } from '../api';
@@ -18,7 +15,7 @@ import {
 } from '../validations';
 
 export async function createQuestion(
-  params: ICreateQuestionParam
+  params: ICreateQuestionParam,
 ): ServerResponse<QuestionModelIF> {
   try {
     const validationResult = await GuardGateway({
@@ -26,20 +23,17 @@ export async function createQuestion(
       schema: AskQuestionSchema,
       authorize: true,
     });
-    const { session, params: validatedParams } =
-      validationResult;
+    const { session, params: validatedParams } = validationResult;
 
     validateDuplicateTags(validatedParams?.tags);
 
     const userId = session?.user?.id;
 
-    const question =
-      await constructorApi.questions.create({
-        ...validatedParams!,
-        userId: userId!,
-      });
-    if (!question.success || !question.data)
-      return question;
+    const question = await constructorApi.questions.create({
+      ...validatedParams!,
+      userId: userId!,
+    });
+    if (!question.success || !question.data) return question;
     return handleSuccess({
       data: question.data,
       responseType: 'server',
@@ -52,26 +46,20 @@ export async function createQuestion(
   }
 }
 
-export async function getQuestions(
-  params: PaginationSearchParamsIF
-): ServerResponse<{
+export async function getQuestions(params: PaginationSearchParamsIF): ServerResponse<{
   questions: QuestionIF[];
   total: number;
   isNext: boolean;
 }> {
   try {
+    await new Promise((resolve) => setTimeout(resolve, 10000));
     const validationResult = await GuardGateway({
       params,
       schema: PaginationSearchParamsSchema,
     });
-    const { params: validatedParams } =
-      validationResult;
-    const questions =
-      await constructorApi.questions.getAll(
-        validatedParams!
-      );
-    if (!questions.success || !questions.data)
-      return questions;
+    const { params: validatedParams } = validationResult;
+    const questions = await constructorApi.questions.getAll(validatedParams!);
+    if (!questions.success || !questions.data) return questions;
     return handleSuccess({
       data: questions.data,
       message: 'Questions fetched successfully',
@@ -85,22 +73,16 @@ export async function getQuestions(
   }
 }
 
-export async function getQuestionById(
-  id: string
-): ServerResponse<QuestionIF> {
+export async function getQuestionById(id: string): ServerResponse<QuestionIF> {
   try {
     if (!id) {
       return handleError({
-        error: new Error(
-          'Question ID is required'
-        ),
+        error: new Error('Question ID is required'),
         responseType: 'server',
       }) as ErrorResponse;
     }
-    const question =
-      await constructorApi.questions.getById(id);
-    if (!question.success || !question.data)
-      return question;
+    const question = await constructorApi.questions.getById(id);
+    if (!question.success || !question.data) return question;
     return handleSuccess({
       data: question.data,
       responseType: 'server',
@@ -113,9 +95,7 @@ export async function getQuestionById(
   }
 }
 
-export async function editQuestion(
-  params: IUpdateQuestionParam
-): ServerResponse<QuestionModelIF> {
+export async function editQuestion(params: IUpdateQuestionParam): ServerResponse<QuestionModelIF> {
   try {
     const validationResult = await GuardGateway({
       params,
@@ -123,23 +103,17 @@ export async function editQuestion(
       authorize: true,
     });
 
-    const { session, params: validatedParams } =
-      validationResult;
+    const { session, params: validatedParams } = validationResult;
 
     validateDuplicateTags(validatedParams?.tags);
 
     const userId = session?.user?.id;
 
-    const question =
-      await constructorApi.questions.updateById(
-        params.questionId,
-        {
-          ...validatedParams!,
-          userId: userId!,
-        }
-      );
-    if (!question.success || !question.data)
-      return question;
+    const question = await constructorApi.questions.updateById(params.questionId, {
+      ...validatedParams!,
+      userId: userId!,
+    });
+    if (!question.success || !question.data) return question;
     return handleSuccess({
       data: question.data,
       responseType: 'server',
