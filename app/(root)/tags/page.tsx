@@ -1,5 +1,6 @@
 import React from 'react';
 
+import TagCard from '@/components/cards/TagCard';
 import DataRenderer from '@/components/DataRenderer';
 import LocalSearch from '@/components/search/LocalSearch';
 import ROUTES from '@/constants/routes';
@@ -17,12 +18,20 @@ const Tags = async () => {
 
   const { data, success } = response;
 
-  const renderTags = () => {
-    return response.data.tags.map((tag: TagModelIF) => (
-      <div key={tag.id}>
-        <h1>{tag.name}</h1>
+  const renderTags = (tags: TagModelIF[]) => {
+    return (
+      <div className="mt-4 flex w-full flex-wrap gap-4">
+        {tags.map((tag: TagModelIF) => (
+          <TagCard
+            id={tag.id}
+            key={tag.id}
+            name={tag.name}
+            questions={tag.questions}
+            showCount
+          />
+        ))}
       </div>
-    ));
+    );
   };
 
   return (
