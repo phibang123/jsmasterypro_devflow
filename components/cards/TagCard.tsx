@@ -1,12 +1,12 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
-import ROUTES from "@/constants/routes";
-import { getDeviconClassName } from "@/lib/utils";
-import { TagIF } from "@/types/global";
+import ROUTES from '@/constants/routes';
+import { getDeviconClassName } from '@/lib/utils';
+import { TagIF } from '@/types/global';
 
-import { Badge } from "../ui/badge";
+import { Badge } from '../ui/badge';
 
 const TagCard = ({
   id,
@@ -57,12 +57,15 @@ const TagCard = ({
   );
 
   return compact && isButton ? (
-    <button onClick={handleClick} className="flex justify-between gap-2">
+    <button
+      onClick={handleClick}
+      className="flex justify-between gap-2"
+    >
       {Content}
     </button>
   ) : (
     <Link
-      href={ROUTES.TAGS(id)}
+      href={ROUTES.TAG(id)}
       className="flex items-center justify-between gap-2"
     >
       {Content}

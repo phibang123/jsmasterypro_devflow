@@ -1,13 +1,13 @@
-import { Document } from "mongoose";
+import { Document } from 'mongoose';
 
-import { IAnswer } from "@/database/answer.model";
-import { ICollection } from "@/database/collection.model";
-import { IInteraction } from "@/database/interaction.model";
-import { IQuestion } from "@/database/question.model";
-import { ITagQuestion } from "@/database/tag-question.model";
-import { ITag } from "@/database/tag.model";
-import { IUser } from "@/database/user.model";
-import { IVote } from "@/database/vote.model";
+import { IAnswer } from '@/database/answer.model';
+import { ICollection } from '@/database/collection.model';
+import { IInteraction } from '@/database/interaction.model';
+import { IQuestion } from '@/database/question.model';
+import { ITagQuestion } from '@/database/tag-question.model';
+import { ITag } from '@/database/tag.model';
+import { IUser } from '@/database/user.model';
+import { IVote } from '@/database/vote.model';
 
 interface AccountModelIF extends IAccount, Document {
   id: string;

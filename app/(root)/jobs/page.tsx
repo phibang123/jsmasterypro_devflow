@@ -1,7 +1,6 @@
-import React from "react";
-
 const Jobs = async () => {
-  return <div>Jobs</div>;
+  const error = new Error();
+  throw error;
 };
 
 export default Jobs;
