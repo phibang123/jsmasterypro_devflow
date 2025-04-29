@@ -32,7 +32,7 @@ export default function SkeletonError() {
   if (!mounted) return null;
 
   return (
-    <div className={`flex h-auto justify-center transition-colors duration-500 `}>
+    <div className={`mt-4 flex h-auto justify-center transition-colors duration-500 `}>
       <motion.div
         initial={{ opacity: 1, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -51,8 +51,9 @@ export default function SkeletonError() {
             <Image
               src={errorImage}
               alt="error"
-              width={350}
-              height={350}
+              width={270}
+              height={270}
+              className="block object-contain"
             />
           </div>
         </motion.div>
@@ -70,7 +71,7 @@ export default function SkeletonError() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className={`body-regular my-3.5 max-w-md text-center text-lg ${
+          className={`body-regular max-w-md text-center text-lg ${
             theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
           }`}
         >
@@ -93,7 +94,7 @@ export default function SkeletonError() {
           <Link href={errorConfig.button.href}>
             <Button
               size="lg"
-              className="secondary-button-gradient base-medium min-h-[40px] font-medium"
+              className="secondary-button-gradient base-medium !min-h-[40px] font-medium"
             >
               <span className="flex items-center gap-2">{errorConfig.button.text}</span>
             </Button>

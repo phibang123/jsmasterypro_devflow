@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const HomeLoading = () => {
   return (
-    <div className="mt-10 flex flex-col gap-6">
+    <div className="flex flex-col gap-6">
       {[1, 2, 3, 4, 5].map((item) => (
         <div
           key={item}
