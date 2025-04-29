@@ -1,36 +1,26 @@
-import mongoose from "mongoose";
-import { NextRequest } from "next/server";
-import { z } from "zod";
+import mongoose from 'mongoose';
+import { NextRequest } from 'next/server';
+import { z } from 'zod';
 
-import Question from "@/database/question.model";
-import TagQuestion from "@/database/tag-question.model";
-import Tag from "@/database/tag.model";
-import "@/database/user.model";
-import handleError from "@/lib/handlers/error.handler";
-import handleSuccess from "@/lib/handlers/success.handler";
-import logger from "@/lib/logger";
-import dbConnect from "@/lib/mongoose";
-import {
-  getPaginationParams,
-  validateDuplicateTags,
-  validateRequest,
-} from "@/lib/utils";
-import { CreateQuestionRequestSchemaAPI } from "@/lib/validations";
+import Question from '@/database/question.model';
+import TagQuestion from '@/database/tag-question.model';
+import Tag from '@/database/tag.model';
+import '@/database/user.model';
+import handleError from '@/lib/handlers/error.handler';
+import handleSuccess from '@/lib/handlers/success.handler';
+import logger from '@/lib/logger';
+import dbConnect from '@/lib/mongoose';
+import { getPaginationParams, validateDuplicateTags, validateRequest } from '@/lib/utils';
+import { CreateQuestionRequestSchemaAPI } from '@/lib/validations';
 
 // Types
-type QuestionData = Omit<
-  z.infer<typeof CreateQuestionRequestSchemaAPI>,
-  "tags"
->;
+type QuestionData = Omit<z.infer<typeof CreateQuestionRequestSchemaAPI>, 'tags'>;
 
-const createOrUpdateTags = async (
-  tags: string[],
-  session: mongoose.ClientSession,
-) => {
+const createOrUpdateTags = async (tags: string[], session: mongoose.ClientSession) => {
   try {
     const tagOperations = tags.map((tag) => ({
       updateOne: {
-        filter: { name: { $regex: new RegExp(`^${tag}$`, "i") } },
+        filter: { name: { $regex: new RegExp(`^${tag}$`, 'i') } },
         update: { $inc: { questions: 1 }, $setOnInsert: { name: tag } },
         upsert: true,
       },
@@ -39,12 +29,12 @@ const createOrUpdateTags = async (
     await Tag.bulkWrite(tagOperations, { session });
 
     return Tag.find(
-      { name: { $in: tags.map((tag) => new RegExp(`^${tag}$`, "i")) } },
+      { name: { $in: tags.map((tag) => new RegExp(`^${tag}$`, 'i')) } },
       { _id: 1 },
       { session },
-    ).distinct("_id");
+    ).distinct('_id');
   } catch (error) {
-    logger.error("Error creating/updating tags:", error);
+    logger.error('Error creating/updating tags:', error);
     throw error;
   }
 };
@@ -67,14 +57,14 @@ const createQuestionAndTagRelations = async (
 
     return question.id;
   } catch (error) {
-    logger.error("Error creating question and tag relations:", error);
+    logger.error('Error creating question and tag relations:', error);
     throw error;
   }
 };
 
 // POST /api/questions
 export async function POST(request: NextRequest) {
-  logger.info("Creating question");
+  logger.info('Creating question');
   let validatedData: z.infer<typeof CreateQuestionRequestSchemaAPI>;
   try {
     const body = await request.json();
@@ -96,22 +86,18 @@ export async function POST(request: NextRequest) {
 
     const { tags, ...questionData } = validatedData;
     const tagIds = await createOrUpdateTags(tags, session);
-    const questionId = await createQuestionAndTagRelations(
-      tagIds,
-      questionData,
-      session,
-    );
+    const questionId = await createQuestionAndTagRelations(tagIds, questionData, session);
 
     await session.commitTransaction();
     logger.info(`Question created successfully: ${questionId}`);
 
     return handleSuccess({
-      message: "Question created successfully",
+      message: 'Question created successfully',
       data: { id: questionId },
     });
   } catch (error) {
     await session?.abortTransaction();
-    logger.error("Error creating question:", error);
+    logger.error('Error creating question:', error);
     return handleError({ error });
   } finally {
     await session?.endSession();
@@ -120,7 +106,7 @@ export async function POST(request: NextRequest) {
 
 // GET /api/questions
 export async function GET(request: NextRequest) {
-  logger.info("Fetching questions");
+  logger.info('Fetching questions');
   const { skip, limit, query, sort, filter } = getPaginationParams(
     new URL(request.url).searchParams,
   );
@@ -129,15 +115,15 @@ export async function GET(request: NextRequest) {
   if (query) {
     queryRegex = {
       $or: [
-        { title: { $regex: new RegExp(`^${query}$`, "i") } },
-        { description: { $regex: new RegExp(`^${query}$`, "i") } },
-        { content: { $regex: new RegExp(`^${query}$`, "i") } },
+        { title: { $regex: new RegExp(`^${query}$`, 'i') } },
+        { description: { $regex: new RegExp(`^${query}$`, 'i') } },
+        { content: { $regex: new RegExp(`^${query}$`, 'i') } },
       ],
     };
   }
 
   if (filter) {
-    if (filter === "recommendation") {
+    if (filter === 'recommendation') {
       return handleSuccess({
         data: {
           questions: [],
@@ -187,38 +173,38 @@ export async function GET(request: NextRequest) {
       // }
     }
     switch (filter) {
-      case "newest":
-        sortDefinition = "createdAt";
+      case 'newest':
+        sortDefinition = 'createdAt';
         break;
-      case "oldest":
-        sortDefinition = "-createdAt";
+      case 'oldest':
+        sortDefinition = '-createdAt';
         break;
-      case "most-votes":
-        sortDefinition = "votes";
+      case 'most-votes':
+        sortDefinition = 'votes';
         break;
-      case "least-votes":
-        sortDefinition = "-votes";
+      case 'least-votes':
+        sortDefinition = '-votes';
         break;
-      case "most-answers":
-        sortDefinition = "answers";
+      case 'most-answers':
+        sortDefinition = 'answers';
         break;
-      case "least-answers":
-        sortDefinition = "-answers";
+      case 'least-answers':
+        sortDefinition = '-answers';
         break;
-      case "most-views":
-        sortDefinition = "views";
+      case 'most-views':
+        sortDefinition = 'views';
         break;
-      case "least-views":
-        sortDefinition = "-views";
+      case 'least-views':
+        sortDefinition = '-views';
         break;
-      case "most-comments":
-        sortDefinition = "comments";
+      case 'most-comments':
+        sortDefinition = 'comments';
         break;
-      case "least-comments":
-        sortDefinition = "-comments";
+      case 'least-comments':
+        sortDefinition = '-comments';
         break;
       default:
-        sortDefinition = "-createdAt";
+        sortDefinition = '-createdAt';
         break;
     }
   }
@@ -226,8 +212,8 @@ export async function GET(request: NextRequest) {
     await dbConnect();
 
     const questions = await Question.find(queryRegex)
-      .populate("author", "name image")
-      .populate("tags", "name")
+      .populate('author', 'name image')
+      .populate('tags', 'name')
       .sort({ [sortDefinition]: -1 })
       .skip(skip)
       .limit(limit);
@@ -241,10 +227,10 @@ export async function GET(request: NextRequest) {
         total,
         isNext: total > skip + questions.length,
       },
-      message: "Questions fetched successfully",
+      message: 'Questions fetched successfully',
     });
   } catch (error) {
-    logger.error("Error fetching questions:", error);
+    logger.error('Error fetching questions:', error);
     return handleError({ error });
   }
 }

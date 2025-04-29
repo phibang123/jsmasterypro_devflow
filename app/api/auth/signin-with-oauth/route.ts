@@ -1,17 +1,17 @@
-import mongoose from "mongoose";
-import { NextRequest } from "next/server";
-import slugify from "slugify";
-import { z } from "zod";
+import mongoose from 'mongoose';
+import { NextRequest } from 'next/server';
+import slugify from 'slugify';
+import { z } from 'zod';
 
-import Account from "@/database/account.model";
-import User from "@/database/user.model";
-import handleError from "@/lib/handlers/error.handler";
-import handleSuccess from "@/lib/handlers/success.handler";
-import logger from "@/lib/logger";
-import dbConnect from "@/lib/mongoose";
-import { validateRequest } from "@/lib/utils";
-import { SignInWithOAuthSchemaAPI } from "@/lib/validations";
-import { UserModelIF } from "@/types/model";
+import Account from '@/database/account.model';
+import User from '@/database/user.model';
+import handleError from '@/lib/handlers/error.handler';
+import handleSuccess from '@/lib/handlers/success.handler';
+import logger from '@/lib/logger';
+import dbConnect from '@/lib/mongoose';
+import { validateRequest } from '@/lib/utils';
+import { SignInWithOAuthSchemaAPI } from '@/lib/validations';
+import { UserModelIF } from '@/types/model';
 
 // Step to signin with oauth
 // 1. Validate request
@@ -20,7 +20,7 @@ import { UserModelIF } from "@/types/model";
 // 4. Create account if it doesn't exist
 // 5. Commit transaction
 export async function POST(request: NextRequest) {
-  logger.info("Starting OAuth sign-in process");
+  logger.info('Starting OAuth sign-in process');
   let validatedData: z.infer<typeof SignInWithOAuthSchemaAPI>;
   try {
     const body = await request.json();
@@ -39,26 +39,19 @@ export async function POST(request: NextRequest) {
       username: slugifyData(validatedData.user.username),
     };
 
-    const existingUser = await createUserOrUpdateIfUserExist(
-      validatedUser,
-      session,
-    );
+    const existingUser = await createUserOrUpdateIfUserExist(validatedUser, session);
 
-    await createAccountIfAccountDoesNotExist(
-      existingUser,
-      session,
-      validatedData,
-    );
+    await createAccountIfAccountDoesNotExist(existingUser, session, validatedData);
 
     await session.commitTransaction();
-    logger.info("OAuth sign-in successful");
+    logger.info('OAuth sign-in successful');
     return handleSuccess({
       data: existingUser,
       message: `login in by ${validatedData.provider} is successful`,
     });
   } catch (error: unknown) {
     await session.abortTransaction();
-    logger.error("OAuth sign-in failed:", error);
+    logger.error('OAuth sign-in failed:', error);
     return handleError({ error }) as APIErrorResponse;
   } finally {
     await session.endSession();
@@ -80,7 +73,7 @@ const createUserOrUpdateIfUserExist = async (
   const { name, username, email, image } = user;
 
   let existingUser = await User.findOne({ email }).session(session);
-  console.log(existingUser, "existingUser");
+  console.log(existingUser, 'existingUser');
 
   if (!existingUser) {
     [existingUser] = await User.create([{ name, username, email, image }], {
@@ -93,10 +86,7 @@ const createUserOrUpdateIfUserExist = async (
     if (existingUser.image !== image) updateData.image = image;
 
     if (Object.keys(updateData).length > 0) {
-      await User.updateOne(
-        { _id: existingUser.id },
-        { $set: updateData },
-      ).session(session);
+      await User.updateOne({ _id: existingUser.id }, { $set: updateData }).session(session);
     }
   }
   return existingUser;
@@ -120,9 +110,8 @@ const createAccountIfAccountDoesNotExist = async (
   }).session(session);
 
   if (!existingAccount) {
-    await Account.create(
-      [{ name, userId: existingUser.id, image, provider, providerAccountId }],
-      { session },
-    );
+    await Account.create([{ name, userId: existingUser.id, image, provider, providerAccountId }], {
+      session,
+    });
   }
 };

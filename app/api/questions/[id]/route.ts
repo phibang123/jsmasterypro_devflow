@@ -1,17 +1,17 @@
-import mongoose from "mongoose";
-import { z } from "zod";
+import mongoose from 'mongoose';
+import { z } from 'zod';
 
-import Question from "@/database/question.model";
-import TagQuestion from "@/database/tag-question.model";
-import Tag from "@/database/tag.model";
-import handleError from "@/lib/handlers/error.handler";
-import handleSuccess from "@/lib/handlers/success.handler";
-import { ForbiddenError, NotFoundError } from "@/lib/http.errors";
-import logger from "@/lib/logger";
-import dbConnect from "@/lib/mongoose";
-import { validateDuplicateTags, validateRequest } from "@/lib/utils";
-import { CreateQuestionRequestSchemaAPI } from "@/lib/validations/api-route.validation";
-import { QuestionModelIF, TagModelIF } from "@/types/model";
+import Question from '@/database/question.model';
+import TagQuestion from '@/database/tag-question.model';
+import Tag from '@/database/tag.model';
+import handleError from '@/lib/handlers/error.handler';
+import handleSuccess from '@/lib/handlers/success.handler';
+import { ForbiddenError, NotFoundError } from '@/lib/http.errors';
+import logger from '@/lib/logger';
+import dbConnect from '@/lib/mongoose';
+import { validateDuplicateTags, validateRequest } from '@/lib/utils';
+import { CreateQuestionRequestSchemaAPI } from '@/lib/validations/api-route.validation';
+import { QuestionModelIF, TagModelIF } from '@/types/model';
 
 const findQuestionForbidden = async (
   questionId: string,
@@ -19,14 +19,14 @@ const findQuestionForbidden = async (
   session: mongoose.ClientSession,
 ) => {
   const question = await Question.findById(questionId).session(session);
-  if (!question) throw new NotFoundError("Question");
+  if (!question) throw new NotFoundError('Question');
   if (question.author.toString() !== userId) {
-    logger.error("You are not authorized to update this question");
-    throw new ForbiddenError("You are not authorized to update this question");
+    logger.error('You are not authorized to update this question');
+    throw new ForbiddenError('You are not authorized to update this question');
   }
 
   // Populate tags and author separately
-  await question.populate(["tags", "author"]);
+  await question.populate(['tags', 'author']);
   return question;
 };
 
@@ -42,9 +42,7 @@ const updateQuestionForbidden = async (
 
     if (data.tags && data.tags?.length > 0) {
       const lowerCaseTags = data.tags.map((tag) => tag.toLowerCase());
-      const currentTagNames = question.tags.map((tag) =>
-        tag.name.toLowerCase(),
-      );
+      const currentTagNames = question.tags.map((tag) => tag.name.toLowerCase());
 
       // Handle tags to remove
       const tagsToRemove = question.tags.filter(
@@ -52,9 +50,7 @@ const updateQuestionForbidden = async (
       );
 
       if (tagsToRemove.length) {
-        const tagIdsToRemove = tagsToRemove.map(
-          (tag) => (tag as TagModelIF).id,
-        );
+        const tagIdsToRemove = tagsToRemove.map((tag) => (tag as TagModelIF).id);
 
         // Batch operations for removing tags
         await Promise.all([
@@ -67,27 +63,20 @@ const updateQuestionForbidden = async (
             { $inc: { questions: -1 } },
             { session },
           ),
-          Tag.deleteMany(
-            { _id: { $in: tagIdsToRemove }, questions: { $lte: 1 } },
-            { session },
-          ),
+          Tag.deleteMany({ _id: { $in: tagIdsToRemove }, questions: { $lte: 1 } }, { session }),
         ]);
 
-        question.tags = question.tags.filter(
-          (tag) => !tagsToRemove.includes(tag),
-        );
+        question.tags = question.tags.filter((tag) => !tagsToRemove.includes(tag));
       }
 
       // Handle tags to add
-      const tagsToAdd = lowerCaseTags.filter(
-        (tag) => !currentTagNames.includes(tag),
-      );
+      const tagsToAdd = lowerCaseTags.filter((tag) => !currentTagNames.includes(tag));
 
       if (tagsToAdd.length) {
         // Batch upsert operation
         const tagOperations = tagsToAdd.map((tag) => ({
           updateOne: {
-            filter: { name: { $regex: new RegExp(`^${tag}$`, "i") } },
+            filter: { name: { $regex: new RegExp(`^${tag}$`, 'i') } },
             update: {
               $inc: { questions: 1 },
               $setOnInsert: { name: tag },
@@ -101,7 +90,7 @@ const updateQuestionForbidden = async (
         // Get newly added tag IDs
         const newTags = await Tag.find(
           {
-            name: { $in: tagsToAdd.map((tag) => new RegExp(`^${tag}$`, "i")) },
+            name: { $in: tagsToAdd.map((tag) => new RegExp(`^${tag}$`, 'i')) },
           },
           { _id: 1 },
           { session },
@@ -121,36 +110,36 @@ const updateQuestionForbidden = async (
     }
     await question.save({ session });
 
-    return question.populate("tags");
+    return question.populate('tags');
   } catch (error) {
-    logger.error("Error processing updating question");
+    logger.error('Error processing updating question');
     throw error;
   }
 };
 
 // GET /api/questions/id
 export async function GET(_: Request, { params }: RouteParams) {
-  logger.info("Getting question");
+  logger.info('Getting question');
   try {
     const { id } = await params;
-    if (!id) throw new NotFoundError("Question");
+    if (!id) throw new NotFoundError('Question');
     await dbConnect();
 
     const question = await Question.findById(id)
-      .populate({ path: "author", select: "name image id" })
-      .populate({ path: "tags", select: "name" });
-    if (!question) throw new NotFoundError("Question");
-    logger.info("Question found");
+      .populate({ path: 'author', select: 'name image id' })
+      .populate({ path: 'tags', select: 'name' });
+    if (!question) throw new NotFoundError('Question');
+    logger.info('Question found');
     return handleSuccess({ data: question });
   } catch (error) {
-    logger.error("Error getting question");
+    logger.error('Error getting question');
     return handleError({ error });
   }
 }
 
 // PUT /api/questions/id
 export async function PUT(request: Request, { params }: RouteParams) {
-  logger.info("Updating question");
+  logger.info('Updating question');
   const session = await mongoose.startSession();
   let validatedData: Partial<z.infer<typeof CreateQuestionRequestSchemaAPI>>;
   try {
@@ -167,26 +156,18 @@ export async function PUT(request: Request, { params }: RouteParams) {
 
   try {
     const { id } = await params;
-    if (!id) throw new NotFoundError("Question");
+    if (!id) throw new NotFoundError('Question');
     await dbConnect();
 
     session.startTransaction();
-    const question = await findQuestionForbidden(
-      id,
-      validatedData.userId!,
-      session,
-    );
-    const newQuestionData = await updateQuestionForbidden(
-      question,
-      validatedData,
-      session,
-    );
+    const question = await findQuestionForbidden(id, validatedData.userId!, session);
+    const newQuestionData = await updateQuestionForbidden(question, validatedData, session);
 
     await session.commitTransaction();
-    logger.info("Question updated");
+    logger.info('Question updated');
     return handleSuccess({ data: newQuestionData });
   } catch (error) {
-    logger.error("Error updating question");
+    logger.error('Error updating question');
     await session.abortTransaction();
     return handleError({ error });
   } finally {

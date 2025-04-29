@@ -1,17 +1,17 @@
-import bcrypt from "bcryptjs";
-import { NextRequest } from "next/server";
-import { z } from "zod";
+import bcrypt from 'bcryptjs';
+import { NextRequest } from 'next/server';
+import { z } from 'zod';
 
-import Account from "@/database/account.model";
-import User from "@/database/user.model";
-import handleError from "@/lib/handlers/error.handler";
-import handleSuccess from "@/lib/handlers/success.handler";
-import { NotFoundError, UnauthorizedError } from "@/lib/http.errors";
-import logger from "@/lib/logger";
-import dbConnect from "@/lib/mongoose";
-import { validateRequest } from "@/lib/utils";
-import { SignInSchema } from "@/lib/validations/index";
-import { UserModelIF } from "@/types/model";
+import Account from '@/database/account.model';
+import User from '@/database/user.model';
+import handleError from '@/lib/handlers/error.handler';
+import handleSuccess from '@/lib/handlers/success.handler';
+import { NotFoundError, UnauthorizedError } from '@/lib/http.errors';
+import logger from '@/lib/logger';
+import dbConnect from '@/lib/mongoose';
+import { validateRequest } from '@/lib/utils';
+import { SignInSchema } from '@/lib/validations/index';
+import { UserModelIF } from '@/types/model';
 
 // Step to signin with credentials
 // 1. Validate request
@@ -20,48 +20,41 @@ import { UserModelIF } from "@/types/model";
 // 4. Return user data
 
 export async function POST(request: NextRequest) {
-  logger.info("Starting signin with credentials");
+  logger.info('Starting signin with credentials');
 
   try {
     await dbConnect();
     const body = await request.json();
     const validatedRequest = validateRequest(body, SignInSchema);
-    const { userId } =
-      await findAccountByEmailAndComparePassword(validatedRequest);
+    const { userId } = await findAccountByEmailAndComparePassword(validatedRequest);
 
     const user = await findUserByUserId(userId);
     const { id, image, name, email } = user;
-    logger.info("Login by credentials is successful");
+    logger.info('Login by credentials is successful');
     return handleSuccess({
       data: { id, image, name, email },
-      message: "Login by credentials is successful",
+      message: 'Login by credentials is successful',
     });
   } catch (error: unknown) {
-    logger.error("Error signing in with credentials");
+    logger.error('Error signing in with credentials');
     return handleError({ error }) as APIErrorResponse;
   }
 }
 
-const findAccountByEmailAndComparePassword = async (
-  dataRequest: z.infer<typeof SignInSchema>,
-) => {
+const findAccountByEmailAndComparePassword = async (dataRequest: z.infer<typeof SignInSchema>) => {
   const { email, password } = dataRequest;
   const existingAccount = await Account.findOne({
-    provider: "credentials",
+    provider: 'credentials',
     providerAccountId: email,
   });
-  if (!existingAccount) throw new NotFoundError("Account");
-  const isValidPassword = await bcrypt.compare(
-    password,
-    existingAccount.password!,
-  );
-  if (!isValidPassword)
-    throw new UnauthorizedError("Email and password is incorrect");
+  if (!existingAccount) throw new NotFoundError('Account');
+  const isValidPassword = await bcrypt.compare(password, existingAccount.password!);
+  if (!isValidPassword) throw new UnauthorizedError('Email and password is incorrect');
   return existingAccount;
 };
 
 const findUserByUserId = async (userId: object) => {
   const user = (await User.findById(userId)) as UserModelIF;
-  if (!user) throw new NotFoundError("User");
+  if (!user) throw new NotFoundError('User');
   return user;
 };

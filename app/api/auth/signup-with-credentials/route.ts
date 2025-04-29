@@ -1,18 +1,18 @@
-import bcrypt from "bcryptjs";
-import mongoose from "mongoose";
-import { NextRequest } from "next/server";
-import { z } from "zod";
+import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
+import { NextRequest } from 'next/server';
+import { z } from 'zod';
 
-import { ENV_CONFIG } from "@/configs/env.config";
-import Account from "@/database/account.model";
-import User from "@/database/user.model";
-import handleError from "@/lib/handlers/error.handler";
-import handleSuccess from "@/lib/handlers/success.handler";
-import logger from "@/lib/logger";
-import dbConnect from "@/lib/mongoose";
-import { validateRequest } from "@/lib/utils";
-import { SignUpSchema } from "@/lib/validations/index";
-import { UserModelIF } from "@/types/model";
+import { ENV_CONFIG } from '@/configs/env.config';
+import Account from '@/database/account.model';
+import User from '@/database/user.model';
+import handleError from '@/lib/handlers/error.handler';
+import handleSuccess from '@/lib/handlers/success.handler';
+import logger from '@/lib/logger';
+import dbConnect from '@/lib/mongoose';
+import { validateRequest } from '@/lib/utils';
+import { SignUpSchema } from '@/lib/validations/index';
+import { UserModelIF } from '@/types/model';
 
 // Step to signup with credentials
 // 1. Validate request
@@ -21,7 +21,7 @@ import { UserModelIF } from "@/types/model";
 // 4. Commit transaction
 
 export async function POST(request: NextRequest) {
-  logger.info("Starting credentials sign-up process");
+  logger.info('Starting credentials sign-up process');
   let validatedData: z.infer<typeof SignUpSchema>;
   try {
     const body = await request.json();
@@ -38,23 +38,20 @@ export async function POST(request: NextRequest) {
     session.startTransaction();
     await throwErrorIfUserExist(email, username, session);
 
-    const newUser = await handleUserCredentialsAndReturn(
-      validatedData,
-      session,
-    );
+    const newUser = await handleUserCredentialsAndReturn(validatedData, session);
 
     await session.commitTransaction();
 
     const { id, image, name } = newUser;
-    logger.info("Sign up by credentials successful");
+    logger.info('Sign up by credentials successful');
     return handleSuccess({
       data: { id, email, image, name },
-      message: "Sign up by credentials successful",
+      message: 'Sign up by credentials successful',
       status: 201,
     });
   } catch (error: unknown) {
     await session.abortTransaction();
-    logger.error("Sign-up process failed:", error);
+    logger.error('Sign-up process failed:', error);
     return handleError({ error }) as APIErrorResponse;
   } finally {
     await session.endSession();
@@ -70,7 +67,7 @@ const throwErrorIfUserExist = async (
     $or: [{ email }, { username }],
   }).session(session);
   if (existingUser) {
-    const message = `${existingUser.email === email ? "User" : "User name"} already exist.`;
+    const message = `${existingUser.email === email ? 'User' : 'User name'} already exist.`;
     throw new Error(message);
   }
 };
@@ -81,10 +78,7 @@ const handleUserCredentialsAndReturn = async (
 ) => {
   const { password, username, email, name } = user;
 
-  const hashedPassword = await bcrypt.hash(
-    password,
-    ENV_CONFIG.BCRYPT_HASH_NUMBER,
-  );
+  const hashedPassword = await bcrypt.hash(password, ENV_CONFIG.BCRYPT_HASH_NUMBER);
   user.password = hashedPassword;
 
   const [newUser] = (await User.create([{ username, email, name }], {
@@ -96,7 +90,7 @@ const handleUserCredentialsAndReturn = async (
       {
         userId: newUser.id,
         name,
-        provider: "credentials",
+        provider: 'credentials',
         providerAccountId: email,
         password: hashedPassword,
       },
