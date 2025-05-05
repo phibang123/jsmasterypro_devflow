@@ -1,26 +1,22 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
-import { auth } from "@/auth";
-import ROUTES from "@/constants/routes";
+import { auth } from '@/auth';
+import ROUTES from '@/constants/routes';
 
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Avatar, AvatarFallback } from './ui/avatar';
 
-const UserAvatar = async ({
-  className = "h-9 w-9",
-}: {
-  className?: string;
-}) => {
+const UserAvatar = async ({ className = 'h-9 w-9' }: { className?: string }) => {
   const session = await auth();
   const userSession = session?.user;
   if (!userSession) return;
   const { id, image, name } = userSession;
   const initials = name
-    ?.split(" ")
+    ?.split(' ')
     .slice(0, 2)
     .map((word) => word[0])
-    .join("")
+    .join('')
     .toUpperCase();
 
   const imageDefault = () =>
@@ -30,7 +26,7 @@ const UserAvatar = async ({
         alt={name!}
         width={36}
         height={36}
-        className="object-cover"
+        className="bg-light-400 object-cover dark:bg-dark-500"
         quality={100}
       />
     ) : (

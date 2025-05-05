@@ -1,15 +1,15 @@
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
+import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
 
-import { auth } from "@/auth";
-import QuestionForm from "@/components/forms/QuestionForm";
+import { auth } from '@/auth';
+import QuestionForm from '@/components/forms/QuestionForm';
 
-import AskQuestionLoading from "./loading";
+import AskQuestionLoading from './loading';
 
-const AskQuestion = async () => {
+const AskQuestionPage = async () => {
   const session = await auth();
 
-  if (!session?.user) return redirect("/sign-in");
+  if (!session?.user) return redirect('/sign-in');
   return (
     <Suspense fallback={<AskQuestionLoading />}>
       <div className="card-wrapper p-9">
@@ -23,4 +23,4 @@ const AskQuestion = async () => {
   );
 };
 
-export default AskQuestion;
+export default AskQuestionPage;

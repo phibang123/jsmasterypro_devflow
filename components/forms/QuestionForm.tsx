@@ -1,19 +1,19 @@
-"use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { MDXEditorMethods } from "@mdxeditor/editor";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
-import React, { useRef } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+'use client';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { MDXEditorMethods } from '@mdxeditor/editor';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
+import React, { useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { toast } from "@/hooks/use-toast";
-import { createQuestion, editQuestion } from "@/lib/actions/question.action";
-import { AskQuestionSchema } from "@/lib/validations";
-import { QuestionIF } from "@/types/global";
+import { toast } from '@/hooks/use-toast';
+import { createQuestion, editQuestion } from '@/lib/actions/question.action';
+import { AskQuestionSchema } from '@/lib/validations';
+import { QuestionIF } from '@/types/global';
 
-import TagCard from "../cards/TagCard";
-import { Button } from "../ui/button";
+import TagCard from '../cards/TagCard';
+import { Button } from '../ui/button';
 import {
   Form,
   FormControl,
@@ -22,11 +22,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
+} from '../ui/form';
+import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
 
-const Editor = dynamic(() => import("@/components/editor"), {
+const Editor = dynamic(() => import('@/components/editor'), {
   ssr: false,
 });
 
@@ -42,9 +42,9 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
   const form = useForm<z.infer<typeof AskQuestionSchema>>({
     resolver: zodResolver(AskQuestionSchema),
     defaultValues: {
-      title: question?.title || "",
-      description: question?.description || "",
-      content: question?.content || "",
+      title: question?.title || '',
+      description: question?.description || '',
+      content: question?.content || '',
       tags: question?.tags?.map((tag) => tag.name) || [],
     },
   });
@@ -60,7 +60,7 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
     let result;
 
     if (isEdit) {
-      if (!question?.id) throw new Error("Question not found");
+      if (!question?.id) throw new Error('Question not found');
       result = await editQuestion({
         ...questionData,
         questionId: question.id as string,
@@ -69,27 +69,27 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
       result = await createQuestion(questionData);
     }
 
-    const toastMessage = `Question ${isEdit ? "updated" : "created"} ${result.success ? "successfully" : "with error"}`;
+    const toastMessage = `Question ${isEdit ? 'updated' : 'created'} ${result.success ? 'successfully' : 'with error'}`;
     if (!result.success) {
       toast({
         title: `Error`,
         description: toastMessage,
-        variant: "destructive",
+        variant: 'destructive',
       });
     } else if (result.success && result.data) {
       toast({
-        title: "Success",
+        title: 'Success',
         description: toastMessage,
       });
       form.reset();
       router.push(`/question/${result.data.id}`);
     } else {
       toast({
-        title: "Error",
+        title: 'Error',
         description:
           result.message ||
-          `An error occurred while ${isEdit ? "updating" : "creating"} the question`,
-        variant: "destructive",
+          `An error occurred while ${isEdit ? 'updating' : 'creating'} the question`,
+        variant: 'destructive',
       });
     }
   };
@@ -97,12 +97,12 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
   const handleTagRemove = (tag: string, filed: { value: string[] }) => {
     const newTags = filed.value.filter((t) => t !== tag);
 
-    form.setValue("tags", newTags);
+    form.setValue('tags', newTags);
 
     if (newTags.length === 0) {
-      form.setError("tags", {
-        type: "manual",
-        message: "Tags are required",
+      form.setError('tags', {
+        type: 'manual',
+        message: 'Tags are required',
       });
     }
   };
@@ -111,31 +111,31 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
     e: React.KeyboardEvent<HTMLInputElement>,
     field: { value: string[] },
   ) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       e.preventDefault();
       const tagInput = e.currentTarget.value.trim();
       if (tagInput && tagInput.length < 15 && !field.value.includes(tagInput)) {
-        form.setValue("tags", [...field.value, tagInput]);
-        e.currentTarget.value = "";
-        form.clearErrors("tags");
+        form.setValue('tags', [...field.value, tagInput]);
+        e.currentTarget.value = '';
+        form.clearErrors('tags');
       } else if (tagInput.length > 15) {
-        form.setError("tags", {
-          type: "manual",
-          message: "Tag should be less than 15 characters",
+        form.setError('tags', {
+          type: 'manual',
+          message: 'Tag should be less than 15 characters',
         });
       } else if (field.value.includes(tagInput)) {
-        form.setError("tags", {
-          type: "manual",
-          message: "Tag already exists",
+        form.setError('tags', {
+          type: 'manual',
+          message: 'Tag already exists',
         });
       }
     }
   };
   const renderButtonSubmit = () => {
     if (form.formState.isSubmitting) {
-      return "Submitting...";
+      return 'Submitting...';
     }
-    return isEdit ? "Update Question" : "Ask A Question";
+    return isEdit ? 'Update Question' : 'Ask A Question';
   };
 
   return (
@@ -149,20 +149,19 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
           name="title"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light700">
+              <FormLabel className="paragraph-semibold text-light400_light500">
                 Question Title <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl>
                 <Textarea
                   disabled={form.formState.isSubmitting}
                   className="paragraph-regular background-light850_dark100 light-border-2 text-dark300_light700 no-focus min-h-[56px] resize-none overflow-hidden border"
-                  style={{ height: "auto" }}
+                  style={{ height: 'auto' }}
                   {...field}
                 />
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-400">
-                Be specific and imagine you&apos;re asking a question to another
-                person
+                Be specific and imagine you&apos;re asking a question to another person
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -173,14 +172,14 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
           name="description"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light700">
+              <FormLabel className="paragraph-semibold text-light400_light500">
                 Question Description <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl>
                 <Textarea
                   disabled={form.formState.isSubmitting}
                   className="paragraph-regular background-light850_dark100 light-border-2 text-dark300_light700 no-focus min-h-[56px] resize-none overflow-hidden border"
-                  style={{ height: "auto" }}
+                  style={{ height: 'auto' }}
                   {...field}
                 />
               </FormControl>
@@ -196,9 +195,8 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
           name="content"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light700">
-                Detailed explanation of your problem{" "}
-                <span className="text-primary-500">*</span>
+              <FormLabel className="paragraph-semibold text-light400_light500">
+                Detailed explanation of your problem <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl>
                 <Editor
@@ -210,8 +208,7 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
                 />
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-400">
-                Introduce the problem and expand on what you&apos;ve put in the
-                title.
+                Introduce the problem and expand on what you&apos;ve put in the title.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -222,7 +219,7 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
           name="tags"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col gap-3">
-              <FormLabel className="paragraph-semibold text-dark400_light700">
+              <FormLabel className="paragraph-semibold text-light400_light500">
                 Tags <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl>
@@ -251,8 +248,8 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
                 </div>
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-400">
-                Add up to 3 tags to describe what your question is about. Press
-                Enter to add each tag
+                Add up to 3 tags to describe what your question is about. Press Enter to add each
+                tag
               </FormDescription>
               <FormMessage />
             </FormItem>

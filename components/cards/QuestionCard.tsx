@@ -1,33 +1,28 @@
-import Link from "next/link";
-import React from "react";
+import Link from 'next/link';
+import React from 'react';
 
-import ROUTES from "@/constants/routes";
-import { getTimeStamp } from "@/lib/utils";
-import { QuestionIF, TagIF } from "@/types/global";
+import ROUTES from '@/constants/routes';
+import { getTimeStamp } from '@/lib/utils';
+import { QuestionIF, TagIF } from '@/types/global';
 
-import TagCard from "./TagCard";
-import Metric from "../Metric";
+import TagCard from './TagCard';
+import Metric from '../Metric';
 
 interface Props {
   question: QuestionIF;
 }
 
 const QuestionCard = ({
-  question: {
-    id,
-    title,
-    tags,
-    author,
-    upVotes,
-    answers,
-    views,
-    description,
-    updatedAt,
-  },
+  question: { id, title, tags, author, upVotes, answers, views, description, updatedAt },
 }: Props) => {
   const renderTagCard = () => {
     return tags.map((tag: TagIF) => (
-      <TagCard key={tag.id} id={tag.id} name={tag.name} compact />
+      <TagCard
+        key={tag.id}
+        id={tag.id}
+        name={tag.name}
+        compact
+      />
     ));
   };
 
@@ -82,7 +77,7 @@ const QuestionCard = ({
               value={author.name}
               title={`• asked ${getTimeStamp(updatedAt)}`}
               href={ROUTES.PROFILE(author.id)}
-              textStyles="body-medium text-dark400_light700"
+              textStyles="body-medium text-light400_light500"
               isAuthor
             />
           </div>

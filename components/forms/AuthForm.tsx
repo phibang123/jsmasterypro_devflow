@@ -1,18 +1,12 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import {
-  DefaultValues,
-  FieldValues,
-  Path,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { DefaultValues, FieldValues, Path, SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -20,13 +14,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { SIGN_IN } from "@/configs/constance";
-import ROUTES from "@/constants/routes";
-import { toast } from "@/hooks/use-toast";
-import { toUpperCaseTitle } from "@/lib/utils";
-import { AuthFormProps } from "@/types/global";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { SIGN_IN } from '@/configs/constance';
+import ROUTES from '@/constants/routes';
+import { toast } from '@/hooks/use-toast';
+import { toUpperCaseTitle } from '@/lib/utils';
+import { AuthFormProps } from '@/types/global';
 
 const AuthForm = <T extends FieldValues>({
   schema,
@@ -45,9 +39,9 @@ const AuthForm = <T extends FieldValues>({
     const result = await onSubmit(data);
 
     if (result?.success) {
-      const description = `Signed ${formType === SIGN_IN ? "in" : "up"} successfully`;
+      const description = `Signed ${formType === SIGN_IN ? 'in' : 'up'} successfully`;
       toast({
-        title: "Success",
+        title: 'Success',
         description,
       });
       router.push(ROUTES.HOME);
@@ -55,29 +49,29 @@ const AuthForm = <T extends FieldValues>({
       toast({
         title: `Error`,
         description: result.message,
-        variant: "destructive",
+        variant: 'destructive',
       });
     }
   };
 
   const buttonText = () => {
     if (form.formState.isSubmitting)
-      return formType === SIGN_IN ? "Signing In..." : "Signing Up...";
-    return formType === SIGN_IN ? "Sign In" : "Sign Up";
+      return formType === SIGN_IN ? 'Signing In...' : 'Signing Up...';
+    return formType === SIGN_IN ? 'Sign In' : 'Sign Up';
   };
 
   const handleNameLabel = (name: string) => {
-    return name === "email" ? "Email Address" : toUpperCaseTitle(name);
+    return name === 'email' ? 'Email Address' : toUpperCaseTitle(name);
   };
 
   const handleInputType = (name: string) => {
-    return name === "password" ? "password" : "text";
+    return name === 'password' ? 'password' : 'text';
   };
 
   const renderingDirectory = () => {
     return formType === SIGN_IN ? (
       <p>
-        Don&apos;t have an account?{" "}
+        Don&apos;t have an account?{' '}
         <Link
           className="paragraph-semibold primary-text-gradient"
           href={ROUTES.SIGN_UP}
@@ -87,7 +81,7 @@ const AuthForm = <T extends FieldValues>({
       </p>
     ) : (
       <p>
-        Already have an account?{" "}
+        Already have an account?{' '}
         <Link
           className="paragraph-semibold primary-text-gradient"
           href={ROUTES.SIGN_IN}
@@ -112,7 +106,7 @@ const AuthForm = <T extends FieldValues>({
               key={`field-${formType}-${index}`}
               render={({ field }) => (
                 <FormItem className="flex w-full flex-col gap-2.5">
-                  <FormLabel className="paragraph-medium text-dark400_light700">
+                  <FormLabel className="paragraph-medium text-light400_light500">
                     {handleNameLabel(field.name)}
                   </FormLabel>
                   <FormControl>

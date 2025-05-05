@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 const HomeLoading = () => {
   return (
     <div className="flex flex-col gap-6">
-      {[1, 2, 3, 4, 5].map((item) => (
+      {[1, 2, 3, 4].map((item) => (
         <div
           key={item}
           className="card-wrapper flex flex-col gap-4 p-6 sm:flex-row sm:items-center"

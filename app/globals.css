@@ -76,10 +76,6 @@ body {
     @apply text-dark-300 dark:text-light-700;
   }
 
-  .text-dark400_light700 {
-    @apply text-dark-400 dark:text-light-700;
-  }
-
   .text-dark500_light700 {
     @apply text-dark-500 dark:text-light-700 !important;
   }
@@ -110,10 +106,6 @@ body {
 
   .text-dark400_light900 {
     @apply text-dark-400 dark:text-light-900 !important;
-  }
-
-  .text-light400_light500 {
-    @apply text-light-400 dark:text-light-500 !important;
   }
 
   .light-border {
@@ -212,6 +204,13 @@ body {
     @apply invert dark:invert-0;
   }
 
+  .shadow {
+    --tw-shadow: 0 3px 10px 0 rgb(0 0 0 / 0.1), 0 0px 3px 0px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+    box-shadow:
+      var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
+
   .shadow-light100_dark100 {
     @apply shadow-light-100 dark:shadow-dark-100 dark:shadow-sm;
   }
@@ -219,12 +218,22 @@ body {
   .shadow-light100_darknone {
     @apply shadow-dark-100 dark:shadow-none;
   }
+
   .primary-gradient {
     background: linear-gradient(129deg, var(--main-color) 0%, var(--secondary-color) 100%);
   }
 
   .primary-button-gradient {
-    @apply bg-gradient-to-r from-primary-500 via-primary-300 to-primary-100 duration-300 hover:scale-105 hover:opacity-90 shadow-lg transition-all;
+    background: linear-gradient(to right, var(--main-color), var(--secondary-color));
+    transition: all 0.3s ease;
+  }
+
+  .primary-button-gradient:hover {
+    transform: scale(1.02);
+    opacity: 0.9;
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
 
   .secondary-button-gradient {

@@ -1,6 +1,6 @@
-const Jobs = async () => {
+const JobsPage = async () => {
   const error = new Error();
   throw error;
 };
 
-export default Jobs;
+export default JobsPage;

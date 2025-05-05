@@ -3,10 +3,11 @@ import Link from 'next/link';
 import React from 'react';
 
 import ROUTES from '@/constants/routes';
-import { getDeviconClassName } from '@/lib/utils';
+import { getCount, getDeviconClassName, getDeviconDescription } from '@/lib/utils';
 import { TagIF } from '@/types/global';
 
 import { Badge } from '../ui/badge';
+import { Button } from '../ui/button';
 
 const TagCard = ({
   id,
@@ -22,9 +23,18 @@ const TagCard = ({
     e.preventDefault();
   };
 
-  const renderingQuestions = () => {
+  const renderingCount = () => {
     if (!showCount) return;
-    return <p className="small-medium text-dark500_light700">{questions}</p>;
+    const count = getCount(questions);
+    if (!compact) {
+      return (
+        <div className="flex flex-row gap-2 text-sm">
+          <p className="primary-text-gradient">{count}</p>
+          <p className="text-light400_light500">Questions</p>
+        </div>
+      );
+    }
+    return <p className="small-medium primary-text-gradient">{count}</p>;
   };
 
   const renderingRemoveButton = () => {
@@ -52,17 +62,37 @@ const TagCard = ({
         </div>
         {renderingRemoveButton()}
       </Badge>
-      {renderingQuestions()}
+      {compact && renderingCount()}
     </>
   );
 
-  return compact && isButton ? (
-    <button
+  if (!compact) {
+    const deviconDescription = getDeviconDescription(name);
+    return (
+      <Link
+        href={ROUTES.TAG(id)}
+        className="items-center justify-between gap-2"
+      >
+        <article className="card-wrapper flex w-full flex-col rounded-2xl p-4">
+          <div className="flex w-full flex-col gap-2">
+            <div className="flex items-center justify-between gap-3">{Content}</div>
+            <div className="line-clamp-4 text-sm">
+              <p className="text-dark300_light700 tracking-wide">{deviconDescription}</p>
+            </div>
+            {renderingCount()}
+          </div>
+        </article>
+      </Link>
+    );
+  }
+
+  return isButton ? (
+    <Button
       onClick={handleClick}
       className="flex justify-between gap-2"
     >
       {Content}
-    </button>
+    </Button>
   ) : (
     <Link
       href={ROUTES.TAG(id)}

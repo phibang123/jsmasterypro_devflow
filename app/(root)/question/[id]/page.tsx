@@ -14,7 +14,7 @@ import { QuestionIF, TagIF } from '@/types/global';
 
 import QuestionDetailLoading from './loading';
 
-const QuestionDetail = async ({ params }: { params: Promise<{ id: string }> }) => {
+const QuestionDetailPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const { data: question, success } = await getQuestionById(id);
 
@@ -71,7 +71,7 @@ const QuestionDetail = async ({ params }: { params: Promise<{ id: string }> }) =
             value={author.name}
             title={`•`}
             href={`/profile/${author.name}`}
-            textStyles="base-semibold text-dark400_light700 !tracking-wide"
+            textStyles="base-semibold text-light400_light500 !tracking-wide"
             isAuthor
           />
           <div className="flex items-center gap-3">
@@ -81,7 +81,7 @@ const QuestionDetail = async ({ params }: { params: Promise<{ id: string }> }) =
               value={upVotes}
               title={``}
               href={`/profile/${author.name}`}
-              textStyles="body-medium text-dark400_light700"
+              textStyles="body-medium text-light400_light500"
             />
             <Metric
               imgUrl="/icons/downvote.svg"
@@ -89,7 +89,7 @@ const QuestionDetail = async ({ params }: { params: Promise<{ id: string }> }) =
               value={downVotes}
               title={``}
               href={`/profile/${author.name}`}
-              textStyles="body-medium text-dark400_light700"
+              textStyles="body-medium text-light400_light500"
             />
           </div>
         </div>
@@ -151,4 +151,4 @@ const QuestionDetail = async ({ params }: { params: Promise<{ id: string }> }) =
   );
 };
 
-export default QuestionDetail;
+export default QuestionDetailPage;

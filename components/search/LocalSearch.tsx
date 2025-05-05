@@ -70,7 +70,7 @@ function LocalSearch({ route, imgSrc, placeholder, otherClasses, iconPosition = 
         placeholder="Search questions..."
         value={searchQuery}
         onChange={(event) => setSearchQuery(event.target.value)}
-        className="paragraph-regular no-focus placeholder text-dark400_light700 border-none shadow-none outline-none"
+        className="paragraph-regular no-focus placeholder text-light400_light500 border-none shadow-none outline-none"
       />
       {iconPosition === 'right' && (
         <Image

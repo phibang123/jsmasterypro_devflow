@@ -16,7 +16,7 @@ interface SearchParams {
   searchParams: Promise<{ [key: string]: string }>;
 }
 
-const Home = async ({ searchParams }: SearchParams) => {
+const HomePage = async ({ searchParams }: SearchParams) => {
   const { query = '', filter = '', sort = '', page = 1, pageSize = 10 } = await searchParams;
   const { data, success } = await getQuestions({
     page: parseInt(page as string),
@@ -82,4 +82,4 @@ const Home = async ({ searchParams }: SearchParams) => {
   );
 };
 
-export default Home;
+export default HomePage;
