@@ -27,7 +27,7 @@ const Tags = async () => {
             key={tag.id}
             name={tag.name}
             questions={tag.questions}
-            showCount
+            // showCount
           />
         ))}
       </div>

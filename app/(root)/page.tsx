@@ -16,7 +16,7 @@ interface SearchParams {
   searchParams: Promise<{ [key: string]: string }>;
 }
 
-const RenderQuestionComponent = async ({ searchParams }: SearchParams) => {
+const Home = async ({ searchParams }: SearchParams) => {
   const { query = '', filter = '', sort = '', page = 1, pageSize = 10 } = await searchParams;
   const { data, success } = await getQuestions({
     page: parseInt(page as string),
@@ -47,17 +47,7 @@ const RenderQuestionComponent = async ({ searchParams }: SearchParams) => {
       />
     ));
   };
-  return (
-    <DataRenderer
-      success={success}
-      data={data?.questions || []}
-      render={renderQuestion}
-      className="mt-4 flex w-full flex-col gap-6"
-    />
-  );
-};
 
-const Home = async ({ searchParams }: SearchParams) => {
   return (
     <Suspense fallback={<HomeLoading />}>
       <>
@@ -79,7 +69,14 @@ const Home = async ({ searchParams }: SearchParams) => {
           />
         </section>
         <HomeFilter />
-        <RenderQuestionComponent searchParams={searchParams} />
+        {/* <RenderQuestionComponent searchParams={searchParams} /> */}
+
+        <DataRenderer
+          success={success}
+          data={data?.questions || []}
+          render={renderQuestion}
+          className="mt-4 flex w-full flex-col gap-6"
+        />
       </>
     </Suspense>
   );
