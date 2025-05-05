@@ -18,7 +18,12 @@ const TagCard = ({
   handleRemove,
   isButton,
   remove,
+  size = 'small',
 }: TagIF) => {
+  const cardSize =
+    size === 'small' ? 'subtle-medium' : size === 'medium' ? 'medium-medium' : 'large-medium';
+  const textSize = size === 'small' ? 'text-sm' : size === 'medium' ? 'text-base' : 'text-lg';
+
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
   };
@@ -55,9 +60,11 @@ const TagCard = ({
 
   const Content = (
     <>
-      <Badge className="subtle-medium background-light800_dark400 text-light400_light500 flex flex-row gap-2 rounded-md border-none px-2 py-1 uppercase">
+      <Badge
+        className={`${cardSize} background-light800_dark400 text-light400_light500 flex flex-row gap-2 rounded-md border-none px-2 py-1 uppercase`}
+      >
         <div className="flex-center space-x-2">
-          <i className={`${iconClass} text-sm`}></i>
+          <i className={`${iconClass} ${textSize}`}></i>
           <span>{name}</span>
         </div>
         {renderingRemoveButton()}

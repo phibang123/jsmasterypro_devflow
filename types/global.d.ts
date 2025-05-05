@@ -1,4 +1,4 @@
-import { MDXEditorMethods, MDXEditorProps } from "@mdxeditor/editor";
+import { MDXEditorMethods, MDXEditorProps } from '@mdxeditor/editor';
 
 interface Tags {
   id: string;
@@ -34,6 +34,7 @@ interface TagIF {
   compact?: boolean;
   remove?: boolean;
   isButton?: boolean;
+  size?: 'small' | 'medium' | 'large';
   handleRemove?: () => void;
 }
 
@@ -41,7 +42,7 @@ interface AuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
   defaultValue: T;
   onSubmit: (data: T) => Promise<APIResponse<unknown | T>>;
-  formType: "SIGN_UP" | "SIGN_IN";
+  formType: 'SIGN_UP' | 'SIGN_IN';
 }
 
 interface MetricIF {

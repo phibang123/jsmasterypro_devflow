@@ -30,6 +30,7 @@ const TagsPage = async () => {
             name={tag.name}
             questions={tag.questions}
             showCount={true}
+            size="medium"
             // showCount
           />
         ))}
