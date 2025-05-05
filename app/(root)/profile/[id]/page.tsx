@@ -1,7 +1,7 @@
-import React from 'react';
+import { redirect } from 'next/navigation';
 
 const ProfilePage = () => {
-  return <div>Profile</div>;
+  redirect('/coming-soon');
 };
 
 export default ProfilePage;

@@ -1,7 +1,7 @@
-import React from 'react';
+import { redirect } from 'next/navigation';
 
 const CollectionsPage = () => {
-  return <div>Collections</div>;
+  redirect('/coming-soon');
 };
 
 export default CollectionsPage;

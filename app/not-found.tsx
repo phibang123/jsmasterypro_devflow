@@ -30,7 +30,11 @@ export default function NotFound() {
           animate={{ scale: 1 }}
           transition={{ type: 'spring', stiffness: 200, damping: 20 }}
         >
-          <h1 className={`primary-text-gradient text-9xl font-bold`}>404</h1>
+          <h1
+            className={`bg-gradient-to-r from-[#328E6E] via-[#67AE6E] to-[#90C67C] bg-clip-text text-9xl font-bold text-transparent`}
+          >
+            404
+          </h1>
         </motion.div>
 
         <motion.h2
@@ -62,11 +66,12 @@ export default function NotFound() {
           transition={{ delay: 0.6 }}
           className="pt-8"
         >
-          <Link
-            href="/"
-            className={`primary-button-gradient inline-flex items-center rounded-lg border border-transparent px-8 py-4 text-lg font-medium shadow-lg transition-all duration-300 hover:scale-105`}
-          >
-            Go back home
+          <Link href="/">
+            <button
+              className={`inline-flex items-center rounded-lg border-transparent bg-gradient-to-r from-[#328E6E] via-[#67AE6E] to-[#90C67C] px-8 py-4 text-lg font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#328E6E] focus:ring-offset-2`}
+            >
+              Go back home
+            </button>
           </Link>
         </motion.div>
 

@@ -1,7 +1,7 @@
-import React from 'react';
+import { redirect } from 'next/navigation';
 
 const CommunityPage = () => {
-  return <div>Community</div>;
+  redirect('/coming-soon');
 };
 
 export default CommunityPage;
