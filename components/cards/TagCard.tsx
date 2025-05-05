@@ -7,7 +7,6 @@ import { getCount, getDeviconClassName, getDeviconDescription } from '@/lib/util
 import { TagIF } from '@/types/global';
 
 import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
 
 const TagCard = ({
   id,
