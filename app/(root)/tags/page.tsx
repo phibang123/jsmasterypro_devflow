@@ -30,7 +30,7 @@ const TagsPage = async () => {
             name={tag.name}
             questions={tag.questions}
             showCount={true}
-            size="medium"
+            size="large"
             // showCount
           />
         ))}
@@ -52,10 +52,10 @@ const TagsPage = async () => {
       </section>
       <Suspense fallback={<TagsLoading />}>
         <DataRenderer
-          data={data.tags}
+          data={data?.tags}
           success={success}
           render={renderTags}
-          className="mt-8 flex flex-wrap gap-4"
+          className="mt-4 flex flex-wrap gap-4"
         />
       </Suspense>
     </>

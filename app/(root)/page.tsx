@@ -73,7 +73,7 @@ const HomePage = async ({ searchParams }: SearchParams) => {
 
         <DataRenderer
           success={success}
-          data={data?.questions || []}
+          data={data?.questions}
           render={renderQuestion}
           className="mt-4 flex w-full flex-col gap-6"
         />

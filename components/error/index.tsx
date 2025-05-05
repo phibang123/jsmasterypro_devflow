@@ -32,7 +32,7 @@ export default function SkeletonError() {
   if (!mounted) return null;
 
   return (
-    <div className={`mt-4 flex h-auto justify-center transition-colors duration-500 `}>
+    <div className={`mt-12 flex h-auto justify-center transition-colors duration-500 `}>
       <motion.div
         initial={{ opacity: 1, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -51,8 +51,8 @@ export default function SkeletonError() {
             <Image
               src={errorImage}
               alt="error"
-              width={270}
-              height={270}
+              width={350}
+              height={350}
               className="block object-contain"
             />
           </div>
