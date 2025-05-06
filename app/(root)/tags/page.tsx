@@ -31,7 +31,6 @@ const TagsPage = async () => {
             questions={tag.questions}
             showCount={true}
             size="large"
-            // showCount
           />
         ))}
       </div>

@@ -1,5 +1,5 @@
 import { PaginationSearchParamsIF, TagIF } from '@/types/global';
-import { QuestionModelIF } from '@/types/model';
+import { QuestionModelIF, TagModelIF } from '@/types/model';
 
 import { constructorApi } from '../api';
 import handleError from '../handlers/error.handler';
@@ -33,14 +33,35 @@ export async function getTags(params: PaginationSearchParamsIF): ServerResponse<
   }
 }
 
-export async function getTagQuestions(params: IGetTagQuestionsParams): ServerResponse<{
+export async function getTagDetails(id: string): ServerResponse<TagModelIF> {
+  if (!id) return handleError({ error: 'Tag ID is required', responseType: 'server' });
+  try {
+    const tag = await constructorApi.tags.getById(id);
+    if (!tag.success || !tag.data) return tag;
+    return handleSuccess({
+      data: tag.data,
+      message: 'Tag fetched successfully',
+      responseType: 'server',
+    });
+  } catch (error) {
+    return handleError({
+      error,
+      responseType: 'server',
+    }) as ErrorResponse;
+  }
+}
+
+export async function getTagQuestions(
+  id: string,
+  params: PaginationSearchParamsIF,
+): ServerResponse<{
   questions: QuestionModelIF[];
   isNext: boolean;
   total: number;
 }> {
   try {
     const validationResult = await GuardGateway({
-      params,
+      params: { ...params, tagId: id },
       schema: GetTagQuestionSchema,
     });
     const { params: validatedParams } = validationResult;

@@ -55,7 +55,7 @@ const QuestionCard = ({
   };
 
   return (
-    <div className="card-wrapper flex gap-3 p-5 sm:px-8">
+    <div className="card-wrapper flex w-full gap-3 p-5 sm:px-8">
       <div className="hidden sm:flex">{renderMetricContent()}</div>
       <div className="flex-1">
         <Link href={ROUTES.QUESTION(id)}>
@@ -63,14 +63,14 @@ const QuestionCard = ({
             {title}
           </h3>
         </Link>
-        <div className="my-2 line-clamp-2 text-sm">
+        <div className="my-2 line-clamp-2 h-[40px] text-sm">
           <span className="text-dark300_light700">{description}</span>
         </div>
 
         <div className="mt-4 flex w-full flex-col flex-wrap sm:mt-0">
           <div className="mb-4 sm:hidden">{renderMetricContent()}</div>
           <div className="flex w-full flex-wrap items-center justify-between gap-3">
-            <div className="flex flex-1 flex-wrap gap-2">{renderTagCard()}</div>
+            <div className="flex flex-1 flex-nowrap gap-2">{renderTagCard()}</div>
             <Metric
               imgUrl={author.image}
               alt={author.name}

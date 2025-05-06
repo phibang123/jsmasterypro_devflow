@@ -225,19 +225,16 @@ body {
 
   .primary-button-gradient {
     background: linear-gradient(to right, var(--main-color), var(--secondary-color));
-    transition: all 0.3s ease;
   }
 
   .primary-button-gradient:hover {
-    transform: scale(1.02);
-    opacity: 0.9;
     box-shadow:
       0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
 
   .secondary-button-gradient {
-    @apply border-primary-500 bg-transparent dark:bg-dark-300 text-primary-500 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-primary-500 dark:hover:bg-primary-500 hover:text-white;
+    @apply border-primary-500 bg-transparent dark:bg-dark-300 text-primary-500 shadow hover:bg-primary-500 dark:hover:bg-primary-500 hover:text-white;
   }
 
   .third-button-gradient_no-focus {

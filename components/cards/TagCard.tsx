@@ -18,6 +18,8 @@ const TagCard = ({
   isButton,
   remove,
   size = 'small',
+  className = '',
+  classNameContent = '',
 }: TagIF) => {
   const cardSize =
     size === 'small' ? 'subtle-medium' : size === 'medium' ? 'medium-medium' : 'large-medium';
@@ -77,12 +79,12 @@ const TagCard = ({
     return (
       <Link
         href={ROUTES.TAG(id)}
-        className="items-center justify-between gap-2"
+        className={`items-center justify-between gap-2 ${className}`}
       >
         <article className="card-wrapper flex w-full flex-col rounded-2xl p-4">
           <div className="flex w-full flex-col gap-2">
             <div className="flex items-center justify-between gap-3">{Content}</div>
-            <div className="line-clamp-4 text-sm">
+            <div className={`line-clamp-4 text-sm ${classNameContent}`}>
               <p className="text-dark300_light700 tracking-wide">{deviconDescription}</p>
             </div>
             {renderingCount()}
@@ -95,14 +97,14 @@ const TagCard = ({
   return isButton ? (
     <button
       onClick={handleClick}
-      className="flex justify-between gap-2"
+      className={`flex justify-between gap-2 ${className}`}
     >
       {Content}
     </button>
   ) : (
     <Link
       href={ROUTES.TAG(id)}
-      className="flex items-center justify-between gap-2"
+      className={`flex items-center justify-between gap-2 ${className}`}
     >
       {Content}
     </Link>

@@ -116,5 +116,6 @@ export const constructorApi = {
         method: 'GET',
         params,
       }),
+    getById: (id: string) => axiosInstance<TagModelIF>(`/tags/${id}`),
   },
 };

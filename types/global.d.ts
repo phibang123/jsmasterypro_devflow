@@ -35,6 +35,8 @@ interface TagIF {
   remove?: boolean;
   isButton?: boolean;
   size?: 'small' | 'medium' | 'large';
+  className?: string;
+  classNameContent?: string;
   handleRemove?: () => void;
 }
 
