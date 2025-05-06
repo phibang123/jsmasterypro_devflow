@@ -16,8 +16,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { SIGN_IN } from '@/configs/constance';
-import ROUTES from '@/constants/routes';
+import { SIGN_IN, ROUTES } from '@/constants';
 import { toast } from '@/hooks/use-toast';
 import { toUpperCaseTitle } from '@/lib/utils';
 import { AuthFormProps } from '@/types/global';

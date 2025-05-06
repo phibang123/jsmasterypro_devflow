@@ -1,24 +1,24 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
-import ROUTES from "@/constants/routes";
+import { ROUTES } from '@/constants';
 
-import TagCard from "../cards/TagCard";
+import TagCard from '../cards/TagCard';
 
 const hotQuestions = [
-  { id: "1", title: "How to create a custom hook in React" },
-  { id: "2", title: "How to use React Query" },
-  { id: "3", title: "How to use Redux?" },
-  { id: "4", title: "How to use React Router?" },
-  { id: "5", title: "How to use React Context" },
+  { id: '1', title: 'How to create a custom hook in React' },
+  { id: '2', title: 'How to use React Query' },
+  { id: '3', title: 'How to use Redux?' },
+  { id: '4', title: 'How to use React Router?' },
+  { id: '5', title: 'How to use React Context' },
 ];
 
 const popularTags = [
-  { id: "1", name: "trello", questions: 100 },
-  { id: "2", name: "linux", questions: 200 },
-  { id: "3", name: "docker", questions: 300 },
-  { id: "4", name: "node", questions: 400 },
+  { id: '1', name: 'trello', questions: 100 },
+  { id: '2', name: 'linux', questions: 200 },
+  { id: '3', name: 'docker', questions: 300 },
+  { id: '4', name: 'node', questions: 400 },
 ];
 
 const RightSidebar = () => {
@@ -59,16 +59,12 @@ const RightSidebar = () => {
         <div>
           <h3 className="h3-bold text-dark200_light900">Top Question</h3>
         </div>
-        <div className="mt-7 flex w-full flex-col gap-[30px]">
-          {renderingHotQuestion()}
-        </div>
+        <div className="mt-7 flex w-full flex-col gap-[30px]">{renderingHotQuestion()}</div>
       </div>
       {/* Popular Tags */}
       <div className="background-light800_dark300 shadow-light100_dark100 ml-1 rounded-lg p-6 dark:shadow-none">
         <h3 className="h3-bold text-dark200_light900">Popular Tags</h3>
-        <div className="mt-7 flex w-full flex-col gap-[20px]">
-          {renderingPopularTags()}
-        </div>
+        <div className="mt-7 flex w-full flex-col gap-[20px]">{renderingPopularTags()}</div>
       </div>
     </section>
   );

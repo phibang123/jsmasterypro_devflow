@@ -9,8 +9,9 @@ import {
   DEFAULT_QUERY,
   DEFAULT_SORT,
   DEFAULT_FILTER,
-} from '@/configs/constance';
-import { techDeviconClasses, techDeviconDescriptions } from '@/constants/techMap';
+  allDeviconClasses,
+  allDeviconDescriptions,
+} from '@/constants';
 
 import { UnauthorizedError, ValidationError } from './http.errors';
 import logger from './logger';
@@ -22,14 +23,14 @@ export function cn(...inputs: ClassValue[]) {
 export const getDeviconClassName = (techName: string) => {
   const normalizedTechName = techName.replace(/[ .]/g, '').toLowerCase();
 
-  return techDeviconClasses[normalizedTechName]
-    ? `${techDeviconClasses[normalizedTechName]} colored`
+  return allDeviconClasses[normalizedTechName]
+    ? `${allDeviconClasses[normalizedTechName]} colored`
     : 'devicon-devicon-plain';
 };
 
 export const getDeviconDescription = (techName: string) => {
   const description =
-    techDeviconDescriptions[techName] ||
+    allDeviconDescriptions[techName] ||
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged";
   return description;
 };

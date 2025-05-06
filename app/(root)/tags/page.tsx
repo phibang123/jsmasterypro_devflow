@@ -3,7 +3,7 @@ import React, { Suspense } from 'react';
 import TagCard from '@/components/cards/TagCard';
 import DataRenderer from '@/components/DataRenderer';
 import LocalSearch from '@/components/search/LocalSearch';
-import ROUTES from '@/constants/routes';
+import { ROUTES } from '@/constants';
 import { getTags } from '@/lib/actions/tag.action';
 import { TagModelIF } from '@/types/model';
 

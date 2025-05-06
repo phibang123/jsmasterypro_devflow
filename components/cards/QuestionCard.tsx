@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 
-import ROUTES from '@/constants/routes';
+import { ROUTES } from '@/constants';
 import { getTimeStamp } from '@/lib/utils';
 import { QuestionIF, TagIF } from '@/types/global';
 

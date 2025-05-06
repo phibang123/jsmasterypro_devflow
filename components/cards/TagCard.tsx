@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-import ROUTES from '@/constants/routes';
+import { ROUTES } from '@/constants';
 import { getCount, getDeviconClassName, getDeviconDescription } from '@/lib/utils';
 import { TagIF } from '@/types/global';
 

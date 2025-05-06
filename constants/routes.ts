@@ -15,4 +15,4 @@ const ROUTES = {
   EDIT_QUESTION: (id: string) => `/question/${id}/edit`,
 };
 
-export default ROUTES;
+export { ROUTES };

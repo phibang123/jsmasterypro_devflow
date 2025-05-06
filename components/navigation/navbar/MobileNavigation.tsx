@@ -1,21 +1,15 @@
-import { LogOut } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import { LogOut } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
-import { auth } from "@/auth";
-import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import ROUTES from "@/constants/routes";
-import { logoutWithCredentials } from "@/lib/actions/auth.actions";
+import { auth } from '@/auth';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { ROUTES } from '@/constants';
+import { logoutWithCredentials } from '@/lib/actions/auth.actions';
 
-import NavLinks from "./NavLinks";
+import NavLinks from './NavLinks';
 
 const MobileNavigation = async () => {
   const session = await auth();
@@ -61,7 +55,10 @@ const MobileNavigation = async () => {
 
   return (
     <Sheet>
-      <SheetTrigger className="cursor-pointer" asChild>
+      <SheetTrigger
+        className="cursor-pointer"
+        asChild
+      >
         <Image
           src="/icons/hamburger.svg"
           width={36}
@@ -75,7 +72,10 @@ const MobileNavigation = async () => {
         className="background-light900_dark200 border-none"
       >
         <SheetTitle className="hidden">Navigation</SheetTitle>
-        <Link href="/" className="flex items-center gap-1">
+        <Link
+          href="/"
+          className="flex items-center gap-1"
+        >
           <Image
             src="/images/site-logo.svg"
             width={32}

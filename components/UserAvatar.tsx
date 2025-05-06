@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import { auth } from '@/auth';
-import ROUTES from '@/constants/routes';
+import { ROUTES } from '@/constants';
 
 import { Avatar, AvatarFallback } from './ui/avatar';
 

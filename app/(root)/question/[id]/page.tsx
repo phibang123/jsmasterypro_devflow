@@ -7,7 +7,7 @@ import TagCard from '@/components/cards/TagCard';
 import DataRenderer from '@/components/DataRenderer';
 import Metric from '@/components/Metric';
 import { Button } from '@/components/ui/button';
-import ROUTES from '@/constants/routes';
+import { ROUTES } from '@/constants';
 import { getQuestionById } from '@/lib/actions/question.action';
 import { getTimeStamp } from '@/lib/utils';
 import { QuestionIF, TagIF } from '@/types/global';

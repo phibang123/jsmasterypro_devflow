@@ -7,6 +7,6 @@ const getEnvVar = (key: string): string => {
 };
 
 export const ENV_CONFIG = {
-  MONGODB_URI: getEnvVar("MONGODB_URI"),
-  BCRYPT_HASH_NUMBER: parseInt(getEnvVar("BCRYPT_HASH_NUMBER"), 10),
+  MONGODB_URI: getEnvVar('MONGODB_URI'),
+  BCRYPT_HASH_NUMBER: parseInt(getEnvVar('BCRYPT_HASH_NUMBER'), 10),
 } as const;

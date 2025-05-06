@@ -1,14 +1,14 @@
-import { LogOut } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import { LogOut } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
-import { auth } from "@/auth";
-import ROUTES from "@/constants/routes";
-import { logoutWithCredentials } from "@/lib/actions/auth.actions";
+import { auth } from '@/auth';
+import { ROUTES } from '@/constants';
+import { logoutWithCredentials } from '@/lib/actions/auth.actions';
 
-import NavLinks from "./navbar/NavLinks";
-import { Button } from "../ui/button";
+import NavLinks from './navbar/NavLinks';
+import { Button } from '../ui/button';
 
 const LeftSidebar = async () => {
   const session = await auth();

@@ -1,4 +1,4 @@
-import ROUTES from '@/constants/routes';
+import { ROUTES } from '@/constants';
 import { IAccount } from '@/database/account.model';
 import { IQuestion } from '@/database/question.model';
 import { IUser } from '@/database/user.model';
