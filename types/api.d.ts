@@ -12,3 +12,7 @@ interface IQuestionUpdateData extends ICreateQuestionParam {
 type RouteParams = {
   params: Promise<{ id: string }>;
 };
+
+interface IGetTagQuestionsParams extends Omit<PaginationSearchParamsIF, 'filter'> {
+  tagId: string;
+}

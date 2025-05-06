@@ -107,5 +107,14 @@ export const constructorApi = {
         method: 'GET',
         params,
       }),
+    getQuestionsByTag: (tagId: string, params: IGetTagQuestionsParams) =>
+      axiosInstance<{
+        questions: QuestionModelIF[];
+        total: number;
+        isNext: boolean;
+      }>(`/tags/${tagId}/questions`, {
+        method: 'GET',
+        params,
+      }),
   },
 };
