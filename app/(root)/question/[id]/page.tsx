@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import { auth } from '@/auth';
 import TagCard from '@/components/cards/TagCard';
 import DataRenderer from '@/components/DataRenderer';
+import Preview from '@/components/editor/Preview';
 import Metric from '@/components/Metric';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants';
@@ -131,7 +132,9 @@ const QuestionDetailPage = async ({ params }: { params: Promise<{ id: string }> 
             />
           </div>
         </div>
-        <div className="markdown text-dark200_light800 mt-4">{content}</div>
+        <div className="markdown text-dark200_light800 mt-4">
+          <Preview content={content} />
+        </div>
         <div className="background-light800_dark300 mt-4 flex flex-1 flex-wrap items-center justify-between rounded-lg px-4 py-2 shadow-light-100">
           <div className="flex flex-1 flex-wrap gap-4">{renderTagCard(tags)}</div>
           {renderEditButton(author.id)}
