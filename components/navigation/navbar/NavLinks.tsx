@@ -30,9 +30,7 @@ const NavLinks: React.FC<NavLinksProp> = ({ isMobileNav = false, userId }) => {
       const LinkComponent = (
         <Link
           className={cn(
-            isActive
-              ? 'primary-button-gradient rounded-lg text-light-900'
-              : 'text-dark300_light900',
+            isActive ? 'primary-button-gradient base-medium rounded-lg' : 'text-dark300_light900',
             'flex items-center justify-start gap-4 bg-transparent p-2',
           )}
           href={route}

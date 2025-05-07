@@ -91,7 +91,7 @@ const SkeletonEmptyData = () => {
           <Link href={emptyConfig.button.href}>
             <Button
               size="lg"
-              className="primary-button-gradient base-medium min-h-[40px] font-medium !text-light-900"
+              className="primary-button-gradient base-medium min-h-[40px] font-medium"
             >
               <span className="flex items-center gap-2">{emptyConfig.button.text}</span>
             </Button>

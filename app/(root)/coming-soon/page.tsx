@@ -67,7 +67,7 @@ export default function ComingSoon() {
           <Link href="/">
             <Button
               size="lg"
-              className="primary-button-gradient base-medium min-h-[50px] font-medium !text-light-900"
+              className="primary-button-gradient base-medium min-h-[50px] font-medium"
             >
               Go back home
             </Button>

@@ -55,7 +55,7 @@ const HomePage = async ({ searchParams }: SearchParams) => {
           <h1 className="h1-bold text-dark100_light900">All Questions</h1>
           <Button
             asChild
-            className="primary-button-gradient min-h-[40px] px-4 py-3 !text-light-900"
+            className="primary-button-gradient base-medium min-h-[40px] px-4 py-3"
           >
             <Link href={ROUTES.ASK_QUESTION}>Ask a Questions</Link>
           </Button>

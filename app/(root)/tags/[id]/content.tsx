@@ -9,8 +9,8 @@ interface Props {
   id: string;
   page?: number;
   pageSize?: number;
-  query?: string;
   filter?: string;
+  sort?: string;
 }
 const renderQuestions = (questions: QuestionIF[]) => {
   return questions.map((question) => (
@@ -25,21 +25,19 @@ const ContentTagRelatedQuestionsPage = async ({
   id,
   page = 1,
   pageSize = 10,
-  query,
   filter,
+  sort,
 }: Props) => {
-  const { data, success } = await getTagQuestions(id, { page, pageSize, query, filter });
+  const { data, success } = await getTagQuestions(id, { page, pageSize, sort, filter });
   const { questions } = data;
 
   return (
-    <div>
-      <DataRenderer
-        data={questions}
-        success={success}
-        render={renderQuestions}
-        className="mt-4 flex flex-wrap gap-4"
-      />
-    </div>
+    <DataRenderer
+      data={questions}
+      success={success}
+      render={renderQuestions}
+      className="mt-4 flex flex-wrap gap-4"
+    />
   );
 };
 

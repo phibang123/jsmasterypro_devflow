@@ -81,7 +81,7 @@ export default function Error({
           <Button
             onClick={reset}
             size="lg"
-            className="primary-button-gradient base-medium min-h-[50px] font-medium !text-light-900"
+            className="primary-button-gradient base-medium min-h-[50px] font-medium"
           >
             Try again
           </Button>

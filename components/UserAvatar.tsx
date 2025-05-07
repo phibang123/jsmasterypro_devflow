@@ -30,7 +30,7 @@ const UserAvatar = async ({ className = 'h-9 w-9' }: { className?: string }) => 
         quality={100}
       />
     ) : (
-      <AvatarFallback className="primary-button-gradient font-space-grotesk font-bold tracking-wider text-white">
+      <AvatarFallback className="primary-button-gradient base-medium font-space-grotesk font-bold tracking-wider">
         {initials}
       </AvatarFallback>
     );

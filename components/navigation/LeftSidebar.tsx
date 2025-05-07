@@ -48,7 +48,7 @@ const LeftSidebar = async () => {
         </Button>
 
         <Button
-          className="base-medium light-border-2 btn-tertiary text-dark400_light900 primary-button-gradient min-h-[41px] w-full rounded-lg border px-4 py-3 shadow-none "
+          className="light-border-2 btn-tertiary text-dark400_light900 primary-button-gradient base-medium min-h-[41px] w-full rounded-lg border px-4 py-3 shadow-none "
           asChild
         >
           <Link href={ROUTES.SIGN_UP}>
@@ -57,7 +57,7 @@ const LeftSidebar = async () => {
               alt="Account"
               width={20}
               height={20}
-              className="text-light-900"
+              className="invert-colors"
             />
             <span className="text-light-900 max-lg:hidden">Sign Up</span>
           </Link>

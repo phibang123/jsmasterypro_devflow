@@ -2,7 +2,7 @@ import { BookOpenIcon, PlusIcon } from 'lucide-react';
 import React, { memo } from 'react';
 
 import TagCard from '@/components/cards/TagCard';
-import ToggleSort from '@/components/filters/ToggleFilter';
+import ToggleSort from '@/components/toggle/ToggleSort';
 import { Button } from '@/components/ui/button';
 import { getTagDetails } from '@/lib/actions/tag.action';
 
@@ -32,7 +32,7 @@ const HeaderTagRelatedQuestionsPage = async ({ id }: { id: string }) => {
         classNameContent="!line-clamp-2"
       />
       <div className="col-span-1 flex flex-row flex-wrap items-center justify-between gap-2">
-        <Button className="primary-button-gradient base-medium w-full font-medium !text-light-900">
+        <Button className="primary-button-gradient base-medium w-full font-medium">
           <PlusIcon />
           Add Tag
         </Button>

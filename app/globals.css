@@ -227,6 +227,7 @@ body {
       var(--secondary-color) 50%,
       var(--tertiary-color) 100%
     );
+    @apply text-light-900;
   }
 
   .primary-button-gradient:hover {

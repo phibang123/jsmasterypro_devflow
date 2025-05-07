@@ -87,7 +87,7 @@ export default function SkeletonError() {
           <Button
             onClick={() => window.location.reload()}
             size="lg"
-            className="primary-button-gradient base-medium min-h-[40px] font-medium !text-light-900"
+            className="primary-button-gradient base-medium min-h-[40px] font-medium"
           >
             Try again
           </Button>

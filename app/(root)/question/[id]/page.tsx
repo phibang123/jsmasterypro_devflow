@@ -26,7 +26,7 @@ const QuestionDetailPage = async ({ params }: { params: Promise<{ id: string }> 
     return (
       <Button
         asChild
-        className="primary-button-gradient min-h-[20px] px-4 py-3 !text-light-900"
+        className="primary-button-gradient base-medium min-h-[20px] px-4 py-3"
       >
         <Link href={ROUTES.EDIT_QUESTION(question.id)}>
           <Pencil />

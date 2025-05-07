@@ -20,19 +20,14 @@ interface ToggleSortProps {
   sortArray: { label: string; value: string }[];
   title: string;
   className?: string;
-  //   onSortChange: (sort: string) => void;
 }
 
-const ToggleSort = ({
-  sortArray,
-  className = '',
-  title,
-  //   onSortChange,
-}: ToggleSortProps) => {
+const ToggleSort = ({ sortArray, className = '', title }: ToggleSortProps) => {
   const [selectedSort, setSelectedSort] = useState('');
   const router = useRouter();
   const searchParams = useSearchParams();
   const sortParams = searchParams.get('sort');
+
   const handleSortClick = (sort: string) => {
     let newUrl = '';
     if (sortParams === sort) {
@@ -52,20 +47,26 @@ const ToggleSort = ({
     router.push(newUrl, { scroll: false });
   };
 
+  const titleSortBy = () => {
+    if (!sortParams) return title;
+    const sort = sortArray.find((sort) => sort.value === sortParams);
+    return sort?.label || title;
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           className={cn(
-            `${selectedSort ? 'primary-button-gradient !text-light-900' : 'secondary-button-gradient'} base-medium font-medium `,
+            `base-medium ${selectedSort ? 'primary-button-gradient' : 'secondary-button-gradient'} `,
             className,
           )}
         >
           <FilterIcon />
-          {title}
+          {titleSortBy()}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-48">
+      <DropdownMenuContent className="mt-2 w-48">
         {sortArray.map((sort) => {
           if (sort.label === 'separator') {
             return <DropdownMenuSeparator key={sort.value} />;
@@ -74,10 +75,13 @@ const ToggleSort = ({
             <DropdownMenuCheckboxItem
               key={sort.value}
               checked={sortParams === sort.value}
-              className={cn(sortParams === sort.value && 'primary-button-gradient !text-light-900')}
+              className={cn(
+                sortParams === sort.value && 'primary-button-gradient',
+                'font-medium text-base !text-dark400_light500',
+              )}
               onClick={() => handleSortClick(sort.value)}
             >
-              <p className={cn(sortParams === sort.value && '!text-light-900')}>{sort.label}</p>
+              <p>{sort.label}</p>
             </DropdownMenuCheckboxItem>
           );
         })}

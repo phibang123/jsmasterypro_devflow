@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import ContentTagRelatedQuestionsPage from './content';
 import HeaderTagRelatedQuestionsPage from './header';
+import HomeLoading from '../../loading';
 
 interface SearchParams {
   params: Promise<{ id: string }>;
@@ -10,17 +11,17 @@ interface SearchParams {
 
 const TagRelatedQuestionsPage = async ({ params, searchParams }: SearchParams) => {
   const { id } = await params;
-  const { query, page, pageSize, filter } = await searchParams;
+  const { page, pageSize, filter, sort } = await searchParams;
 
   return (
-    <div>
+    <Suspense fallback={<HomeLoading />}>
       <HeaderTagRelatedQuestionsPage id={id} />
       <ContentTagRelatedQuestionsPage
         id={id}
         page={page ? parseInt(page) : 1}
         pageSize={pageSize ? parseInt(pageSize) : 10}
-        query={query}
         filter={filter}
+        sort={sort}
       />
       {/* <Pagination
         page={page ? parseInt(page) : 1}
@@ -28,7 +29,7 @@ const TagRelatedQuestionsPage = async ({ params, searchParams }: SearchParams) =
         variant="rounded" // hoặc "default", "minimal"
         className="my-4"
       /> */}
-    </div>
+    </Suspense>
   );
 };
 

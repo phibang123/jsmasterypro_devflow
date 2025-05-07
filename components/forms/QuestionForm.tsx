@@ -260,7 +260,7 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
           <Button
             type="submit"
             disabled={form.formState.isSubmitting}
-            className="primary-button-gradient w-fit p-6 text-lg font-bold !text-light-900"
+            className="primary-button-gradient base-medium w-fit p-6 text-lg font-normal"
           >
             {renderButtonSubmit()}
           </Button>
