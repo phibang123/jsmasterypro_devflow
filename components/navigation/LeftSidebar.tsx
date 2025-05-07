@@ -48,7 +48,7 @@ const LeftSidebar = async () => {
         </Button>
 
         <Button
-          className="base-medium light-border-2 btn-tertiary text-dark400_light900 primary-gradient min-h-[41px] w-full rounded-lg border px-4 py-3 shadow-none "
+          className="base-medium light-border-2 btn-tertiary text-dark400_light900 primary-button-gradient min-h-[41px] w-full rounded-lg border px-4 py-3 shadow-none "
           asChild
         >
           <Link href={ROUTES.SIGN_UP}>

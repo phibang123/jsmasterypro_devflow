@@ -10,6 +10,7 @@ interface Props {
   page?: number;
   pageSize?: number;
   query?: string;
+  filter?: string;
 }
 const renderQuestions = (questions: QuestionIF[]) => {
   return questions.map((question) => (
@@ -20,8 +21,14 @@ const renderQuestions = (questions: QuestionIF[]) => {
   ));
 };
 
-const ContentTagRelatedQuestionsPage = async ({ id, page = 1, pageSize = 10, query }: Props) => {
-  const { data, success } = await getTagQuestions(id, { page, pageSize, query });
+const ContentTagRelatedQuestionsPage = async ({
+  id,
+  page = 1,
+  pageSize = 10,
+  query,
+  filter,
+}: Props) => {
+  const { data, success } = await getTagQuestions(id, { page, pageSize, query, filter });
   const { questions } = data;
 
   return (

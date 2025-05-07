@@ -10,7 +10,7 @@ interface SearchParams {
 
 const TagRelatedQuestionsPage = async ({ params, searchParams }: SearchParams) => {
   const { id } = await params;
-  const { query, page, pageSize } = await searchParams;
+  const { query, page, pageSize, filter } = await searchParams;
 
   return (
     <div>
@@ -20,6 +20,7 @@ const TagRelatedQuestionsPage = async ({ params, searchParams }: SearchParams) =
         page={page ? parseInt(page) : 1}
         pageSize={pageSize ? parseInt(pageSize) : 10}
         query={query}
+        filter={filter}
       />
       {/* <Pagination
         page={page ? parseInt(page) : 1}

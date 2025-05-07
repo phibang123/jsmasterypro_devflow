@@ -2,6 +2,7 @@ import { BookOpenIcon, PlusIcon } from 'lucide-react';
 import React, { memo } from 'react';
 
 import TagCard from '@/components/cards/TagCard';
+import ToggleSort from '@/components/filters/ToggleFilter';
 import { Button } from '@/components/ui/button';
 import { getTagDetails } from '@/lib/actions/tag.action';
 
@@ -10,7 +11,13 @@ const HeaderTagRelatedQuestionsPage = async ({ id }: { id: string }) => {
 
   if (!success) return null;
   const { id: tagId, name, questions } = data;
-  console.log(questions, 'questions');
+
+  const sortOptions = [
+    { label: 'Newest', value: '-createdAt' },
+    { label: 'Oldest', value: 'createdAt' },
+    { label: 'Most Votes', value: '-votes' },
+    { label: 'Least Votes', value: 'votes' },
+  ];
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
@@ -24,15 +31,21 @@ const HeaderTagRelatedQuestionsPage = async ({ id }: { id: string }) => {
         className="col-span-1 md:col-span-2 lg:col-span-3"
         classNameContent="!line-clamp-2"
       />
-      <div className="col-span-1 flex flex-col gap-2">
-        <Button className="primary-button-gradient base-medium font-medium !text-light-900">
+      <div className="col-span-1 flex flex-row flex-wrap items-center justify-between gap-2">
+        <Button className="primary-button-gradient base-medium w-full font-medium !text-light-900">
           <PlusIcon />
           Add Tag
         </Button>
-        <Button className="secondary-button-gradient base-medium font-medium">
+        <Button className="secondary-button-gradient base-medium w-full font-medium">
           <BookOpenIcon />
           Go to Wiki
         </Button>
+        <ToggleSort
+          sortArray={sortOptions}
+          title="Sort by"
+          className="w-full"
+          //   onFilterChange={onFilterChange}
+        />
       </div>
     </div>
   );
