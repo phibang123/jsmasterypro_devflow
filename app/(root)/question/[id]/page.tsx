@@ -14,6 +14,7 @@ import { getTimeStamp } from '@/lib/utils';
 import { QuestionIF, TagIF } from '@/types/global';
 
 import QuestionDetailLoading from './loading';
+import View from '../View';
 
 const QuestionDetailPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -122,12 +123,10 @@ const QuestionDetailPage = async ({ params }: { params: Promise<{ id: string }> 
               title="Answers"
               textStyles="body-medium text-dark400_light800"
             />
-            <Metric
-              imgUrl="/icons/eye.svg"
-              alt="Views"
-              value={views}
-              title="Views"
-              textStyles="body-medium text-dark400_light800"
+            <View
+              id={id}
+              userId={session?.user?.id}
+              views={views}
             />
           </div>
         </div>

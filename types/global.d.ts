@@ -1,4 +1,5 @@
 import { MDXEditorMethods, MDXEditorProps } from '@mdxeditor/editor';
+import { ReactNode } from 'react';
 
 interface Tags {
   id: string;
@@ -50,12 +51,12 @@ interface AuthFormProps<T extends FieldValues> {
 interface MetricIF {
   imgUrl: string;
   alt: string;
-  value: string | number;
-  title: string | React.ReactNode;
+  value: string | number | ReactNode;
+  title: string;
   href?: string;
   textStyles?: string;
-  imgStyles?: string;
   isAuthor?: boolean;
+  imgStyles?: string;
 }
 
 interface EditorIF extends MDXEditorProps {

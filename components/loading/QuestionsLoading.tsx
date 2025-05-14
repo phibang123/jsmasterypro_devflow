@@ -5,7 +5,7 @@ import { Skeleton } from '../ui/skeleton';
 const QuestionsLoading = () => {
   return (
     <div className="mt-4 flex flex-col gap-6">
-      {[1, 2, 3, 4].map((item) => (
+      {[1, 2, 3].map((item) => (
         <div
           key={item}
           className="background-light800_dark200 light-border flex flex-col gap-4 rounded-2xl border p-6 sm:flex-row sm:items-center"

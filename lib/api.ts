@@ -96,6 +96,11 @@ export const constructorApi = {
         method: 'PUT',
         data: questionData,
       }),
+    incrementViewCount: (id: string, viewCount: number) =>
+      axiosInstance<QuestionModelIF>(`/questions/${id}/increment-view-count`, {
+        method: 'POST',
+        data: { viewCount },
+      }),
   },
   tags: {
     getAll: (params: PaginationSearchParamsIF) =>

@@ -124,3 +124,16 @@ export async function editQuestion(params: IUpdateQuestionParam): ServerResponse
     }) as ErrorResponse;
   }
 }
+
+export async function incrementViewCount(questionId: string) {
+  try {
+    const question = await constructorApi.questions.incrementViewCount(questionId, 1);
+    if (!question.success || !question.data) return question;
+    return handleSuccess({
+      data: question.data,
+      responseType: 'server',
+    });
+  } catch (error) {
+    return handleError({ error, responseType: 'server' }) as ErrorResponse;
+  }
+}
