@@ -4,13 +4,12 @@ import { Suspense } from 'react';
 import QuestionCard from '@/components/cards/QuestionCard';
 import DataRenderer from '@/components/DataRenderer';
 import HomeFilter from '@/components/filters/HomeFilter';
+import QuestionsLoading from '@/components/loading/QuestionsLoading';
 import LocalSearch from '@/components/search/LocalSearch';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants';
 import { getQuestions } from '@/lib/actions/question.action';
 import { QuestionIF } from '@/types/global';
-
-import HomeLoading from './loading';
 
 interface SearchParams {
   searchParams: Promise<{ [key: string]: string }>;
@@ -49,7 +48,7 @@ const HomePage = async ({ searchParams }: SearchParams) => {
   };
 
   return (
-    <Suspense fallback={<HomeLoading />}>
+    <Suspense fallback={<QuestionsLoading />}>
       <>
         <section className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
           <h1 className="h1-bold text-dark100_light900">All Questions</h1>

@@ -3,6 +3,7 @@ import React, { ReactNode } from 'react';
 import LeftSidebar from '@/components/navigation/LeftSidebar';
 import Navbar from '@/components/navigation/navbar';
 import RightSidebar from '@/components/navigation/RightSidebar';
+import CookieConsent from '@/components/popup/CookieConsent';
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -18,6 +19,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
         </section>
         <RightSidebar />
       </div>
+      <CookieConsent />
     </main>
   );
 };

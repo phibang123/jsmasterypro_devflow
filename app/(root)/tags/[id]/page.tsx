@@ -1,8 +1,10 @@
 import React, { Suspense } from 'react';
 
+import QuestionsLoading from '@/components/loading/QuestionsLoading';
+import HeaderTagLoading from '@/components/loading/tag/HeaderTagLoading';
+
 import ContentTagRelatedQuestionsPage from './content';
 import HeaderTagRelatedQuestionsPage from './header';
-import HomeLoading from '../../loading';
 
 interface SearchParams {
   params: Promise<{ id: string }>;
@@ -12,24 +14,29 @@ interface SearchParams {
 const TagRelatedQuestionsPage = async ({ params, searchParams }: SearchParams) => {
   const { id } = await params;
   const { page, pageSize, filter, sort } = await searchParams;
+  const keyForProductList = `sort=${sort || ''}&filter=${filter || ''}`;
 
   return (
-    <Suspense fallback={<HomeLoading />}>
-      <HeaderTagRelatedQuestionsPage id={id} />
-      <ContentTagRelatedQuestionsPage
-        id={id}
-        page={page ? parseInt(page) : 1}
-        pageSize={pageSize ? parseInt(pageSize) : 10}
-        filter={filter}
-        sort={sort}
-      />
-      {/* <Pagination
-        page={page ? parseInt(page) : 1}
-        totalPages={10}
-        variant="rounded" // hoặc "default", "minimal"
-        className="my-4"
-      /> */}
-    </Suspense>
+    <div>
+      <Suspense
+        key={`header-${id}`}
+        fallback={<HeaderTagLoading />}
+      >
+        <HeaderTagRelatedQuestionsPage id={id} />
+      </Suspense>
+      <Suspense
+        key={`content-${keyForProductList}`}
+        fallback={<QuestionsLoading />}
+      >
+        <ContentTagRelatedQuestionsPage
+          id={id}
+          page={page ? parseInt(page) : 1}
+          pageSize={pageSize ? parseInt(pageSize) : 10}
+          filter={filter}
+          sort={sort}
+        />
+      </Suspense>
+    </div>
   );
 };
 

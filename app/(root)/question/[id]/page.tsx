@@ -31,7 +31,6 @@ const QuestionDetailPage = async ({ params }: { params: Promise<{ id: string }> 
       >
         <Link href={ROUTES.EDIT_QUESTION(question.id)}>
           <Pencil />
-          Edit Question
         </Link>
       </Button>
     );
@@ -135,8 +134,10 @@ const QuestionDetailPage = async ({ params }: { params: Promise<{ id: string }> 
         <div className="markdown text-dark200_light800 mt-4">
           <Preview content={content} />
         </div>
-        <div className="background-light800_dark300 mt-4 flex flex-1 flex-wrap items-center justify-between rounded-lg px-4 py-2 shadow-light-100">
-          <div className="flex flex-1 flex-wrap gap-4">{renderTagCard(tags)}</div>
+        <div className="mt-4 flex items-center justify-between gap-4">
+          <div className="background-light800_dark300 flex flex-1 flex-wrap items-center justify-between rounded-lg px-4 py-2 shadow-light-100">
+            <div className="flex flex-1 flex-wrap gap-4">{renderTagCard(tags)}</div>
+          </div>
           {renderEditButton(author.id)}
         </div>
       </div>

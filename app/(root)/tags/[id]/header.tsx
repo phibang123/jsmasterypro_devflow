@@ -8,7 +8,6 @@ import { getTagDetails } from '@/lib/actions/tag.action';
 
 const HeaderTagRelatedQuestionsPage = async ({ id }: { id: string }) => {
   const { data, success } = await getTagDetails(id);
-
   if (!success) return null;
   const { id: tagId, name, questions } = data;
 
@@ -44,7 +43,6 @@ const HeaderTagRelatedQuestionsPage = async ({ id }: { id: string }) => {
           sortArray={sortOptions}
           title="Sort by"
           className="w-full"
-          //   onFilterChange={onFilterChange}
         />
       </div>
     </div>

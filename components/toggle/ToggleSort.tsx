@@ -28,7 +28,7 @@ const ToggleSort = ({ sortArray, className = '', title }: ToggleSortProps) => {
   const searchParams = useSearchParams();
   const sortParams = searchParams.get('sort');
 
-  const handleSortClick = (sort: string) => {
+  const handleSortClick = async (sort: string) => {
     let newUrl = '';
     if (sortParams === sort) {
       setSelectedSort('');

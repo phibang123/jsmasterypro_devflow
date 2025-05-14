@@ -2,12 +2,11 @@ import React, { Suspense } from 'react';
 
 import TagCard from '@/components/cards/TagCard';
 import DataRenderer from '@/components/DataRenderer';
+import TagsLoading from '@/components/loading/TagLoading';
 import LocalSearch from '@/components/search/LocalSearch';
 import { ROUTES } from '@/constants';
 import { getTags } from '@/lib/actions/tag.action';
 import { TagModelIF } from '@/types/model';
-
-import TagsLoading from './loading';
 
 const TagsPage = async () => {
   const response = await getTags({
