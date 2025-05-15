@@ -38,6 +38,16 @@ export const sidebarLinks = [
   },
 ];
 
+export const UNITS_TIME = [
+  { label: 'yr', seconds: 31536000 },
+  { label: 'mo', seconds: 2592000 },
+  { label: 'wk', seconds: 604800 },
+  { label: 'd', seconds: 86400 },
+  { label: 'hr', seconds: 3600 },
+  { label: 'min', seconds: 60 },
+  { label: 'sec', seconds: 1 },
+];
+
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_UP = 'SIGN_UP';
 

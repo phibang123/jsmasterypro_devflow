@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import { ROUTES } from '@/constants';
-import { getTimeStamp } from '@/lib/utils';
+import { getTimeStampString } from '@/lib/utils';
 import { QuestionIF, TagIF } from '@/types/global';
 
 import TagCard from './TagCard';
@@ -75,7 +75,7 @@ const QuestionCard = ({
               imgUrl={author.image}
               alt={author.name}
               value={author.name}
-              title={`• asked ${getTimeStamp(updatedAt)}`}
+              title={`• asked ${getTimeStampString(updatedAt)}`}
               href={ROUTES.PROFILE(author.id)}
               textStyles="body-medium text-light400_light500"
               isAuthor

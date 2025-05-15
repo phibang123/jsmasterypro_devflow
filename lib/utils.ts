@@ -9,6 +9,7 @@ import {
   DEFAULT_QUERY,
   DEFAULT_SORT,
   DEFAULT_FILTER,
+  UNITS_TIME,
   allDeviconClasses,
   allDeviconDescriptions,
 } from '@/constants';
@@ -35,22 +36,36 @@ export const getDeviconDescription = (techName: string) => {
   return description;
 };
 
-export const getTimeStamp = (date: Date) => {
+const getTimeStamp = (date: Date) => {
   const now = new Date();
   const convertDate = new Date(date);
   const secondsAgo = Math.floor((now.getTime() - convertDate.getTime()) / 1000);
+  return secondsAgo;
+};
 
-  const units = [
-    { label: 'yr', seconds: 31536000 },
-    { label: 'mo', seconds: 2592000 },
-    { label: 'wk', seconds: 604800 },
-    { label: 'd', seconds: 86400 },
-    { label: 'hr', seconds: 3600 },
-    { label: 'min', seconds: 60 },
-    { label: 'sec', seconds: 1 },
-  ];
+export const getTimeStampObject = (date: Date) => {
+  const secondsAgo = getTimeStamp(date);
 
-  for (const unit of units) {
+  for (const unit of UNITS_TIME) {
+    const interval = Math.floor(secondsAgo / unit.seconds);
+    if (interval >= 1) {
+      return { value: interval, unit: `${unit.label}${interval > 1 ? 's' : ''} ago` };
+    }
+  }
+  return { value: 0, unit: null };
+};
+
+export const durationOfMonitoring = (value: number) => {
+  let duration = 500;
+  if (value >= 500) duration = 2000;
+  if (value >= 100) duration = 1000;
+  return duration;
+};
+
+export const getTimeStampString = (date: Date) => {
+  const secondsAgo = getTimeStamp(date);
+
+  for (const unit of UNITS_TIME) {
     const interval = Math.floor(secondsAgo / unit.seconds);
     if (interval >= 1) {
       return `${interval} ${unit.label}${interval > 1 ? 's' : ''} ago`;

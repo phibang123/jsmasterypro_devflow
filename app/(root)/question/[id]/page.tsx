@@ -7,14 +7,15 @@ import TagCard from '@/components/cards/TagCard';
 import DataRenderer from '@/components/DataRenderer';
 import Preview from '@/components/editor/Preview';
 import Metric from '@/components/Metric';
+import DateTimeMetric from '@/components/metric/DateTimeMetric';
+import NumberMetric from '@/components/metric/NumberMetric';
+import ViewMetric from '@/components/metric/ViewMetric';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants';
 import { getQuestionById } from '@/lib/actions/question.action';
-import { getTimeStamp } from '@/lib/utils';
 import { QuestionIF, TagIF } from '@/types/global';
 
 import QuestionDetailLoading from './loading';
-import View from '../View';
 
 const QuestionDetailPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -102,28 +103,22 @@ const QuestionDetailPage = async ({ params }: { params: Promise<{ id: string }> 
         </div>
         <div className="mt-4 flex justify-between gap-3">
           <div className="flex gap-3">
-            <Metric
-              imgUrl="/icons/clock.svg"
-              alt="clock"
-              value={getTimeStamp(createdAt)}
-              title=" Asked"
-              textStyles="body-medium text-dark400_light800"
+            <DateTimeMetric
+              dateTime={createdAt}
+              title="Asked"
+              iconUrl="/icons/clock.svg"
             />
-            <Metric
-              imgUrl="/icons/edit.svg"
-              alt="Updated"
-              value={getTimeStamp(updatedAt)}
-              title=" Updated"
-              textStyles="body-medium text-dark400_light800"
+            <DateTimeMetric
+              dateTime={updatedAt}
+              title="Updated"
+              iconUrl="/icons/edit.svg"
             />
-            <Metric
-              imgUrl="/icons/message.svg"
-              alt="Answers"
-              value={answers}
+            <NumberMetric
               title="Answers"
-              textStyles="body-medium text-dark400_light800"
+              value={answers}
+              iconUrl="/icons/message.svg"
             />
-            <View
+            <ViewMetric
               id={id}
               userId={session?.user?.id}
               views={views}
