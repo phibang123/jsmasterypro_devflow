@@ -34,6 +34,7 @@ export async function getTags(params: PaginationSearchParamsIF): ServerResponse<
 }
 
 export async function getTagDetails(id: string): ServerResponse<TagModelIF> {
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   if (!id) return handleError({ error: 'Tag ID is required', responseType: 'server' });
   try {
     const tag = await constructorApi.tags.getById(id);
