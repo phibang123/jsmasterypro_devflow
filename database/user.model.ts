@@ -1,6 +1,6 @@
-import { model, models, Schema, SchemaOptions } from "mongoose";
+import { model, models, Schema, SchemaOptions } from 'mongoose';
 
-import { schemaOptions } from "./schema.options";
+import { schemaOptions } from './schema.options';
 
 export interface IUser {
   name: string;
@@ -19,7 +19,11 @@ const UserSchema = new Schema<IUser>(
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true, immutable: true },
     bio: { type: String },
-    image: { type: String, default: "https://avatar.iran.liara.run/public" },
+    image: {
+      type: String,
+      default:
+        'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-6.jpg',
+    },
     location: { type: String },
     portfolio: { type: String },
     reputation: { type: Number, default: 0 },
@@ -27,6 +31,6 @@ const UserSchema = new Schema<IUser>(
   schemaOptions as SchemaOptions<IUser>,
 );
 
-const User = models?.User || model<IUser>("User", UserSchema);
+const User = models?.User || model<IUser>('User', UserSchema);
 
 export default User;
