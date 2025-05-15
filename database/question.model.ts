@@ -1,6 +1,6 @@
-import { model, models, Schema, Types, SchemaOptions } from "mongoose";
+import { model, models, Schema, Types, SchemaOptions } from 'mongoose';
 
-import { schemaOptions } from "./schema.options";
+import { schemaOptions } from './schema.options';
 
 export interface IQuestion {
   title: string;
@@ -20,18 +20,17 @@ const QuestionSchema = new Schema<IQuestion>(
     title: { type: String, required: true },
     description: { type: String, required: true },
     content: { type: String, required: true },
-    tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
+    tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
     views: { type: Number, default: 0 },
     answers: { type: Number, default: 0 },
     upVotes: { type: Number, default: 0 },
     downVotes: { type: Number, default: 0 },
-    author: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    answerer: { type: Schema.Types.ObjectId, ref: "User" },
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    answerer: { type: Schema.Types.ObjectId, ref: 'User' },
   },
   schemaOptions as SchemaOptions<IQuestion>,
 );
 
-const Question =
-  models?.Question || model<IQuestion>("Question", QuestionSchema);
+const Question = models?.Question || model<IQuestion>('Question', QuestionSchema);
 
 export default Question;

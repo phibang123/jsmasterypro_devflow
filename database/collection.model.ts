@@ -1,6 +1,6 @@
-import { model, models, Schema, SchemaOptions, Types } from "mongoose";
+import { model, models, Schema, SchemaOptions, Types } from 'mongoose';
 
-import { schemaOptions } from "./schema.options";
+import { schemaOptions } from './schema.options';
 
 export interface ICollection {
   author: Types.ObjectId;
@@ -9,13 +9,12 @@ export interface ICollection {
 
 const CollectionSchema = new Schema<ICollection>(
   {
-    author: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    question: { type: Schema.Types.ObjectId, ref: "Question", required: true },
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    question: { type: Schema.Types.ObjectId, ref: 'Question', required: true },
   },
   schemaOptions as SchemaOptions<ICollection>,
 );
 
-const Collection =
-  models?.Collection && model<ICollection>("Collection", CollectionSchema);
+const Collection = models?.Collection || model<ICollection>('Collection', CollectionSchema);
 
 export default Collection;
