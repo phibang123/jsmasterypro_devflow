@@ -56,10 +56,9 @@ export const getTimeStampObject = (date: Date) => {
 };
 
 export const durationOfMonitoring = (value: number) => {
-  let duration = 500;
-  if (value >= 500) duration = 2000;
-  if (value >= 100) duration = 1000;
-  return duration;
+  if (value >= 500) return 2000;
+  if (value >= 100) return 1000;
+  return 500;
 };
 
 export const getTimeStampString = (date: Date) => {
