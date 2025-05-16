@@ -1,25 +1,39 @@
+'use client';
+
 import { BookOpenIcon, PlusIcon } from 'lucide-react';
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 
 import TagCard from '@/components/cards/TagCard';
 import ToggleSort from '@/components/toggle/ToggleSort';
 import { Button } from '@/components/ui/button';
 import { getTagDetails } from '@/lib/actions/tag.action';
+import { TagIF } from '@/types/global';
 
-const HeaderTagRelatedQuestionsPage = async ({ id }: { id: string }) => {
-  const { data, success } = await getTagDetails(id);
-  if (!success) return null;
-  const { id: tagId, name, questions } = data;
+const sortOptions = [
+  { label: 'Newest', value: '-createdAt' },
+  { label: 'Oldest', value: 'createdAt' },
+  { label: 'Most Votes', value: '-votes' },
+  { label: 'Least Votes', value: 'votes' },
+];
 
-  const sortOptions = [
-    { label: 'Newest', value: '-createdAt' },
-    { label: 'Oldest', value: 'createdAt' },
-    { label: 'Most Votes', value: '-votes' },
-    { label: 'Least Votes', value: 'votes' },
-  ];
+const HeaderTagRelatedQuestionsPage = ({ id }: { id: string }) => {
+  const [tag, setTag] = useState<TagIF | null>(null);
+  useEffect(() => {
+    const fetchTag = async () => {
+      const { data, success } = await getTagDetails(id);
+      console.log(data, 'asasdasda');
+      if (!success) return null;
+      const { id: tagId, name, questions } = data;
+      setTag({ id: tagId, name, questions });
+    };
+    fetchTag();
+  }, [id]);
 
-  return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+  const renderTag = () => {
+    if (!tag) return null;
+    const { id: tagId, name, questions } = tag || {};
+
+    return (
       <TagCard
         id={tagId}
         key={tagId}
@@ -30,6 +44,12 @@ const HeaderTagRelatedQuestionsPage = async ({ id }: { id: string }) => {
         className="col-span-1 md:col-span-2 lg:col-span-3"
         classNameContent="!line-clamp-2"
       />
+    );
+  };
+
+  return (
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+      {renderTag()}
       <div className="col-span-1 flex flex-row flex-wrap items-center justify-between gap-2">
         <Button className="primary-button-gradient base-medium w-full font-medium">
           <PlusIcon />

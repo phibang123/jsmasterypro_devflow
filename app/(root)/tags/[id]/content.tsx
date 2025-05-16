@@ -29,7 +29,7 @@ const ContentTagRelatedQuestionsPage = async ({
   sort,
 }: Props) => {
   const { data, success } = await getTagQuestions(id, { page, pageSize, sort, filter });
-  const { questions } = data;
+  const { questions } = data || {};
 
   return (
     <DataRenderer
