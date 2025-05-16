@@ -3,12 +3,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { MDXEditorMethods } from '@mdxeditor/editor';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { toast } from '@/hooks/use-toast';
 import { createQuestion, editQuestion } from '@/lib/actions/question.action';
+import { cn } from '@/lib/utils';
 import { AskQuestionSchema } from '@/lib/validations';
 import { QuestionIF } from '@/types/global';
 
@@ -37,6 +38,7 @@ interface QuestionFormProps {
 
 const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
   const editorRef = useRef<MDXEditorMethods>(null);
+  const [inputValues, setInputValues] = useState('');
   const router = useRouter();
 
   const form = useForm<z.infer<typeof AskQuestionSchema>>({
@@ -107,30 +109,42 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
     }
   };
 
-  const handleInputKeydown = (
+  const handleAddTag = (value: string[]) => {
+    if (inputValues && inputValues.length < 15 && !value.includes(inputValues)) {
+      form.setValue('tags', [...value, inputValues]);
+      setInputValues('');
+      form.clearErrors('tags');
+    } else if (inputValues.length > 15) {
+      form.setError('tags', {
+        type: 'manual',
+        message: 'Tag should be less than 15 characters',
+      });
+    } else if (value.includes(inputValues)) {
+      form.setError('tags', {
+        type: 'manual',
+        message: 'Tag already exists',
+      });
+    }
+  };
+
+  const handleInputAddTagKeydown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    field: { value: string[] },
+    value: string[] = [],
   ) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      const tagInput = e.currentTarget.value.trim();
-      if (tagInput && tagInput.length < 15 && !field.value.includes(tagInput)) {
-        form.setValue('tags', [...field.value, tagInput]);
-        e.currentTarget.value = '';
-        form.clearErrors('tags');
-      } else if (tagInput.length > 15) {
-        form.setError('tags', {
-          type: 'manual',
-          message: 'Tag should be less than 15 characters',
-        });
-      } else if (field.value.includes(tagInput)) {
-        form.setError('tags', {
-          type: 'manual',
-          message: 'Tag already exists',
-        });
-      }
+      handleAddTag(value);
     }
   };
+
+  const handleInputTag = (value: string) => {
+    setInputValues(value);
+  };
+
+  const handleButtonAddTag = (value: string[]) => {
+    handleAddTag(value);
+  };
+
   const renderButtonSubmit = () => {
     if (form.formState.isSubmitting) {
       return 'Submitting...';
@@ -155,15 +169,20 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
               <FormControl>
                 <Textarea
                   disabled={form.formState.isSubmitting}
-                  className="paragraph-regular background-light850_dark100 light-border-2 text-dark300_light700 no-focus min-h-[56px] resize-none overflow-hidden border"
+                  className={cn(
+                    'paragraph-regular background-light850_dark100 text-dark300_light700 no-focus min-h-[56px] resize-none overflow-hidden border-2',
+                    form.formState.errors.title ? '!border-red-500' : 'light-border-2',
+                  )}
                   style={{ height: 'auto' }}
                   {...field}
                 />
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-400">
-                Be specific and imagine you&apos;re asking a question to another person
-              </FormDescription>
-              <FormMessage />
+              <div className="flex items-center justify-between">
+                <FormDescription className="body-regular text-light-400">
+                  Be specific and imagine you&apos;re asking a question to another person
+                </FormDescription>
+                <FormMessage />
+              </div>
             </FormItem>
           )}
         />
@@ -178,15 +197,20 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
               <FormControl>
                 <Textarea
                   disabled={form.formState.isSubmitting}
-                  className="paragraph-regular background-light850_dark100 light-border-2 text-dark300_light700 no-focus min-h-[56px] resize-none overflow-hidden border"
+                  className={cn(
+                    'paragraph-regular background-light850_dark100 text-dark300_light700 no-focus min-h-[56px] resize-none overflow-hidden border-2',
+                    form.formState.errors.description ? '!border-red-500' : 'light-border-2',
+                  )}
                   style={{ height: 'auto' }}
                   {...field}
                 />
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-400">
-                Provide a brief description of your question
-              </FormDescription>
-              <FormMessage />
+              <div className="flex items-center justify-between">
+                <FormDescription className="body-regular text-light-400">
+                  Provide a brief description of your question
+                </FormDescription>
+                <FormMessage />
+              </div>
             </FormItem>
           )}
         />
@@ -205,12 +229,15 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
                   markdown="# Hello World"
                   fieldChange={field.onChange}
                   readOnly={form.formState.isSubmitting}
+                  className={form.formState.errors.content ? '!border-red-500' : 'light-border-2'}
                 />
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-400">
-                Introduce the problem and expand on what you&apos;ve put in the title.
-              </FormDescription>
-              <FormMessage />
+              <div className="flex items-center justify-between">
+                <FormDescription className="body-regular text-light-400">
+                  Introduce the problem and expand on what you&apos;ve put in the title.
+                </FormDescription>
+                <FormMessage />
+              </div>
             </FormItem>
           )}
         />
@@ -224,13 +251,27 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
               </FormLabel>
               <FormControl>
                 <div>
-                  <Input
-                    disabled={form.formState.isSubmitting}
-                    className="paragraph-regular background-light850_dark100 light-border-2 text-dark300_light700 no-focus min-h-[56px] border shadow-light-100"
-                    placeholder="Add tags... (Press Enter to add)"
-                    onKeyDown={(e) => handleInputKeydown(e, field)}
-                  />
-                  {field.value.length > 0 && (
+                  <div className="flex items-center gap-2">
+                    <Input
+                      disabled={form.formState.isSubmitting}
+                      className={cn(
+                        'paragraph-regular background-light850_dark100 text-dark300_light700 no-focus min-h-[56px] border shadow-light-100 border-2',
+                        form.formState.errors.tags ? '!border-red-500' : 'light-border-2',
+                      )}
+                      placeholder="Add tags... (Press Enter or Add Tag button to add per tag)"
+                      value={inputValues}
+                      onKeyDown={(e) => handleInputAddTagKeydown(e, field.value)}
+                      onChange={(e) => handleInputTag(e.target.value)}
+                    />
+                    <Button
+                      type="button"
+                      onClick={() => handleButtonAddTag(field.value)}
+                      className="primary-button-gradient base-medium w-fit p-6 text-lg font-normal"
+                    >
+                      Add Tag
+                    </Button>
+                  </div>
+                  {field.value.length > 0 ? (
                     <div className="flex-start mt-2.5 flex-wrap gap-2.5">
                       {field.value.map((tag: string) => (
                         <TagCard
@@ -244,14 +285,23 @@ const QuestionForm = ({ isEdit = false, question }: QuestionFormProps) => {
                         />
                       ))}
                     </div>
+                  ) : (
+                    <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2.5">
+                      <TagCard
+                        key={'anonymous'}
+                        id={'anonymous'}
+                        compact
+                        name={'?'}
+                      />
+                      <FormMessage />
+                    </div>
                   )}
                 </div>
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-400">
-                Add up to 3 tags to describe what your question is about. Press Enter to add each
-                tag
+              <FormDescription className="body-regular text-light-400">
+                Add up to 3 tags to describe what your question is about. Press Enter or Add Tag
+                button to add per tag
               </FormDescription>
-              <FormMessage />
             </FormItem>
           )}
         />
