@@ -11,16 +11,17 @@ const TagsLoading = () => {
             key={item}
             className="light-border background-light900_dark200 flex flex-col rounded-[10px] border p-4"
           >
-            <Skeleton className="h-8 w-24" />
-            <div className="mt-4 flex items-center justify-between">
-              <Skeleton className="h-6 w-full sm:h-6 sm:w-24" />
-              <Skeleton className="hidden h-6 w-24 sm:block sm:h-6 sm:w-24" />
+            <div className="flex items-center justify-between gap-2">
+              <Skeleton className="h-8 w-24" />
             </div>
-            <div className="mt-2 flex items-center justify-between">
-              <Skeleton className="h-6 w-full sm:h-6 sm:w-24" />
-              <Skeleton className="hidden h-6 w-24 sm:block sm:h-6 sm:w-24" />
+            <div className="mt-2 grid grid-cols-2 items-center justify-between gap-2">
+              <Skeleton className="h-6 w-1/2 sm:h-6 sm:w-24" />
+              <Skeleton className="hidden h-6 w-1/2 sm:block sm:h-6 sm:w-24" />
+              <Skeleton className="h-6 w-1/2 sm:h-6 sm:w-24" />
+              <Skeleton className="hidden h-6 w-1/2 sm:block sm:h-6 sm:w-24" />
             </div>
-            <div className="mt-4 flex items-center justify-between">
+
+            <div className="mt-2 flex items-center justify-between gap-2">
               <Skeleton className="h-6 w-24" />
             </div>
           </div>
