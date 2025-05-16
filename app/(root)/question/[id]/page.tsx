@@ -1,5 +1,6 @@
 import { Pencil } from 'lucide-react';
 import Link from 'next/link';
+import { after } from 'next/server';
 import { Suspense } from 'react';
 
 import { auth } from '@/auth';
@@ -9,10 +10,9 @@ import Preview from '@/components/editor/Preview';
 import Metric from '@/components/Metric';
 import DateTimeMetric from '@/components/metric/DateTimeMetric';
 import NumberMetric from '@/components/metric/NumberMetric';
-import ViewMetric from '@/components/metric/ViewMetric';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants';
-import { getQuestionById } from '@/lib/actions/question.action';
+import { getQuestionById, incrementViewCount } from '@/lib/actions/question.action';
 import { QuestionIF, TagIF } from '@/types/global';
 
 import QuestionDetailLoading from './loading';
@@ -20,6 +20,10 @@ import QuestionDetailLoading from './loading';
 const QuestionDetailPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const { data: question, success } = await getQuestionById(id);
+
+  after(async () => {
+    await incrementViewCount(id);
+  });
 
   const session = await auth();
 
@@ -118,10 +122,10 @@ const QuestionDetailPage = async ({ params }: { params: Promise<{ id: string }> 
               value={answers}
               iconUrl="/icons/message.svg"
             />
-            <ViewMetric
-              id={id}
-              userId={session?.user?.id}
-              views={views}
+            <NumberMetric
+              title="Views"
+              value={views}
+              iconUrl="/icons/eye.svg"
             />
           </div>
         </div>
