@@ -4,7 +4,7 @@ import { Skeleton } from '../ui/skeleton';
 
 const QuestionsLoading = () => {
   return (
-    <div className="mt-4 flex flex-col gap-6">
+    <div className="mt-4 flex flex-col gap-4">
       {[1, 2, 3].map((item) => (
         <div
           key={item}

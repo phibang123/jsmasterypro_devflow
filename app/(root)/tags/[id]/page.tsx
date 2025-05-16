@@ -1,10 +1,10 @@
 import React, { Suspense } from 'react';
 
 import QuestionsLoading from '@/components/loading/QuestionsLoading';
-import HeaderTagLoading from '@/components/loading/tag/HeaderTagLoading';
 
 import ContentTagRelatedQuestionsPage from './content';
 import HeaderTagRelatedQuestionsPage from './header';
+import TagDetailLoading from './loading';
 
 interface SearchParams {
   params: Promise<{ id: string }>;
@@ -17,13 +17,8 @@ const TagRelatedQuestionsPage = async ({ params, searchParams }: SearchParams) =
   const keyForProductList = `sort=${sort || ''}&filter=${filter || ''}`;
 
   return (
-    <div>
-      <Suspense
-        key={`header-${id}`}
-        fallback={<HeaderTagLoading />}
-      >
-        <HeaderTagRelatedQuestionsPage id={id} />
-      </Suspense>
+    <Suspense fallback={<TagDetailLoading />}>
+      <HeaderTagRelatedQuestionsPage id={id} />
       <Suspense
         key={`content-${keyForProductList}`}
         fallback={<QuestionsLoading />}
@@ -36,7 +31,7 @@ const TagRelatedQuestionsPage = async ({ params, searchParams }: SearchParams) =
           sort={sort}
         />
       </Suspense>
-    </div>
+    </Suspense>
   );
 };
 

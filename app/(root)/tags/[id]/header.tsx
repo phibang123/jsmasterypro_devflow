@@ -1,12 +1,14 @@
 'use client';
 
 import { BookOpenIcon, PlusIcon } from 'lucide-react';
-import React, { memo, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import TagCard from '@/components/cards/TagCard';
+import HeaderTagLoading from '@/components/loading/tag/HeaderTagLoading';
 import ToggleSort from '@/components/toggle/ToggleSort';
 import { Button } from '@/components/ui/button';
 import { getTagDetails } from '@/lib/actions/tag.action';
+import { getCookie, setCookie, storageCookieKey } from '@/lib/cookie';
 import { TagIF } from '@/types/global';
 
 const sortOptions = [
@@ -18,13 +20,23 @@ const sortOptions = [
 
 const HeaderTagRelatedQuestionsPage = ({ id }: { id: string }) => {
   const [tag, setTag] = useState<TagIF | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     const fetchTag = async () => {
-      const { data, success } = await getTagDetails(id);
-      console.log(data, 'asasdasda');
-      if (!success) return null;
-      const { id: tagId, name, questions } = data;
-      setTag({ id: tagId, name, questions });
+      if (!id || tag) return;
+      setIsLoading(true);
+      const tagCookie = getCookie<TagIF>(storageCookieKey.TAG);
+      if (tagCookie && tagCookie.id === id) {
+        setTag(tagCookie);
+      } else {
+        const { data, success } = await getTagDetails(id);
+        if (!success) return null;
+        const { id: tagId, name, questions } = data;
+        setTag({ id: tagId, name, questions });
+        setCookie(storageCookieKey.TAG, JSON.stringify(data));
+      }
+      setIsLoading(false);
     };
     fetchTag();
   }, [id]);
@@ -46,6 +58,8 @@ const HeaderTagRelatedQuestionsPage = ({ id }: { id: string }) => {
       />
     );
   };
+
+  if (isLoading) return <HeaderTagLoading />;
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
@@ -69,4 +83,4 @@ const HeaderTagRelatedQuestionsPage = ({ id }: { id: string }) => {
   );
 };
 
-export default memo(HeaderTagRelatedQuestionsPage);
+export default HeaderTagRelatedQuestionsPage;

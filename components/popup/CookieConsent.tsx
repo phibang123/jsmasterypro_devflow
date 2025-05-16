@@ -1,16 +1,30 @@
 'use client';
 
-import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+
+const getCookie = (name: string) => {
+  if (typeof document === 'undefined') return null;
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(';').shift();
+  return null;
+};
+
+const setCookie = (name: string, value: string, days: number) => {
+  if (typeof document === 'undefined') return;
+  const date = new Date();
+  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+};
 
 const CookieConsent = () => {
   const [showConsent, setShowConsent] = useState(false);
 
   useEffect(() => {
     // Check if user has already consented
-    const consent = Cookies.get('cookie-consent');
+    const consent = getCookie('cookie-consent');
     if (!consent) {
       setShowConsent(true);
     }
@@ -18,13 +32,13 @@ const CookieConsent = () => {
 
   const acceptCookies = () => {
     // Set cookie consent with 1-year expiration
-    Cookies.set('cookie-consent', 'accepted', { expires: 365 });
+    setCookie('cookie-consent', 'accepted', 365);
     setShowConsent(false);
   };
 
   const declineCookies = () => {
     // Just save the decline choice
-    Cookies.set('cookie-consent', 'declined', { expires: 30 });
+    setCookie('cookie-consent', 'declined', 30);
     setShowConsent(false);
   };
 
